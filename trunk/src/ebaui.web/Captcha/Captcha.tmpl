@@ -1,0 +1,10 @@
+
+captcha = """
+<span data-role="captcha" data-ns="web.form" class="eba-code">
+  <span class="eba-textbox-border">
+    <input type="text" class="eba-textbox-input" autocomplete="off" placeholder="">
+  </span>
+  <a href="javascript:;" data-role="btn-reload"><img class="eba-code-img" src="images/code.png"></a>
+</span>
+"""
+webui.injectTmpl( 'Captcha','_rootTmpl',captcha )

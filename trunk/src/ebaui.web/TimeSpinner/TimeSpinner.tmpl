@@ -1,0 +1,25 @@
+timespn="""
+<span data-ns="web.form" data-role="timespinner" class="eba-buttonedit eba-timespinner">
+    <span class="eba-buttonedit-border">
+        <input data-idx="0" data-pos="hour" type="text" class="eba-buttonedit-input" autocomplete="off">
+        <span>
+            <span style="float:left;line-height:19px;">:</span>
+            <input data-idx="1" data-pos="minute" type="text" class="eba-buttonedit-input" autocomplete="off">
+        </span>
+        <span>
+            <span style="float:left;line-height:19px;">:</span>
+            <input data-idx="2" data-pos="second" type="text" class="eba-buttonedit-input" autocomplete="off">
+        </span>
+        <span class="eba-buttonedit-buttons">
+            <span class="eba-buttonedit-close"></span>
+            <span class="eba-buttonedit-button">
+                <span class="eba-buttonedit-up"><i class="icon-caret-up"></i></span>
+                <span class="eba-buttonedit-down"><i class="icon-caret-down"></i></span>
+            </span>
+        </span>
+    </span>
+    <span class="eba-warnicon" title="警告"></span>
+</span>
+"""
+
+webui.injectTmpl( 'TimeSpinner','_rootTmpl',timespn )

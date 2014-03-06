@@ -1,0 +1,36 @@
+rlRootTmpl = """
+<div data-role="radiolist" data-ns="web.form" class="eba-radiobuttonlist">
+    <table class="eba-radiobuttonlist-table" cellpadding="0" cellspacing="1">
+      <tbody>
+        <tr></tr>
+      </tbody>
+    </table>
+</div>
+"""
+
+rlItemTmpl = """
+<%
+for (var i = 0,l = dataItems.length; i < l; i++) {
+    var item = dataItems[i];
+    var val = item[valueField];
+    var txt = item[textField];
+    var chk = item["checked"];
+    var inputID = controlID + val;
+%>
+<td class="eba-radiobuttonlist-td">
+    <div class="eba-radiobuttonlist-item">
+      <input 
+        id="<%=inputID %>"
+        name="<%=name %>"
+        type="radio" 
+        value="<%=val%>" 
+        data-text="<%=txt%>" />
+        
+      <label for="<%= inputID %>"><%=txt%></label>
+    </div>
+</td>
+<%}%>
+"""
+
+webui.injectTmpl( 'RadioList','_rootTmpl',rlRootTmpl )
+webui.injectTmpl( 'RadioList','_itemTmpl',rlItemTmpl )

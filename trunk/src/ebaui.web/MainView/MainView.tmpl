@@ -1,0 +1,96 @@
+
+calMVRootTmpl = """
+<div data-role="mainview">
+<table class="eba-calendar-view" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <!-- title -->
+    <tr data-inner-role="title">
+      <td colspan="10" class="eba-calendar-header">
+        <div class="eba-calendar-headerInner">
+          <div class="eba-calendar-prev">
+            <span class="eba-calendar-yearPrev"></span>
+            <span class="eba-calendar-monthPrev"></span>
+          </div>
+          <div class="eba-calendar-next">
+            <span class="eba-calendar-monthNext"></span>
+            <span class="eba-calendar-yearNext"></span>
+          </div>
+          <span class="eba-calendar-title"></span>
+        </div>
+      </td>
+    </tr>
+    <!-- title -->
+    <tr data-inner-role="header" class="eba-calendar-daysheader"></tr>
+    <!-- weeks -->
+    <!-- footer -->
+    <tr data-inner-role="footer">
+      <td colspan="10">
+        <div class="eba-calendar-footer">
+          <span data-inner-role="spinner" style="display:none;">
+            <!-- timespinner -->
+            <input />
+          </span>
+          <span data-inner-role="buttons">
+            <!-- buttons -->
+            <input data-inner-role="today" />
+            <span class="eba-calendar-footerSpace"></span>
+            <input data-inner-role="apply" />
+          </span>
+        </div>
+      </td>
+    </tr>
+    <!-- footer -->
+  </tbody>
+</table>
+<div>
+"""
+
+webui.injectTmpl( 'MainView','_rootTmpl',calMVRootTmpl )
+
+calMVHeaderTmpl = """
+<td class="eba-calendar-space"></td>
+<% 
+  for (var i = 0; i < text.length; i++) { 
+%>
+<td><%=text[i]%></td>
+<% } %>
+<td class="eba-calendar-space"></td>
+                        """
+
+webui.injectTmpl( 'MainView','_headerTmpl',calMVHeaderTmpl )
+
+calMVWeekTmpl="""
+<% 
+  var today = new Date;
+  for (var i = 0; i < weeks.length; i++) { 
+    var week = weeks[i];
+%>
+
+<tr class="eba-calendar-days">
+  <td class="eba-calendar-space"></td>
+
+<% 
+    for (var j = 0; j < week.length; j++) {
+
+      var day = week[j],
+          date = new Date( day[0],day[1],day[2] ),
+          dayInWeek = date.getDay(),
+          valueString = day[0] + "-" + (day[1] + 1) + "-" + day[2];
+
+      var selected = ( day[0] == value[0] ) && ( day[1] == value[1] ) && ( day[2] == value[2] );
+      var isToday = ( day[0] == today.getFullYear() ) && ( day[1] == today.getMonth() ) && ( day[2] == today.getDate() );
+      var isWeekend = dayInWeek == 0 || dayInWeek == 6;
+      var isOtherMonth = ( day[1] > month || day[1] < month );
+%>
+  
+  <td data-value="<%=valueString%>" 
+      class="eba-calendar-date <%= isOtherMonth ? 'eba-calendar-othermonth' : '' %> <%= isWeekend ? ' eba-calendar-weekend' : '' %> <%= isToday ? 'eba-calendar-today' : ''%> <%= selected ? 'eba-calendar-selected' : ''%>"><%=day[2]%></td>
+
+<% } %>
+
+  <td class="eba-calendar-space"></td>
+</tr>
+
+<% } %>
+"""
+webui.injectTmpl( 'MainView','_weekTmpl',calMVWeekTmpl )

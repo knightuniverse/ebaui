@@ -1,0 +1,25 @@
+module.exports = ( grunt ) ->
+    css = ['lib/jqUILayout/layout-default.css']
+    cat = grunt.config('concat') ? {}
+
+    cat["css"] = { files:{} } unless cat["css"]?
+    cssname    = "ebaui.uilayout.css"
+    cssfiles   = cat["css"]['files']
+
+    cssfiles["build/css/#{cssname}"] = css
+    cssfiles["../release/#{grunt.config('pkg.version')}/css/#{cssname}"] = css
+
+    js = [
+        'lib/jqUILayout/jquery.layout.js',
+        'build/ebaui.web/UiLayout.js'
+    ]
+
+    filename = "ebaui.uilayout.js"
+    cat["js"] = { files:{} } unless cat["js"]?
+    cat["js"]['files'] = {} unless cat["js"]['files']?
+    jsfiles   = cat["js"]['files']
+
+    jsfiles["build/#{filename}"] = js
+    jsfiles["../release/#{grunt.config('pkg.version')}/#{filename}"] = js
+
+    grunt.config('concat',cat)

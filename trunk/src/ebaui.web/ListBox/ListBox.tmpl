@@ -1,0 +1,66 @@
+
+lbx = """
+<div data-role="listbox" data-ns="ebaui.web" class="eba-listbox eba-listbox-hideCheckBox">
+    <div class="eba-listbox-border">
+        <div class="eba-listbox-header" style="display: none;"></div>
+        <div class="eba-listbox-view">
+            <div class="eba-grid-rows-content">
+                <table class="eba-listbox-items" cellspacing="0" cellpadding="0">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="eba-errorIcon"></div>
+</div>
+"""
+
+webui.injectTmpl( 'ListBox','_rootTmpl',lbx )
+
+lbxitem = """
+<% if( loading ) {%>
+
+<tr>
+    <td colspan="20"><span class="eba-textboxlist-popup-noresult">Loading...</span></td>
+</tr>
+
+<%} else if( !loading && dataItems.length == 0 ) { %>
+
+<tr>
+    <td colspan="20"><span class="eba-textboxlist-popup-noresult">No Result</span></td>
+</tr>
+
+<%} else { 
+    for( var i = 0,n = dataItems.length; i<n; i++ ) {
+        var item = dataItems[i];
+        var itemSelected = false;
+
+        if( multi ){
+
+            for (var j = 0; j < selectedItems.length; j++) {
+                var selected = selectedItems[j];
+                itemSelected = ( selected[valueField] == item[valueField] );
+                if( itemSelected ){ break; }
+            };
+
+        }else{
+
+            itemSelected = selectedItems[valueField] == item[valueField];
+
+        }
+%>
+
+<tr class="eba-listbox-item <%= itemSelected ? 'eba-listbox-item-selected' : '' %>" 
+    title="<%=item[textField]%>" 
+    data-index="<%=i%>" 
+    data-value="<%=item[valueField]%>" 
+    data-text="<%=item[textField]%>">
+    <td class="eba-listbox-checkbox"><input type="checkbox" value="<%=item[valueField]%>" /></td>
+    <td><%=item[textField]%></td>
+</tr>
+
+<%}}%>
+"""
+
+webui.injectTmpl( 'ListBox','_itemTmpl',lbxitem )

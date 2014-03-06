@@ -1,0 +1,40 @@
+
+calMTVRootTmpl = """
+<div data-role="monthview" style="display:none;" data-options="{ visible : false }">
+  <div class="eba-calendar-menu-months">
+  </div>
+
+  <div class="eba-calendar-menu-years">
+  </div>
+
+  <div class="eba-calendar-footer">
+    <span class="eba-calendar-okButton">确定</span>
+    <span class="eba-calendar-footerSpace"></span>
+    <span class="eba-calendar-cancelButton">取消</span>
+  </div>
+  <div style="clear:both;"></div>
+</div>
+"""
+
+webui.injectTmpl( 'MonthView','_rootTmpl',calMTVRootTmpl )
+
+calMTVMonthsTmpl="""
+<% for (var i = 0; i < months.length; i++) {%>
+
+   <a data-value="<%= i %>" class="eba-calendar-menu-month <%=( currentMonth == i ) ? 'eba-calendar-menu-selected' : '' %>"><%= months[i] %></a>
+
+<%} %>
+<div style="clear:both;"></div>
+"""
+
+webui.injectTmpl( 'MonthView','_monthsTmpl',calMTVMonthsTmpl )
+
+calMTVYearsTmpl="""
+<% for (i = 0,max = years.length - 1; i <= max; i++) {%>
+   <a data-value="<%=years[i]%>" class="eba-calendar-menu-year <%=( value[0] == years[i] ) ? 'eba-calendar-menu-selected' : '' %>"><%= years[i] %></a>
+<%} %>
+<div class="eba-calendar-menu-prevYear" data-value="<%=years[0] - 10%>"></div>
+<div class="eba-calendar-menu-nextYear" data-value="<%=years[max] + 1%>"></div>
+<div style="clear:both;"></div>
+"""
+webui.injectTmpl( 'MonthView','_yearsTmpl',calMTVYearsTmpl )

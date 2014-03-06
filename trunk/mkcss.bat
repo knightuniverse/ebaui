@@ -1,0 +1,1 @@
+grunt concat && grunt copy && grunt cssmin

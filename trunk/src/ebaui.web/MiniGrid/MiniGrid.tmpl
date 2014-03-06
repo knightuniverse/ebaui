@@ -1,0 +1,54 @@
+mgrt = """
+<div data-role="minigrid" data-ns="web.form" class="eba-listbox eba-listbox-showColumns eba-listbox-showcolumns">
+  <div class="eba-listbox-border">
+    <div class="eba-listbox-view">
+      <div class="eba-listbox-header">
+        <table class="eba-listbox-headerInner" cellspacing="0" cellpadding="0"><tbody></tbody></table>
+      </div>
+      <div class="eba-grid-rows-content">
+        <table class="eba-listbox-items" cellspacing="0" cellpadding="0">
+          <tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+"""
+
+mght = """
+<tr>
+    <td class="eba-listbox-checkbox">
+        <input type="checkbox" value="selectall" />
+    </td>
+    <%
+    for (var i = 0,l = headers.length; i < l; i++) {
+        var item = headers[i];
+        var width = item["width"] ? "width:" + item["width"] + "px;" : "";
+    %>
+        <td style="<%=width%>"><%=item["label"]%></td>
+    <%}%>
+</tr>
+"""
+
+mgit = """
+<%
+for (var i = 0,l = rows.length; i < l; i++) {
+    var row = rows[i];
+%>
+<tr data-index="<%=i%>" class="eba-listbox-item">
+    <td class="eba-listbox-checkbox">
+        <input type="checkbox" value="<%=i%>" />
+    </td>
+    <%
+    for (var j = 0,max = headers.length; j < max; j++) {
+        var header = headers[j];
+        var width = header["width"] ? "width:" + header["width"] + "px;" : "";
+    %>
+    <td style="<%=width%>"><%=row[header["name"]]%></td>
+    <%}%>
+</tr>
+<%}%>
+"""
+
+webui.injectTmpl( 'MiniGrid','_rootTmpl',mgrt )
+webui.injectTmpl( 'MiniGrid','_headerTmpl',mght )
+webui.injectTmpl( 'MiniGrid','_itemTmpl',mgit )

@@ -1,0 +1,23 @@
+class Validator
+    ###
+     *  构造函数
+     ###
+    constructor:( params,msg ) ->
+        me            = this
+        me.message    = msg ? ''
+        me.parameters = params ? []
+
+    ###
+     *  validator验证的时候的参数
+     ###
+    parameters: []
+
+    ###
+     *  执行验证
+     *  @public
+     *  @instance
+     *  @method     validate
+     *  @param      {Object}    value      -      要进行验证的值
+     *  @memberof   OnlyCNValidator
+     ###
+    validate:( value ) ->
