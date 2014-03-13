@@ -1,15 +1,13 @@
-###
-*   native class extension
-###
-
+###*
+ *   native class extension
+ ###
 Date.prototype.clone = () ->
     timestamp = this.getTime()
     return new Date( timestamp )
 
-###
- *  ebaui.web
- *  @file 
- *  @author Monkey <knightuniverse@qq.com>
+###*
+ *  @namespace  ebaui.web
+ *  @author     Monkey <knightuniverse@qq.com>
  ###
 web = 
     baseUrl     : '/'
@@ -25,7 +23,7 @@ web =
                     ins = new cls( el,options )
             )
         return undefined
-    ### 
+    ###*
      *  
      *  @private
      *  @static
@@ -52,7 +50,7 @@ web =
 
         return undefined
 
-    ### 
+    ###* 
      *  注册成为一个UI控件
      *  @public
      *  @static
@@ -62,7 +60,7 @@ web =
      ###
     registerControl : ( name,cls ) -> this._doRegister( false,name,cls )
 
-    ### 
+    ###* 
      *  注册成为一个Form表单UI控件
      *  @public
      *  @static
@@ -72,7 +70,7 @@ web =
      ###
     registerFormControl:( name,cls ) -> this._doRegister( true,name,cls )
 
-    ### 
+    ###*
      *  注入一个html模板
      *  @public
      *  @static
@@ -89,7 +87,7 @@ web =
             ctrl::[prop] = tmpl
         return undefined
 
-    ### 
+    ###*
      *  注入负数个html模板
      *  @public
      *  @static
@@ -110,7 +108,7 @@ web =
 
         return undefined
 
-    ### 
+    ###*
      *  自动初始化所有WEB控件。其实所有的控件最后都有一个对应的jquery插件方法，初始化的时候就是调用这个插件方法去实例化一个控件。
      *  @public
      *  @static
@@ -127,7 +125,7 @@ web =
                 $elements[control]()
         return undefined
 
-    ### 
+    ###*
      *  加载PC端HTML模板信息，并且自动初始化每一个UI控件
      *  @public
      *  @static
@@ -137,7 +135,7 @@ web =
      ###
     parseUi : ( context ) -> @parseControls( context ? document )
 
-    ###
+    ###*
      *  表单控件验证规则的构造器工厂，默认提供required,email,url等验证规则  <br />
      *  关于如何启用验证规则请参考 {@tutorial form_index}  <br />
      *  关于拓展当前控件规则请参考 {@tutorial extend_validation}  <br />
@@ -151,7 +149,7 @@ web =
      ###
     validation:{}
 
-    ### 
+    ###*
      *  获取validator的构造器
      *  @public
      *  @static
@@ -163,7 +161,7 @@ web =
         return null unless ruleName
         return this.validation[ruleName]
 
-    ### 
+    ###*
      *  向系统注册一个新的表单验证规则
      *  @public
      *  @static
@@ -175,7 +173,7 @@ web =
         return unless ruleName and typeof constructor is 'function'
         this.validation[ruleName] = constructor
 
-    ###
+    ###*
      *  获取ebaui.web.Form对象实例
      *  @public
      *  @static
@@ -211,7 +209,7 @@ web =
                 me.baseUrl = prefix
                 break
 
-    ### 
+    ###*
      *  框架是否已经初始化过了
      *  @private
      *  @static
@@ -257,11 +255,11 @@ web =
         
 ebaui['web']    = web
 
-###
+###*
 *   keyboard
 ###
 keyboard = 
-    ###
+    ###*
      *  判断键盘输入是否是enter键
      *  @public
      *  @static
@@ -270,7 +268,7 @@ keyboard =
      ###
     isEnter:( keycode ) -> keycode is 13
 
-    ###
+    ###*
      *  判断键盘输入是否是数字
      *  @public
      *  @static
@@ -286,5 +284,5 @@ web['keyboard'] = keyboard
 
 ###
 *   框架初始化
-###
+ ###
 web.init()

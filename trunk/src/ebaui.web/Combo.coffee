@@ -1,5 +1,14 @@
+###*
+*   @class      Combo
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.ButtonEdit
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+###
 class Combo extends ButtonEdit
-    ###
+    ###*
      *  下拉菜单的弹出框
      *  @private
      *  @instance
@@ -8,7 +17,7 @@ class Combo extends ButtonEdit
     ###
     _panel : null
 
-    ###
+    ###*
      *  下拉菜单包含的控件对象，Combobox中就是一个ListBox
      *  @private
      *  @instance
@@ -17,12 +26,12 @@ class Combo extends ButtonEdit
     ###
     _panelContent : null
 
-    ###
+    ###*
      *  获取或者设置文本占位符
     ###
     _placeHolder: ''
 
-    ###
+    ###*
      *  更新valueField textField等配置，同时要同步到_panelContent控件里
      *  @private
      *  @instance
@@ -41,7 +50,7 @@ class Combo extends ButtonEdit
         panelContent[field]( val ) if sync and panelContent[field]
 
     _idField: 'id'
-    ###
+    ###*
      *  控件数据源对象的ID字段名
      *  @public
      *  @instance
@@ -56,7 +65,7 @@ class Combo extends ButtonEdit
     idField: ( val ) -> this._doFieldAccess( 'idField',val )
 
     _textField:'text'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件文本的字段名
      *  @public
      *  @instance
@@ -71,7 +80,7 @@ class Combo extends ButtonEdit
     textField:( val ) -> this._doFieldAccess( 'textField',val )
 
     _valueField:'value'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件值的字段名
      *  @public
      *  @instance
@@ -85,7 +94,7 @@ class Combo extends ButtonEdit
     ###
     valueField:( val ) -> this._doFieldAccess( 'valueField',val )
 
-    ###
+    ###*
      *  数据加载开始前的处理程序
      *  @private
      *  @instance
@@ -94,7 +103,7 @@ class Combo extends ButtonEdit
     ###
     _beforeLoading: () -> 
 
-    ###
+    ###*
      *  数据加载结束后的处理程序
      *  @private
      *  @instance
@@ -103,7 +112,7 @@ class Combo extends ButtonEdit
     ###
     _finishLoading:() ->
 
-    ###
+    ###*
      *  加载数据
      *  @private
      *  @instance
@@ -112,7 +121,7 @@ class Combo extends ButtonEdit
     ###
     _loadData:() ->
 
-    ###
+    ###*
      *  构建下来菜单容器
      *  @private
      *  @instance
@@ -121,8 +130,6 @@ class Combo extends ButtonEdit
     ###
     _initPanel:() ->
         me     = this
-        ctrlId = me.id()
-        $root  = me.uiElement()
         $popup = $( '<div data-options="{ visible:false,position: \'absolute\' }" style="display:none;"><input /></div>' ).appendTo( document.body )
         ###
         *   18是表单控件外围status的icon宽度
@@ -133,7 +140,7 @@ class Combo extends ButtonEdit
             height  : 0
         })
 
-    ###
+    ###*
      *  调整下拉菜单的位置
      *  @private
      *  @instance
@@ -159,10 +166,11 @@ class Combo extends ButtonEdit
             'top' : top
             'left': rootPos.left
         )
+        $popup.css('width',me.width() - 24)
 
         return undefined
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -221,9 +229,9 @@ class Combo extends ButtonEdit
         ###
          *  在document上注册一个click事件，当触发这个事件的时候，会自动收起下拉菜单
         ###
-        $( document ).on( 'click',( event ) -> panel.close())
+        $( document ).on( 'click',( event ) -> panel.close() )
 
         ###
          *  windows的窗口位置改变的时候，下拉菜单的位置应该跟着移动
         ###
-        $(window).resize( () -> me._reposition() )
+        $( window ).resize( () -> me._reposition() )

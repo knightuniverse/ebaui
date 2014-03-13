@@ -1,4 +1,4 @@
-<div id="panel" data-role="panel" title="hello" data-options="{ iconCls:'icon-money',buttons:actions }">
+<div id="panel" data-role="panel" title="hello" data-options="{ iconCls:'icon-search',buttons:actions,width:400,height:300 }">
   <p>adsfadsfadsf</p>
   <p>adfasdf adsfasdf</p>
   <p>adsfasdf asdfasdfasdf asdfasdfasd adsfasdf</p>
@@ -6,13 +6,26 @@
 
 <script>
 
-var fn = function(){ console.log( 'show message' ) };
+var down = function(){ 
+  var c = ebaui.get('#panel');c.expand();
+};
+
+var up = function(){ 
+  var c = ebaui.get('#panel');c.collapse();
+};
 
 var actions = [
+
   {
-    iconCls:'icon-angle-down',
-    onclick:fn
+    iconCls:'icon-caret-down',
+    onclick:down
+  },
+  
+  {
+    iconCls:'icon-caret-up',
+    onclick:up
   }
+  
 ];
 
 </script>

@@ -1,5 +1,22 @@
+###*
+*   @class      TimeSpinner
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.TimeSpinner( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).timespinner( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="timespinner" data-options="{}" /&gt;
+###
 class TimeSpinner extends FormField
-    ###
+    ###*
      *  当前正在调整的input的索引
      *  @private
      *  @instance
@@ -7,7 +24,7 @@ class TimeSpinner extends FormField
      *  @member     {Object}    _current
     ###
     _current: 'hour'
-    ###
+    ###*
      *  控件要用到的UI的CSS样式类
      *  @private
      *  @instance
@@ -19,7 +36,7 @@ class TimeSpinner extends FormField
         focused : 'eba-buttonedit-focus'
         readonly: 'eba-readonly'
 
-    ###
+    ###*
      *  各个不同时间单位的最大值
      *  @private
      *  @instance
@@ -31,7 +48,7 @@ class TimeSpinner extends FormField
         'minute': 59
         'second': 59
 
-    ###
+    ###*
      *  各个不同时间单位的最小值
      *  @private
      *  @instance
@@ -43,7 +60,7 @@ class TimeSpinner extends FormField
         'minute': 0
         'second': 0
 
-    ###
+    ###*
      *  获取焦点
      *  @private
      *  @instance
@@ -56,7 +73,7 @@ class TimeSpinner extends FormField
             me._updateCssFocused()
             $( "input[data-pos='#{me._current}']",me._$root ).focus()
 
-    ###
+    ###*
      *  失去焦点
      *  @private
      *  @instance
@@ -69,7 +86,7 @@ class TimeSpinner extends FormField
             me._updateCssFocused()
             $( "input[data-pos='#{me._current}']",me._$root ).blur()
 
-    ###
+    ###*
      *  更新UI的宽度
      *  @private
      *  @instance
@@ -80,12 +97,12 @@ class TimeSpinner extends FormField
     _updateCssWidth: () ->
         me = this
         me._$root.width( me.width() )
-        ###
+        ###*
         *   更新在不同的format格式下，UI界面显示要有所不同
         ###
         me._updateCssFormat()
 
-    ###
+    ###*
      *  设置或者移除据聚焦样式或者失焦样式
      *  @private
      *  @instance
@@ -98,7 +115,7 @@ class TimeSpinner extends FormField
         cls   = me._rootCls['focused']
         if me.focused() then $root.addClass( cls ) else $root.removeClass( cls )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -122,7 +139,7 @@ class TimeSpinner extends FormField
             $input.attr(dis,dis)
             $root.removeClass( foCls ).addClass( daCls )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -148,7 +165,7 @@ class TimeSpinner extends FormField
             $input.attr(ro,null)
             $btn.show()
 
-    ###
+    ###*
      *  更新在不同的format格式下，UI界面显示要有所不同
      *  @private
      *  @instance
@@ -161,7 +178,7 @@ class TimeSpinner extends FormField
         len        = me.format().split( ':' ).length
         totalWidth = width = $root.width() - $( '.eba-buttonedit-button',$root ).outerWidth()
         
-        ###
+        ###*
         *   我们约定
         *   hour minute second对应的index为0 1 2
         ###
@@ -191,7 +208,7 @@ class TimeSpinner extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  更新value在界面的显示
      *  @private
      *  @instance
@@ -206,7 +223,7 @@ class TimeSpinner extends FormField
         for i in [0..splited.length-1]
             $inputs.eq( i ).val( splited[i] )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @virtual
@@ -218,7 +235,7 @@ class TimeSpinner extends FormField
         super()
         this._updateAttrText()
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -232,7 +249,7 @@ class TimeSpinner extends FormField
     _setValue:( val, updateHtml = true, dispatchEvent = false, eventArgs = {} ) -> 
         return unless val?
 
-        ### 
+        ###*
         *   在javascript里，date是一个引用类型的对象
         *   如果控件值如果value没有变化，则不应该更新控件的值；
         *   否则，更新控件的值
@@ -245,7 +262,7 @@ class TimeSpinner extends FormField
         me._updateAttrText() if updateHtml is true
         me.triggerEvent( 'change',eventArgs ) if dispatchEvent is true
 
-    ###
+    ###*
      *  单步调整
      *  @public
      *  @instance
@@ -286,7 +303,7 @@ class TimeSpinner extends FormField
 
         me._setValue( val,updateHtml,dispatchEvent,eventArgs )
 
-    ###
+    ###*
      *  单步调整
      *  @public
      *  @instance
@@ -327,7 +344,7 @@ class TimeSpinner extends FormField
 
         me._setValue( val,updateHtml,dispatchEvent,eventArgs )
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -345,7 +362,7 @@ class TimeSpinner extends FormField
 
         $root.on( 'keydown','input',( event ) ->
             code = event.which
-            ###
+            ###*
             *   backspace
             *   tab
             *   enter
@@ -379,7 +396,7 @@ class TimeSpinner extends FormField
 
                 return
 
-            ###
+            ###*
             *   当前已经是最后一个input的时候，
             *   如果输入超过两位数，那么直接截断
             ###
@@ -409,7 +426,7 @@ class TimeSpinner extends FormField
             me.triggerEvent( 'spindown',event )
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -419,7 +436,7 @@ class TimeSpinner extends FormField
     ###
     _init: ( opts ) ->
         super( opts )
-        ### 
+        ###*
         *   初始化控件自身的一系列属性  
         ###
         me             = this
@@ -435,7 +452,7 @@ class TimeSpinner extends FormField
         mo = new moment( me._value )
         me._value = if me._value? and mo.isValid() then mo.toDate() else new Date
 
-    ###
+    ###*
      *  控件是否可以获取焦点
      *  @public
      *  @instance
@@ -449,7 +466,7 @@ class TimeSpinner extends FormField
     focusable:() -> true
 
     _format: 'HH:mm'
-    ###
+    ###*
      *  时间格式化字符串,HH:mm或者HH:mm:ss
      *  @public
      *  @instance
@@ -470,7 +487,7 @@ class TimeSpinner extends FormField
         ###
         me._updateCssFormat()
 
-    ###
+    ###*
      *  获取或者设置timeSpinner值,同value属性一致
      *  @public
      *  @instance
@@ -486,7 +503,7 @@ class TimeSpinner extends FormField
         return me._value unless me.isDate( val )
         me._setValue( val )
 
-    ###
+    ###*
      *  获取或者设置timeSpinner值
      *  @public
      *  @instance
@@ -503,7 +520,7 @@ class TimeSpinner extends FormField
         me._setValue( val )
 
     _circular: false
-    ###
+    ###*
      *  获取或者设置是否允许循环调整时间
      *  @public
      *  @instance
@@ -521,7 +538,7 @@ class TimeSpinner extends FormField
         return me._circular unless me.isBoolean( val )
         me._circular = val
 
-    ###
+    ###*
      *  获取或者设置微调步进
      *  @private
      *  @instance
@@ -540,7 +557,7 @@ class TimeSpinner extends FormField
         me[prop] = val
 
     _hourStep: 1
-    ###
+    ###*
      *  获取或者设置小时微调步进
      *  @public
      *  @instance
@@ -556,7 +573,7 @@ class TimeSpinner extends FormField
     hourStep: ( val ) -> this._step( 'hourStep',val )
 
     _minuteStep: 10
-    ###
+    ###*
      *  获取或者设置分钟微调步进
      *  @public
      *  @instance
@@ -572,7 +589,7 @@ class TimeSpinner extends FormField
     minuteStep: ( val ) -> this._step( 'minuteStep',val )
 
     _secondStep: 10
-    ###
+    ###*
      *  获取或者设置秒微调步进
      *  @public
      *  @instance

@@ -1,18 +1,23 @@
-###
- *  ebaui.web.DateTimePicker
+###*
  *  @class      DateTimePicker 
  *  @memberof   ebaui.web
  *  @extends    ebaui.web.Combo
  *  @tutorial   datetimepicker_index
- *  @param      {Object}    options     -   控件配置参数
  *  @param      {Object}    element     -   dom对象
- *  @example    
- *      &lt;input value="2013-10-08 16:07" data-role="datetimepicker" data-options="{}"/&gt;
+ *  @param      {Object}    options     -   控件配置参数
+ *  @example
+ *      //  初始化方式一
+ *      var ns = ebaui.web;
+ *      var btn = new ns.DateTimePicker( $( '' ),{ title:'',id:'',name:'' } );
+ *      //  初始化方式二
+ *      $( '' ).datetimepicker( { title:'',id:'',name:'' } )
+ *      //  初始化方式三
+ *      &lt;input id="" title="" name="" data-role="datetimepicker" data-options="{}" /&gt;
 ###
 class DateTimePicker extends Combo
 
     _showSpinner:false
-    ###
+    ###*
      *  是否显示timeSpinner
      *  @public
      *  @instance
@@ -27,7 +32,7 @@ class DateTimePicker extends Combo
         me._panelContent.showSpinner( val )
 
     _showButtons:true
-    ###
+    ###*
      *  是否显示按钮，目前只要显示两个按钮：今天 和 确定 按钮即可
      *  @public
      *  @instance
@@ -42,9 +47,8 @@ class DateTimePicker extends Combo
         me._panelContent.showButtons( val )
 
     _format:'YYYY-MM-DD HH:mm'
-    ###
-     *  日期时间格式化字符串
-     *  @see        {http://momentjs.com/docs/}
+    ###*
+     *  日期时间格式化字符串，参考momengjs的官方文档 http://momentjs.com/docs/
      *  @public
      *  @instance
      *  @memberof   ebaui.web.DateTimePicker
@@ -67,7 +71,7 @@ class DateTimePicker extends Combo
         me._text   = mo.format( val )
         me._updateAttrText()
 
-    ###
+    ###*
      *  通过代码设置calendar.value属性的时候，如果传入错误的日期，抛出的异常提示信息
      *  @private
      *  @instance
@@ -76,7 +80,7 @@ class DateTimePicker extends Combo
     ###
     _formatInvalidException : 'The date is invalid, please input a valid date!'
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -115,7 +119,7 @@ class DateTimePicker extends Combo
         ###
         me.triggerEvent( 'change',eventArgs ) if dispatchEvent is true
 
-    ###
+    ###*
      *  创建并且初始化下拉菜单的listbox
      *  @private
      *  @instance
@@ -139,7 +143,7 @@ class DateTimePicker extends Combo
         } )
 
         cal.onEvent( 'change',( sender,eventArgs ) ->
-            ###
+            ###*
             *   _setValue方法参数
             *       val,
             *       updateHtml = true,
@@ -161,7 +165,7 @@ class DateTimePicker extends Combo
 
         me._panelContent = cal
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -173,7 +177,7 @@ class DateTimePicker extends Combo
         me          = this
         me.onEvent( 'change'    ,opts['onchange'] )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private

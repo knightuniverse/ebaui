@@ -1,9 +1,61 @@
+###*
+*   @class      Panel
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Panel( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).panel( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="panel" data-options="{}" /&gt;
+###
 class Panel extends Control
-    ###
+
+    ###*
+     *  允许的button的state
+     *  @private
+     *  @instance
+     *  @virtual
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    _availableState
+     ###
+    _availableState:/^(primary|info|success|warning|danger|inverse|\s+)$/i
+
+    ###*
+     *  panel的head的高度
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {Number}   _headHeight
+     ###
+    _headHeight: null
+
+    ###*
+     *  panel整体的高度
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {Number}   _ctrlHeight
+     ###
+    _ctrlHeight: null
+
+    ###*
+     *  控制当前panel是否展开body的变量
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {Boolean}   _expanded
+     ###
+    _expanded:true
+    
+    ###*
      *  把HTML占位符转换成为控件自身的HTML结构
      *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
      *  @private
-     *  @virtual
      *  @instance
      *  @memberof   ebaui.web.Panel
      *  @method     _parseUi
@@ -11,7 +63,7 @@ class Panel extends Control
      ###
     _parseUi: ( element ) -> $( element )
 
-    ###
+    ###*
      *  控件HTML模板
      *  @private
      *  @instance
@@ -20,7 +72,7 @@ class Panel extends Control
     ###
     _headerTmpl:''
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -31,20 +83,20 @@ class Panel extends Control
     _init: ( opts ) ->
         super( opts )
         me = this
-        ### 
+        ###
         *   by defaults, 
         *   panel's position css property will be 'relative' 
         ###
         me._buttons  = opts['buttons'] ? []
         me._iconCls  = opts['iconCls'] ? ''
         me._position = opts['position'] ? 'relative'
-        return undefined
+        me._state    = opts['state'] ? ''
 
     _setupEvents: ( opts )->
         me = this
         me._$root.on( 'click',( eventArgs ) -> eventArgs.stopPropagation() )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -82,10 +134,10 @@ class Panel extends Control
                             return ( eventArgs ) -> fn( me,eventArgs )
                         return ( eventArgs ) -> 
                 )(btn)
-                $buttons.append( """<a href='javascript:void(0);'><i class='#{btnIconCls}'></i></a>""" )
-                $buttons.on( 'click', btnIconCls, clickHandle )
+                $buttons.append( """<a class='btn-#{btnIconCls}' href='javascript:void(0);'><i class='#{btnIconCls}'></i></a>""" )
+                $buttons.on( 'click', ".btn-#{btnIconCls}", clickHandle )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -96,15 +148,15 @@ class Panel extends Control
         me         = this
         $root      = me.uiElement()
         showHeader = me._couldShowHeader()
+        
+        $header = $( '.panel-head',$root )
+        title   = me.title()
+        iconCls = me.iconCls()
 
         if showHeader
             $root.addClass( 'panel' )
         else
             $root.removeClass( 'panel' )
-
-        $header = $( '.panel-head',$root )
-        title   = me.title()
-        iconCls = me.iconCls()
 
         ###
         *   第一次_updateCssHeader的时候
@@ -137,13 +189,40 @@ class Panel extends Control
         ###
         *   set panel title icon
         ###
-        $( 'div.caption',$header ).html( "<i class='#{iconCls}'></i>" ) if iconCls
+        $( 'div.caption',$header ).prepend( "<i class='#{iconCls}'></i>" ) if iconCls
         ###
         *   set panel actions
         ###
         me._updateCssButtons()
+        ###
+        *   panel的title以及border的颜色等
+        ###
+        me._updateCssStates()
+        
+    ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @method     _updateCssTitle
+     ###
+    _updateCssStates:() ->
+        me       = this
+        
+        ###
+        *   如果panel没有显示header的话，我觉得还是不要放上这个state好了
+        ###
+        return unless me._showHeader
+        
+        state    = $.trim(me.state())
+        $root    = me.uiElement()
+        cls      = $root.attr( 'class' ).replace(/panel-primary|panel-info|panel-success|panel-warning|panel-danger|panel-inverse/ig,'')
+        stateCls = if state then "panel-#{state}" else ""
+        $root.attr( 'class',"#{cls} #{stateCls}" ) if state
+        
+        return undefined
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -169,8 +248,13 @@ class Panel extends Control
         *   调用父类的_render方法
         ###
         super()
+        ###
+        *
+        ###
+        me._ctrlHeight = if me._height > 0 then me._height else $root.height()
+        me._headHeight = $( '.panel-head',$root ).height()
 
-    ###
+    ###*
      *  是否显示panel header
      *  @private
      *  @instance
@@ -179,7 +263,7 @@ class Panel extends Control
      ###
     _showHeader: false
 
-    ###
+    ###*
      *  是否显示panel header
      *  @private
      *  @instance
@@ -197,8 +281,38 @@ class Panel extends Control
         buttons        = me.buttons()
         me._showHeader = title.length > 0 or iconCls.length > 0 or buttons.length > 0
         return me._showHeader
+    
+    _state : ''
+    ###*
+     *  获取或者设置button的状态
+     *  可选的值：
+     *  
+     *  primary
+     *  info
+     *  success
+     *  warning
+     *  danger
+     *  inverse
+     *  
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {String}    state
+     *  @default    ''
+     *  @example    <caption>get</caption>
+     *      var state = ctrl.state();
+     *  @example    <caption>set</caption>
+     *      ctrl.state( '' );
+     ###
+    state:( val ) ->
+        me   = this
+        availableState = me._availableState
+        return me._state if not availableState.test( val )
 
-    ###
+        me._state = val.toLowerCase()
+        me._updateCssStates()
+
+    ###*
      *  获取或者设置控件是否可见
      *  @public
      *  @instance
@@ -230,7 +344,7 @@ class Panel extends Control
 
 
     _buttons:[]
-    ###
+    ###*
      *  panel标题栏的按钮
      *  @public
      *  @instance
@@ -265,7 +379,7 @@ class Panel extends Control
         me._updateCssButtons()
 
     _iconCls: ''
-    ###
+    ###*
      *  panel标题的icon样式类
      *  @public
      *  @instance
@@ -292,7 +406,7 @@ class Panel extends Control
             else
                 $dom.html( "" )
 
-    ###
+    ###*
      *  显示或者关闭panel
      *  @public
      *  @instance
@@ -303,7 +417,7 @@ class Panel extends Control
         me = this
         me.visible( not me.visible() )
 
-    ###
+    ###*
      *  显示panel
      *  @public
      *  @instance
@@ -312,7 +426,7 @@ class Panel extends Control
      ###
     open: () -> this.visible( true )
 
-    ###
+    ###*
      *  关闭panel
      *  @public
      *  @instance
@@ -321,7 +435,7 @@ class Panel extends Control
      ###
     close: () -> this.visible( false )
 
-    ###
+    ###*
      *  移动panel
      *  @public
      *  @instance
@@ -344,5 +458,43 @@ class Panel extends Control
             'left': me._left
         )
         return undefined
+
+    ###*
+     *  收起panel的内容区域
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Panel
+     *  @method         collapse
+     ###
+    collapse:() ->
+        me           = this
+        return unless me._expanded
+
+        me._expanded = false
+        $root        = me.uiElement()
+        $body        = $( '.panel-body',$root )
+        $root.animate( { height:me._headHeight },400,'swing',() -> 
+            me.height( me._headHeight )
+            $body.hide()
+        )
+
+    ###*
+     *  展开panel的内容区域
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Panel
+     *  @method         expand
+     ###
+    expand:() ->
+        me           = this
+        return if me._expanded
+
+        me._expanded = true
+        $root        = me.uiElement()
+        $body        = $( '.panel-body',$root )
+        $root.animate( { height:me._ctrlHeight },400,'swing',() -> 
+            $body.show()
+            me.height( me._ctrlHeight )
+        )
 
 ebaui['web'].registerControl( 'Panel',Panel )

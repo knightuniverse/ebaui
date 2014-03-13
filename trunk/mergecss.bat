@@ -1,9 +1,9 @@
-cd /d "F:\Work\PJ\hiap\ui-works\ebaui\"
+cd /d "E:\pj\uiworks\ebaui\templates\"
 
 svn up
 
-cd /d "F:\Work\PJ\hiap\hiap-ebaui\trunk"
+cd /d "E:\pj\hiap-ebaui\trunk\"
 
-xcopy /y "F:\Work\PJ\hiap\ui-works\ebaui\templates\fonts\*" "F:\Work\PJ\hiap\hiap-ebaui\trunk\src\css\fonts"
+xcopy /y "E:\pj\uiworks\ebaui\templates\fonts\*" "E:\pj\hiap-ebaui\trunk\src\css\fonts"
 
-copy /y "F:\Work\PJ\hiap\ui-works\ebaui\templates\ebaui.css" "F:\Work\PJ\hiap\hiap-ebaui\trunk\src\css\ebaui.css"
+copy /y "E:\pj\uiworks\ebaui\templates\eba.ui.1.0_default.css" "E:\pj\hiap-ebaui\trunk\src\css\ebaui.css"

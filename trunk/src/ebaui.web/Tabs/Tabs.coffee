@@ -1,5 +1,22 @@
+###*
+*   @class      Tabs
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Tabs( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).tabs( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="tabs" data-options="{}" /&gt;
+###
 class Tabs extends Control
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -8,7 +25,7 @@ class Tabs extends Control
     ###
     _$contentRegion : null
     
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -32,7 +49,7 @@ class Tabs extends Control
             me.closeTab( tabIndex )
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -43,20 +60,20 @@ class Tabs extends Control
     _init : ( opts ) ->
         super( opts )
         me = this
-        ### 
+        ###*
         *   初始化控件自身的一系列属性
         *   contentRegion是必选参数
         ###
         me._home           = opts['home'] if opts['home']?
         me._contentRegion  = opts['contentRegion'] if opts['contentRegion']?
         me._$contentRegion = $( me._contentRegion )
-        ### 
+        ###*
         *   如果指定的contentRegion里面没有ul，那么初始化的时候append一个新的ul
         *   我们的content的html格式是<li><iframe src=""></iframe></li>
         ###
         $region           = me._$contentRegion
         $region.append('<ul></ul>') if $( 'ul',$region ).size() is 0 
-        ###
+        ###*
         *   默认添加homeTab
         ###
         tab     = me._home
@@ -65,7 +82,7 @@ class Tabs extends Control
             tab['title']  = tab['title'] ? tab['url']
             me.addTab( tab )
 
-    ###
+    ###*
      *  私有变量，用来保存所有tab对象
      *  @private
      *  @instance
@@ -74,7 +91,7 @@ class Tabs extends Control
     ###
     _tabs : [],
 
-    ###
+    ###*
      *  homeTab配置，homeTab是默认首页
      *  @private
      *  @instance
@@ -83,7 +100,7 @@ class Tabs extends Control
     ###
     _homeTab : null,
 
-    ###
+    ###*
      *  当前激活的tab选项卡的对应引用
      *  @private
      *  @instance
@@ -91,7 +108,7 @@ class Tabs extends Control
      *  @member         {Tab}        _currentTab
     ###
     _currentTab : null,
-    ###
+    ###*
      *  设置或者获取当前激活的tab选项卡对象
      *  @public
      *  @instance
@@ -122,7 +139,7 @@ class Tabs extends Control
 
         return undefined
 
-    ###
+    ###*
      *  添加一个新的选项卡
      *  @public
      *  @instance
@@ -153,7 +170,7 @@ class Tabs extends Control
 
         return undefined
 
-    ###
+    ###*
      *  关闭选项卡
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -185,7 +202,7 @@ class Tabs extends Control
         myTabs.splice( tabIndex,1 )
         me._tabs = myTabs
 
-    ###
+    ###*
      *  关闭所有选项卡
      *  @public
      *  @instance
@@ -214,7 +231,7 @@ class Tabs extends Control
 
         return undefined
 
-    ###
+    ###*
      *  关闭指定选项卡以外的所有选项卡
      *  ，but参数如果是一个int对象,那么直接but参数作为索引查找tab
      *  ，but参数如果是一个string对象，那么默认按照url属性进行查找
@@ -247,7 +264,7 @@ class Tabs extends Control
 
         return undefined
 
-    ###
+    ###*
      *  获取选项卡对象
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -266,7 +283,7 @@ class Tabs extends Control
         return null if tabIndex is -1
         return me._tabs[tabIndex]
 
-    ###
+    ###*
      *  获取选项卡对象的索引
      *  ，如果isEqual参数是一个合法的索引，那么直接返回
      *  ，isEqual参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -309,7 +326,7 @@ class Tabs extends Control
 
         return tabIndex
 
-    ###
+    ###*
      *  激活指定的选项卡
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -326,7 +343,7 @@ class Tabs extends Control
         return if tabIndex is -1
         me.currentTab( tabIndex )
 
-    ###
+    ###*
      *  刷新tab页面的内容
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -351,7 +368,7 @@ class Tabs extends Control
         tabInstance = me.getTab( tab )
         tabInstance.refresh() if tabInstance
 
-    ###
+    ###*
      *  调整tab内容区域的iframe的width以及height
      *  @public
      *  @instance
@@ -369,7 +386,7 @@ class Tabs extends Control
         $ifm.height(size['height'])
 
     _contentRegion:'.eba-tabs-body'
-    ###
+    ###*
      *  jquery选择器
      *  ，用来指定tab内容的区域
      *  ，控件content内容将会输出在这个地方
@@ -386,7 +403,7 @@ class Tabs extends Control
         title   : ''
         url     : ''
         closable: false
-    ###
+    ###*
      *  默认首页，{ title:'',url:'' }，其中，url是必选项。
      *  如果没有指定title，则title默认为 Tab + tabIndex。
      *  @public

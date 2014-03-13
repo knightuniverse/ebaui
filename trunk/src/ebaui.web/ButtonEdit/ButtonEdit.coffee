@@ -1,5 +1,22 @@
+###*
+*   @class      ButtonEdit
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.TextBox
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.ButtonEdit( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).buttonedit( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="buttonedit" data-options="{}" /&gt;
+###
 class ButtonEdit extends TextBox
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -13,7 +30,7 @@ class ButtonEdit extends TextBox
         'btnClose'   : '.eba-buttonedit-close'
         'btnToggle'  : '.eba-buttonedit-button'
 
-    ###
+    ###*
      *  控件要用到的UI的CSS样式类
      *  @private
      *  @instance
@@ -25,7 +42,7 @@ class ButtonEdit extends TextBox
         focused : 'eba-buttonedit-focus'
         readonly: 'eba-readonly'
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -45,7 +62,7 @@ class ButtonEdit extends TextBox
 
         me._updateCssCloseButton()
 
-    ###
+    ###*
      *  更新UI的宽度
      *  @private
      *  @instance
@@ -75,7 +92,7 @@ class ButtonEdit extends TextBox
         ###
         #me._$formInput.width( numeric - 42 )
     
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -163,7 +180,7 @@ class ButtonEdit extends TextBox
 
         return undefined
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -184,7 +201,7 @@ class ButtonEdit extends TextBox
         ###
         me._iconCls    = ''
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -226,7 +243,7 @@ class ButtonEdit extends TextBox
         me._updateCssCloseButton()
 
     _showClose: false
-    ###
+    ###*
      *  获取或者设置是否显示关闭按钮
      *  @public
      *  @instance
@@ -246,7 +263,7 @@ class ButtonEdit extends TextBox
         me._showClose = val
         me._updateCssCloseButton()
 
-    ###
+    ###*
      *  更新控件enable的UI样式
      *  @private
      *  @instance
@@ -257,7 +274,7 @@ class ButtonEdit extends TextBox
         super()
         this._updateCssCloseButton()
 
-    ###
+    ###*
      *  更新UI的input后面的x的icon
      *  @private
      *  @instance
@@ -286,7 +303,7 @@ class ButtonEdit extends TextBox
             $closeBtn.css('display','none')
             $root.removeClass( rootCls )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -300,7 +317,7 @@ class ButtonEdit extends TextBox
         if txt then me._hidePlaceHolder() else me._showPlaceHolder()
 
     _text: ''
-    ###
+    ###*
      *  获取或者设置buttonedit文本值
      *  @public
      *  @instance
@@ -318,7 +335,7 @@ class ButtonEdit extends TextBox
         me._text = val
         me._updateAttrText()
 
-    ###
+    ###*
      *  获取或者设置表单控件值
      *  @public
      *  @instance
@@ -336,7 +353,7 @@ class ButtonEdit extends TextBox
         return me._value unless val?
         me._setValue( val )
 
-    ###
+    ###*
      *  获取或者设置控件数据
      *  @public
      *  @instance
@@ -363,7 +380,7 @@ class ButtonEdit extends TextBox
         me.value( val[valueField] )
 
     _valueField: 'value'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件值的字段名
      *  @public
      *  @instance
@@ -382,7 +399,7 @@ class ButtonEdit extends TextBox
         me._valueField = val
 
     _textField: 'text'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件文本的字段名
      *  @public
      *  @instance
@@ -401,7 +418,7 @@ class ButtonEdit extends TextBox
         me._textField = val
 
     _allowInput: true
-    ###
+    ###*
      *  获取或者设置是否允许手工输入文本
      *  @public
      *  @instance

@@ -1,16 +1,17 @@
-###
+###*
  *  控件文本值的长度验证规则，默认规则是[0,无穷大]
  *  @public
  *  @class      LengthValidator
+ *  @memberof   ebaui.web
+ *  @extends    ebaui.web.Validator
  *  @param      {Array}    params     -     传递给验证器的外部参数
  *  @example
- *      &lt;input data-role="button" data-options="{ validators:['len[0,100]'] }"/&gt;
- *      &lt;input data-role="button" data-options="{ validators:['required','len[0,100]'] }"/&gt;
+ *      &lt;input data-role="textbox" data-options="{ validators:['len[0,100]'] }"/&gt;
  ###
 class LengthValidator extends Validator
     name      : 'len'
     _parameterInvalidException:'Max length must be less than min length, please set a valid validator parameters.'
-    ###
+    ###*
      *  错误提示信息
      *  @public
      *  @instance
@@ -20,12 +21,21 @@ class LengthValidator extends Validator
      ###
     _message  : 'Please enter a value between {0} and {1}.'
     message   : 'Please enter a value between {0} and {1}.'
+    
+    ###*
+     *  执行验证
+     *  @public
+     *  @instance
+     *  @method         validate
+     *  @param          {Object}    value      -      要进行验证的值
+     *  @memberof       ebaui.web.LengthValidator
+     ###
     validate: ( value ) ->
 
         return false unless value
 
         me = this
-        ###
+        ###*
         *   once I thought if you assign this validator, 
         *   but you don't assign it's range 
         *   that means this validator is invalid itself

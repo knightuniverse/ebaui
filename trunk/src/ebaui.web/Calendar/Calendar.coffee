@@ -1,60 +1,65 @@
-###
+###*
 *   depend on MainView and MonthView
 *   所有原生JS对象的拓展代码，放在了web.coffee文件，
 *   比如Date.prototype.clone
 ###
 
-###
- *  控件全名 e.g. ebaui.web.Calendar
- *  控件描述
- *  @class      Calendar 
- *  @memberof   ebaui.web
- *  @extends    ebaui.web.FormElement
- *  @tutorial   calendar_index
- *  @param      {Object}    options     -   控件配置参数
- *  @param      {Object}    element     -   dom对象
- *  @example
- *      &lt;input data-role="calendar" data-options="{}"/&gt;
+###*
+*   @class      Calendar
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormElement
+*   @tutorial   calendar_index
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Calendar( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).calendar( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="calendar" data-options="{}" /&gt;
 ###
 class Calendar extends FormField
 
     _timeSpinner: null
-    ###
+    ###*
      *  timespinner控件
      *  @public
      *  @readonly
      *  @instance
      *  @memberof   ebaui.web.Calendar
-     *  @member     {TimeSpinner}    _timeSpinner
+     *  @member     {TimeSpinner}    timeSpinner
      ###
     timeSpinner:() -> this._timeSpinner
 
     _todayButtonText:'Today'
 
     _todayButton: null
-    ###
+    ###*
      *  选择今天按钮
      *  @public
      *  @readonly
      *  @instance
      *  @memberof   ebaui.web.Calendar
-     *  @member     {Button}    _todayButton
+     *  @member     {Button}    todayButton
      ###
     todayButton:() -> this._todayButton
 
     _applyButtonText:'Done'
     _applyButton: null
-    ###
+    ###*
      *  确定按钮
      *  @public
      *  @readonly
      *  @instance
      *  @memberof   ebaui.web.Calendar
-     *  @member     {Button}    _applyButton
+     *  @member     {Button}    applyButton
      ###
     applyButton:() -> this._applyButton
 
-    ###
+    ###*
      *  控件要用到的UI的CSS样式类
      *  @private
      *  @instance
@@ -65,7 +70,7 @@ class Calendar extends FormField
         disabled: 'eba-calendar-disabled'
         selected: 'eba-calendar-selected'
 
-    ###
+    ###*
      *  通过代码设置calendar.value属性的时候，如果传入错误的日期，抛出的异常提示信息
      *  @private
      *  @instance
@@ -74,7 +79,7 @@ class Calendar extends FormField
      ###
     _formatInvalidException : 'The date is invalid, please input a valid date!'
 
-    ###
+    ###*
      *  更新控件enabled的UI样式
      *  @private
      *  @instance
@@ -88,7 +93,7 @@ class Calendar extends FormField
         if me.enabled() then $root.removeClass( cls ) else $root.addClass( cls )
 
     _showButtons:false
-    ###
+    ###*
      *  是否显示按钮，目前只要显示两个按钮：今天 和 确定 按钮即可
      *  @public
      *  @instance
@@ -104,7 +109,7 @@ class Calendar extends FormField
         me._initButtons() unless me._todayButton
 
     _showSpinner:false
-    ###
+    ###*
      *  是否显示timeSpinner
      *  @public
      *  @instance
@@ -123,7 +128,7 @@ class Calendar extends FormField
         ###
         me._initSpinner() if not me._timeSpinner? and val
 
-    ###
+    ###*
      *  获取或者设置控件是否可用
      *  @public
      *  @instance
@@ -148,7 +153,7 @@ class Calendar extends FormField
         me._updateCssEnabled()
 
     _toggled: true
-    ###
+    ###*
      *  显示或者隐藏  年份月份选择  界面
      *  @private
      *  @instance
@@ -170,7 +175,7 @@ class Calendar extends FormField
 
         me._toggled = not toggled
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -178,11 +183,14 @@ class Calendar extends FormField
      *  @method     _setupEvents
      ###
     _setupEvents: (opts) ->
-        me = this
+        me    = this
+        $root = me.uiElement()
         ###
         *   绑定事件处理程序
         ###
         me.onEvent( 'click' ,opts['onclick'] )
+        
+        $root.on( 'click','.eba-calendar-header',( eventArgs ) -> me._toggleViews() )
 
         mainView    = me._mainView
         monthView   = me._monthView
@@ -218,7 +226,7 @@ class Calendar extends FormField
             me._toggleViews()
         )
 
-    ###
+    ###*
      *  初始化timeSpinner控件
      *  @private
      *  @instance
@@ -251,7 +259,7 @@ class Calendar extends FormField
 
         me._timeSpinner = spn
 
-    ###
+    ###*
      *  初始化button控件
      *  @private
      *  @instance
@@ -289,7 +297,7 @@ class Calendar extends FormField
         me._todayButton = todayButton
         me._applyButton = applyButton
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  ，在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -346,7 +354,7 @@ class Calendar extends FormField
         me._currYear  = initVal.getFullYear()
         me._currMonth = initVal.getMonth()
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -383,7 +391,7 @@ class Calendar extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  访问和设置calendar的值
      *  @public
      *  @instance
@@ -399,7 +407,7 @@ class Calendar extends FormField
         return me._value unless val
         me._setValue( val )
 
-    ###
+    ###*
      *  访问和设置calendar的值
      *  @public
      *  @instance

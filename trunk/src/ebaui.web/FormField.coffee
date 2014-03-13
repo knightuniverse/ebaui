@@ -1,4 +1,4 @@
-###
+###*
 *   Today's browsers define focus() on HTMLElement, but an element won't actually take focus unless it's one of:
 *   
 *       1.  HTMLAnchorElement/HTMLAreaElement with an href
@@ -7,10 +7,18 @@
 *       3.  HTMLIFrameElement (though focusing it doesn't do anything useful). Other embedding elements also, maybe, I haven't tested them all.
 *       4.  Any element with a tabindex
 *
-*   @see { http://stackoverflow.com/questions/1599660/which-html-elements-can-receive-focus }
+*   see { http://stackoverflow.com/questions/1599660/which-html-elements-can-receive-focus }
+*   
+*   @class      FormField
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
 ###
 class FormField extends Control
-    ###
+    ###*
      *  控件当前验证状态
      *  @private
      *  @instance
@@ -20,7 +28,7 @@ class FormField extends Control
      ###
     _currentStatus:0
 
-    ###
+    ###*
      *  控件验证状态
      *  @private
      *  @instance
@@ -41,7 +49,7 @@ class FormField extends Control
         ### 忙碌 ###
         busy   : 5
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -50,7 +58,7 @@ class FormField extends Control
      ###
     _updateCssReadonly : $.noop
 
-    ###
+    ###*
      *  控件在所处的各个不同得validationState下对应的UI的CSS样式类
      *  @private
      *  @instance
@@ -59,7 +67,7 @@ class FormField extends Control
      ###
     _statusCls : ['','eba-success','eba-light','eba-error','eba-warning','eba-loading']
 
-    ###
+    ###*
      *  控件在所处的各个不同得validationState下对应的UI的icon类
      *  @private
      *  @instance
@@ -106,7 +114,7 @@ class FormField extends Control
 
         return undefined
         
-    ###
+    ###*
      *  将控件配置的验证规则，转化为相应的Javascript Validator对象
      *  @private
      *  @instance
@@ -128,7 +136,7 @@ class FormField extends Control
 
         return validator
 
-    ###
+    ###*
      *  将控件配置的验证规则，转化为相应的Javascript Validator对象
      *  @private
      *  @instance
@@ -146,7 +154,7 @@ class FormField extends Control
 
         return returnValue
 
-    ###
+    ###*
      *  显示控件的各个验证状态样式
      *  @private
      *  @instance
@@ -182,7 +190,7 @@ class FormField extends Control
 
         return undefined
 
-    ###
+    ###*
      *  清除控件验证状态信息
      *  @private
      *  @instance
@@ -205,7 +213,7 @@ class FormField extends Control
 
         return undefined
 
-    ###
+    ###*
      *  显示控件验证状态以及相应得消息
      *  @private
      *  @instance
@@ -230,7 +238,7 @@ class FormField extends Control
 
         me._doRenderStyleTip( rootCls,tips )
 
-    ###
+    ###*
      *  更新验证后的样式信息
      *  @private
      *  @instance
@@ -242,7 +250,7 @@ class FormField extends Control
         if me.isValid() then me.success( '' ) else me.error( me._getErrorMessage() )
         return undefined
 
-    ###
+    ###*
      *  更新表单控件中input的name属性
      *  @private
      *  @instance
@@ -254,7 +262,7 @@ class FormField extends Control
         name = me.name()
         me._$formInput.attr( 'name',name ) if me._$formInput and name
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -267,7 +275,7 @@ class FormField extends Control
         me._updateCssReadonly()
         me._updateAttrName()
 
-    ###
+    ###*
      *  重置控件，清空验证状态，控件值，恢复到控件原始状态
      *  @public
      *  @virtual
@@ -284,7 +292,7 @@ class FormField extends Control
         ### refresh ui ###
         me._render()
 
-    ###
+    ###*
      *  获取或者设置控件验证状态信息
      *  @public
      *  @instance
@@ -294,14 +302,15 @@ class FormField extends Control
      *  @param      {Number}    state         - 控件验证状态
      *  @param      {String}    tips          - tooltips消息
      *  @example    <caption>get</caption>
-     *      //  0,1,2,3,4
-     *      //  详细的枚举值请查看ebaui.web.validationStates
+     *       0,1,2,3,4
+     *      详细的枚举值请查看ebaui.web.validationStates
      *      console.log( ctrl.tips() );
      *  @example    <caption>set</caption>
-     *      //  设置info样式
+     *      设置info样式
      *      states = ebaui.web.validationStates;
      *      ctrl.tips( states.info,'info' )
-     *      //  清除tips以及其样式
+     *      
+     *      清除tips以及其样式
      *      states = ebaui.web.validationStates;
      *      ctrl.tips( states.none )
      ###
@@ -317,7 +326,7 @@ class FormField extends Control
 
         return undefined
 
-    ###
+    ###*
      *  清除所有状态以及状态信息
      *  @public
      *  @instance
@@ -328,7 +337,7 @@ class FormField extends Control
      ###
     clearTips:() -> @tips( @_validationStatus.none )
 
-    ###
+    ###*
      *  设置控件验证成功状态以及信息
      *  @public
      *  @instance
@@ -340,7 +349,7 @@ class FormField extends Control
      ###
     success:( tips ) -> @tips( @_validationStatus.success,tips )
 
-    ###
+    ###*
      *  设置控件提醒状态以及提醒信息
      *  @public
      *  @instance
@@ -352,7 +361,7 @@ class FormField extends Control
      ###
     info:( tips ) -> @tips( @_validationStatus.info,tips )
 
-    ###
+    ###*
      *  设置控件警告状态以及警告信息
      *  @public
      *  @instance
@@ -364,7 +373,7 @@ class FormField extends Control
      ###
     warning: ( tips ) -> @tips( @_validationStatus.warning,tips )
 
-    ###
+    ###*
      *  设置控件验证错误状态以及错误信息
      *  @public
      *  @instance
@@ -376,7 +385,7 @@ class FormField extends Control
      ###
     error:( tips ) -> @tips( @_validationStatus.error,tips )
 
-    ###
+    ###*
      *  设置当前控件的状态为忙碌，在控件后面添加一个菊花转
      *  @public
      *  @instance
@@ -388,7 +397,7 @@ class FormField extends Control
      ###
     busy:( tips ) -> @tips( @_validationStatus.busy,tips )
 
-    ###
+    ###*
      *  errorMessage是一个验证失败的信息集合，这个对象的每一个属性对应一个validator，属性值则是validator验证失败时的提示信息
      *  @public
      *  @instance
@@ -399,7 +408,7 @@ class FormField extends Control
      ###
     errorMessage:() -> @._error
 
-    ###
+    ###*
      *  errorTips是一个验证失败的信息集合，这个对象的每一个属性对应一个validator，属性值则是validator验证失败时的提示信息
      *  @public
      *  @instance
@@ -410,7 +419,7 @@ class FormField extends Control
      ###
     errorTips:() -> @._error
 
-    ###
+    ###*
      *  获取控件验证完成之后产生的错误信息字符串
      *  @private
      *  @instance
@@ -419,7 +428,6 @@ class FormField extends Control
      *  @default    ''
      *  @member     {String}    _getErrorMessage
      *  @example    <caption>get</caption>
-     *      //  tips == '用户名不能为空'
      *      tips = ctrl._getErrorMessage();
      ###
     _getErrorMessage: () ->
@@ -437,7 +445,7 @@ class FormField extends Control
         return tips
 
     _validateOnChange : false
-    ###
+    ###*
      *  是否在控件的值发生改变的时候就触发验证
      *  @public
      *  @instance
@@ -445,7 +453,6 @@ class FormField extends Control
      *  @member     {Boolean}     validateOnChange
      *  @default    false
      *  @example    <caption>get</caption>
-     *      //  { text : '' ,value : '' };
      *      console.log( ctrl.validateOnChange() );
      *  @example    <caption>set</caption>
      *      ctrl.validateOnChange( true );
@@ -457,7 +464,7 @@ class FormField extends Control
         return undefined
 
     _validators:[]
-    ###
+    ###*
      *  表单控件验证规则
      *  @public
      *  @instance
@@ -465,14 +472,14 @@ class FormField extends Control
      *  @memberof   ebaui.web.FormField
      *  @member     {Array}     validators
      *  @example
-     *      //  [
-     *      //      { name : 'required',parameters : {},message : '',validate : function( value,parameters ){} }
-     *      //  ]
+     *      [
+     *          { name : 'required',parameters : {},message : '',validate : function( value,parameters ){} }
+     *      ]
      *      console.log( ctrl.validators );
      ###
     validators: () -> this._validators
 
-    ###
+    ###*
      *  @private
      *  @instance
      *  @memberof   ebaui.web.FormField
@@ -492,7 +499,7 @@ class FormField extends Control
 
         return index
 
-    ###
+    ###*
      *  判断指定的验证规则是否已经存在
      *  ，合法的rule参数应该是cn,digit,email等
      *  @public
@@ -503,7 +510,7 @@ class FormField extends Control
      ###
     hasValidator : ( rule ) -> this._indexOf( rule ) > -1
 
-    ###
+    ###*
      *  添加新的验证规则
      *  ，合法的rule参数应该是cn,digit,email等
      *  @public
@@ -525,7 +532,7 @@ class FormField extends Control
 
         return undefined
 
-    ###
+    ###*
      *  移除一条表单验证规则
      *  ，合法的rule参数应该是cn,digit,email等
      *  @public
@@ -540,7 +547,7 @@ class FormField extends Control
         me._validators.splice( index,1 ) unless index is -1
 
     _data : null
-    ###
+    ###*
      *  获取或者设置控件数据
      *  @public
      *  @instance
@@ -551,7 +558,7 @@ class FormField extends Control
     data: $.noop
 
     _value: null
-    ###
+    ###*
      *  获取或者设置控件值
      *  @public
      *  @instance
@@ -562,7 +569,7 @@ class FormField extends Control
     value: $.noop
 
     _enterAsTab : false
-    ###
+    ###*
      *  获取或者设置表单控件是否允许按下enter键的时候，聚焦到下一个控件
      *  @public
      *  @instance
@@ -581,7 +588,7 @@ class FormField extends Control
         return undefined
 
     _readonly:false
-    ###
+    ###*
      *  获取或者设置表单控件是否只读
      *  @public
      *  @instance
@@ -602,7 +609,7 @@ class FormField extends Control
         return undefined
 
     _isValid : true
-    ###
+    ###*
      *  获取控件值是否已经通过验证
      *  @public
      *  @instance
@@ -616,7 +623,7 @@ class FormField extends Control
      ###
     isValid : () -> this._isValid
 
-    ###
+    ###*
      *  验证控件，返回控件值的验证结果
      *  @public
      *  @instance

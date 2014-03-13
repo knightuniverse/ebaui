@@ -1,13 +1,9 @@
-###
- *  ebaui.web.ComboList
- *  ，DEMO请查看 {@tutorial combolist_index}
- *  ，使用远程数据源的DEMO请看 {@tutorial combolist_remoteDataSource}
- *  ，手工更改数据源设置的DEMO请看{@tutorial combolist_setDataSource}
+###*
  *  @class      ComboList 
  *  @memberof   ebaui.web
  *  @extends    ebaui.web.Combo
- *  @param      {Object}    options     -   控件配置参数
  *  @param      {Object}    element     -   dom对象
+ *  @param      {Object}    options     -   控件配置参数
  *  @example
  *      
  *      valueField默认值:value
@@ -18,10 +14,17 @@
  *
  *      }
  *
- *      &lt;input id="" name="" data-role="combolist" data-options="{ }" /&gt;
+ *       //  初始化方式一
+ *       var ns = ebaui.web;
+ *       var btn = new ns.ComboList( $( '' ),{ title:'',id:'',name:'' } );
+ *       //  初始化方式二
+ *       $( '' ).comboList( { title:'',id:'',name:'' } )
+ *       //  初始化方式三
+ *       &lt;input id="" title="" name="" data-role="comboList" data-options="{}" /&gt;
  ###
 class ComboList extends Combo
-    ###
+    
+    ###*
      *  
      *  @private
      *  @instance
@@ -42,7 +45,7 @@ class ComboList extends Combo
         else
             $root.removeClass( focusedCls ).addClass( disabledCls )
 
-    ###
+    ###*
      *  更新已经选中的文本列表
      *  @private
      *  @instance
@@ -64,7 +67,7 @@ class ComboList extends Combo
         if me.isEmpty(update) then me._showPlaceHolder() else me._hidePlaceHolder()
 
     _gridConfig: null
-    ###
+    ###*
      *  获取或者设置grid的配置文件
      *  @public
      *  @instance
@@ -81,7 +84,7 @@ class ComboList extends Combo
         return me._gridConfig unless val?
         me._gridConfig = val
 
-    ###
+    ###*
      *  初始化内部控件MiniGrid的配置
      *  @private
      *  @instance
@@ -137,7 +140,7 @@ class ComboList extends Combo
         minigrid = new ns.MiniGrid( $( 'input',$panel ),config )
         me._panelContent = minigrid
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -149,7 +152,7 @@ class ComboList extends Combo
         me = this
         me.onEvent( 'change'   ,opts['onchange'] )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -212,10 +215,12 @@ class ComboList extends Combo
 
     _render:()->
         super()
-        #  input 始终禁用
+        ###
+        *   input 始终禁用
+        ###
         this._$formInput.prop('readonly',true)
 
-    ###
+    ###*
      *  下拉菜单选项的数据源，可以是远程数据源URL配置对象或者是一个javascript数组对象作为数据源
      *  @public
      *  @instance
@@ -255,7 +260,7 @@ class ComboList extends Combo
         #  reload grid data
         grid.reloadGrid()
 
-    ###
+    ###*
      *  获取文本值
      *  @public
      *  @instance
@@ -269,7 +274,7 @@ class ComboList extends Combo
     ###
     text : ( val ) -> this._text
 
-    ###
+    ###*
      *  重置控件的数据，以及显示的文本
      *  @private
      *  @instance
@@ -288,7 +293,7 @@ class ComboList extends Combo
         #  reset text display
         me._updateAttrText([])
 
-    ###
+    ###*
      *  更新控件的数据，以及panel中的DataGrid中选中的数据
      *  @private
      *  @instance
@@ -362,7 +367,7 @@ class ComboList extends Combo
         me.triggerEvent( 'change',eventArgs ) if dispatchEvent is true
         return undefined
 
-    ###
+    ###*
      *  获取或者设置表单控件值
      *  @public
      *  @instance
@@ -379,7 +384,7 @@ class ComboList extends Combo
         return me._value unless val
         me._setValue( val,true,updateGrid,dispatchEvent,eventArgs )
 
-    ###
+    ###*
      *  获取或者设置选中的项
      *  @public
      *  @instance

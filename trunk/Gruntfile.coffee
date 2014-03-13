@@ -15,11 +15,6 @@ module.exports = ( grunt ) ->
     #   more info about this plugin, @see https://github.com/gruntjs/grunt-contrib-less
     #   more info about LESS, @see http://www.lesscss.net/article/home.html
     grunt.loadNpmTasks('grunt-contrib-less');
-    #   jasmine is a BDD test framework
-    #   @see http://pivotal.github.io/jasmine/
-    #   and we use a code coverage template mix-in for grunt-contrib-jasmine
-    #   @see https://github.com/maenu/grunt-template-jasmine-istanbul
-    #grunt.loadNpmTasks('grunt-contrib-jasmine');
     #   loading grunt plugin:  grunt-contrib-concat
     #   use this to concat js and css files
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -36,7 +31,6 @@ module.exports = ( grunt ) ->
     #   loading grunt plugin:  grunt-contrib-copy
     #   https://github.com/gruntjs/grunt-contrib-copy
     grunt.loadNpmTasks('grunt-contrib-copy');
-    #   https://github.com/krampstudio/grunt-jsdoc
     grunt.loadNpmTasks('grunt-jsdoc');
 
     # Default task(s).

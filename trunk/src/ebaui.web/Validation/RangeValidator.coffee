@@ -1,16 +1,26 @@
-###
+###*
  *  控件值为Number类型的值范围
  *  @public
  *  @class      RangeValidator
+ *  @memberof   ebaui.web
+ *  @extends    ebaui.web.Validator
  *  @param      {Array}    params     -     传递给验证器的外部参数
  *  @example
- *      &lt;input data-role="button" data-options="{ validators:['rng'] }"/&gt;
- *      &lt;input data-role="button" data-options="{ validators:['required','rng'] }"/&gt;
+ *      &lt;input data-role="textbox" data-options="{ validators:['rng'] }"/&gt;
  ###
 class RangeValidator extends Validator
     name      : 'rng'
     _message  : 'Please enter a value between {0} ~ {1}.'
     message   : 'Please enter a value between {0} ~ {1}.'
+    
+    ###*
+     *  执行验证
+     *  @public
+     *  @instance
+     *  @method     validate
+     *  @param      {Object}    value      -      要进行验证的值
+     *  @memberof   ebaui.web.RangeValidator
+     ###
     validate  : ( value ) -> 
         me      = this
         value   = parseFloat( value )

@@ -1,5 +1,14 @@
+###*
+*   @class      Form
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+###
 class Form extends Control
-    ###
+    ###*
      *  所有form表单控件类。在form控件初始化的时候，会自动加载当前DOM上下文中的这个集合内的控件到作为表单的一个字段
      *  @private
      *  @readonly
@@ -9,7 +18,7 @@ class Form extends Control
     ###
     _formControls : () -> ebaui.web.formControls
 
-    ###
+    ###*
      *  所有form表单控件类。在form控件初始化的时候，会自动加载当前DOM上下文中的这个集合内的控件到作为表单的一个字段
      *  @private
      *  @readonly
@@ -19,7 +28,7 @@ class Form extends Control
     ###
     _ctrlJQSelector: '[data-ns="web.form"]'
 
-    ###
+    ###*
      *  表单是否通过验证
      *  @private
      *  @instance
@@ -28,7 +37,7 @@ class Form extends Control
     ###
     _isValid  : true
 
-    ###
+    ###*
      *  遍历form控件内所有的表单控件
      *  @private
      *  @instance
@@ -40,7 +49,7 @@ class Form extends Control
         fields = this.fields()
         for field in fields then iterator( field )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -53,7 +62,7 @@ class Form extends Control
         me._$root.attr('id', id) unless me.isEmpty( id )
         me._updateCssVisible()
 
-    ###
+    ###*
      *  把HTML占位符转换成为控件自身的HTML结构
      *  @private
      *  @instance
@@ -105,7 +114,7 @@ class Form extends Control
                 nextCtrl.focused( true )
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -155,7 +164,7 @@ class Form extends Control
         me._fields = formFields
 
     _fields:[]
-    ###
+    ###*
      *  获取form表单内的控件集合
      *  @public
      *  @readonly
@@ -168,7 +177,7 @@ class Form extends Control
     ###
     fields  : () -> this._fields
 
-    ###
+    ###*
      *  获取form表单内的控件集合
      *  @public
      *  @readonly
@@ -181,7 +190,7 @@ class Form extends Control
     ###
     elements:() -> this._fields
 
-    ###
+    ###*
      *  获取或者设置form表单数据，支持使用JSON字符串
      *  @public
      *  @instance
@@ -219,7 +228,7 @@ class Form extends Control
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置表单的各个控件的值
      *  @public
      *  @instance
@@ -286,7 +295,7 @@ class Form extends Control
         return undefined
 
     _action:''
-    ###
+    ###*
      *  获取或者设置表单数据提交地址
      *  @public
      *  @instance
@@ -304,7 +313,7 @@ class Form extends Control
         me._action = val
 
     _method:'GET'
-    ###
+    ###*
      *  获取或者设置表单数据提交方法，可能的值为："GET"或者"POST"
      *  @public
      *  @instance
@@ -321,7 +330,7 @@ class Form extends Control
         me._method = val.toUpperCase()
 
     _acceptCharset:'uft-8'
-    ###
+    ###*
      *  <pre>
      *  服务器处理表单数据所接受的字符集。
      *  常用的字符集有：
@@ -344,7 +353,7 @@ class Form extends Control
         me._acceptCharset = val
 
     _enctype:'application/x-www-form-urlencoded'
-    ###
+    ###*
      *  <pre>
      *  规定表单数据在发送到服务器之前应该如何编码
      *  常用的值有：
@@ -372,7 +381,7 @@ class Form extends Control
         return me._enctype unless val.length > 0
         me._enctype = val
 
-    ###
+    ###*
      *  验证表单
      *  @public
      *  @instance
@@ -396,7 +405,7 @@ class Form extends Control
         me._isValid = isValid
         return isValid
 
-    ###
+    ###*
      *  重置表单
      *  @public
      *  @instance
@@ -409,7 +418,7 @@ class Form extends Control
     reset: () ->
         this._eachField( ( field ) -> field.reset() if field['reset'] )
 
-    ###
+    ###*
      *  提交表单
      *  @public
      *  @instance

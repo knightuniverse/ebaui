@@ -1,5 +1,22 @@
+###*
+*   @class      RadioList
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.CheckBoxList
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.RadioList( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).radiolist( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="radiolist" data-options="{}" /&gt;
+###
 class RadioList extends CheckBoxList
-    ###
+    ###*
      *  数据加载结束后的处理程序
      *  @private
      *  @instance
@@ -15,7 +32,7 @@ class RadioList extends CheckBoxList
         $radio = $( "input[value='#{checkedVal}']", $root )
         $radio.prop('checked',true)
 
-    ###
+    ###*
      *  获取或者设置CheckBoxList的选中项
      *  ，参数格式示例：[{ text : '',value : '' }]
      *  @public
@@ -38,7 +55,7 @@ class RadioList extends CheckBoxList
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置CheckBoxList的选中项
      *  @public
      *  @instance

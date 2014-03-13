@@ -1,14 +1,11 @@
-###
-*   ebaui的核心文件
-*   @file
-*   @author Monkey <knightuniverse@qq.com>
-*
-*   ebaui 全局命名空间
-*   @namespace  ebaui
-###
-uuid  = 0
-ebaui = 
 
+uuid  = 0
+###*
+ *   ebaui 全局命名空间
+ *   @namespace  ebaui
+ *   @author Monkey <knightuniverse@qq.com>
+ ###
+ebaui = 
     escape: ( str ) -> 
         re = /[&<>"']/g
         map = 
@@ -34,7 +31,7 @@ ebaui =
         return ('' + str).replace(re,( match ) -> map[match]) if str?
 
         return ''
-    ###
+    ###*
      *  生成guid
      *  @public
      *  @static
@@ -45,7 +42,7 @@ ebaui =
     guid:() ->
         'eba-ui-' + ( ++uuid )
 
-    ###
+    ###*
      *  根据控件ID获取控件对象
      *  @public
      *  @static
@@ -57,7 +54,7 @@ ebaui =
      ###
     getById:( id,context ) -> ebaui.get('#' + id,context)
 
-    ###
+    ###*
      *  根据css选择器获取控件对象
      *  @public
      *  @static
@@ -69,7 +66,7 @@ ebaui =
      ###
     get:( selector,context ) -> $( selector,context ).data('model')
 
-    ###
+    ###*
      *  加载PC端HTML模板信息，并且自动初始化每一个UI控件
      *  @public
      *  @static
@@ -81,7 +78,7 @@ ebaui =
 
 window['ebaui'] = ebaui
 
-###
+###*
  *  native对象拓展
  *  String.prototype.trim()
  *      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim

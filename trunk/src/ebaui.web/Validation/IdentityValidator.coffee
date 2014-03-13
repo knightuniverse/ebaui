@@ -1,5 +1,14 @@
+###*
+*   @class      IdentityValidator
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Validator
+*   @author     monkey      <knightuniverse@qq.com>
+*   @example
+*      &lt;input data-role="textbox" data-options="{ validators:['id'] }"/&gt;
+###
 class IdentityValidator extends Validator
-    ###
+    ###*
      *  用于计算身份证校验码的系数
      *  @private
      *  @instance
@@ -20,7 +29,7 @@ class IdentityValidator extends Validator
     name      : 'id',
 
     parameters: [],
-    ###
+    ###*
      *  错误提示信息
      *  @public
      *  @instance
@@ -30,17 +39,17 @@ class IdentityValidator extends Validator
      ###
     message   : 'Please enter a valid id number.',
     
-    ###
+    ###*
      *  执行验证
      *  @public
      *  @instance
      *  @method         validate
      *  @param          {Object}    value      -      要进行验证的值
-     *  @memberof       IdentityValidator
+     *  @memberof       ebaui.web.IdentityValidator
      ###
     validate  : ( value ) ->
         
-        ###  
+        ###*
         *   @see {http://zhidao.baidu.com/question/202372140.html|javascript 正则判断是否是身份证 正则判断是否是手机号码 正则判断是否是汉字 并且大于3小于20.}
         ###
         isValid = /^(\d{18,18}|\d{15,15}|\d{17,17}x)$/.test( value );
@@ -49,7 +58,7 @@ class IdentityValidator extends Validator
         idString = value.toString();
         if idString.length is 18
             me = this
-            ###
+            ###*
              *  @see {http://baike.baidu.com/view/5112521.htm|身份证校验码}
              *  1、将前面的身份证号码17位数分别乘以不同的系数。第i位对应的数为[2^(18-i)]mod11。从第一位到第十七位的系数分别为：7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 ；
              *  2、将这17位数字和系数相乘的结果相加；

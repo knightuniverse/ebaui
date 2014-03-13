@@ -1,5 +1,22 @@
+###*
+*   @class      TextBox
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.TextBox( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).textbox( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="textbox" data-options="{}" /&gt;
+###
 class TextBox extends FormField
-    ###
+    ###*
      *  @private
      *  @instance
      *  @memberof   ebaui.web.TextBox
@@ -9,7 +26,7 @@ class TextBox extends FormField
         'input'      : '.eba-textbox-input'
         'placeholder': '.eba-placeholder-lable'
 
-    ###
+    ###*
      *  控件要用到的UI的CSS样式类
      *  @private
      *  @instance
@@ -21,7 +38,7 @@ class TextBox extends FormField
         focused : 'eba-textbox-focus'
         readonly: 'eba-readonly'
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -90,7 +107,7 @@ class TextBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  聚焦
      *  @private
      *  @instance
@@ -104,7 +121,7 @@ class TextBox extends FormField
         me._$formInput.focus()
         return undefined
 
-    ###
+    ###*
      *  失焦
      *  @private
      *  @instance
@@ -118,7 +135,7 @@ class TextBox extends FormField
         me._$formInput.blur()
         return undefined
 
-    ###
+    ###*
      *  更新UI的宽度
      *  @private
      *  @virtual
@@ -147,7 +164,7 @@ class TextBox extends FormField
         ###
         #me._$formInput.width( numeric - 24 )
 
-    ###
+    ###*
      *  更新UI的高度
      *  @private
      *  @virtual
@@ -183,7 +200,7 @@ class TextBox extends FormField
         $label = $( me._JQSelector.placeholder,me._$root )
         $label.css("line-height","#{val}px") if $label.size() > 0
 
-    ###
+    ###*
      *  设置或者移除据聚焦样式或者失焦样式
      *  @private
      *  @instance
@@ -206,7 +223,7 @@ class TextBox extends FormField
             if enabled then me._showPlaceHolder()
         return undefined
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -220,7 +237,7 @@ class TextBox extends FormField
             unless val
                 $( me._JQSelector.placeholder,me._$root ).show()
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -232,7 +249,7 @@ class TextBox extends FormField
         unless me._nativePlaceHolder
             $( me._JQSelector.placeholder,me._$root ).hide()
 
-    ###
+    ###*
      *  更新placeholder的文本
      *  @private
      *  @instance
@@ -259,7 +276,7 @@ class TextBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  更新控件enable的UI样式
      *  @private
      *  @instance
@@ -282,7 +299,7 @@ class TextBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  更新控件readonly的UI样式
      *  @private
      *  @instance
@@ -308,7 +325,7 @@ class TextBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -320,7 +337,7 @@ class TextBox extends FormField
         super( opts )
         
         me = this
-        ### 
+        ###*
         *   初始化控件自身的一系列属性  
         ###
         me._width       = opts['width'] ? 150
@@ -360,7 +377,7 @@ class TextBox extends FormField
             
         return undefined
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -374,7 +391,7 @@ class TextBox extends FormField
         me._updateAttrValue()
         me._updateCssIcon()
 
-    ###
+    ###*
      *  更新控件内部前面icon的相关样式属性
      *  @private
      *  @instance
@@ -406,7 +423,7 @@ class TextBox extends FormField
         return undefined
 
     _iconCls : ''
-    ###
+    ###*
      *  获取或者设置button的icon图标CSS样式类
      *  @public
      *  @instance
@@ -429,7 +446,7 @@ class TextBox extends FormField
         return undefined
 
     _maxLength : 0
-    ###
+    ###*
      *  获取或者设置文本域输入文本的最大长度，默认值是-1，不做任何限制
      *  @public
      *  @instance
@@ -456,7 +473,7 @@ class TextBox extends FormField
         me._maxLength = val
         me._$formInput.attr( 'maxlength',if val > 0 then val else null )
 
-    ###
+    ###*
      *  控件是否可以获取焦点
      *  @public
      *  @instance
@@ -470,7 +487,7 @@ class TextBox extends FormField
     focusable:() -> true
 
     _placeHolder: ''
-    ###
+    ###*
      *  获取或者设置文本占位符
      *  @public
      *  @instance
@@ -491,7 +508,7 @@ class TextBox extends FormField
         me._placeHolder = val
         me._updateCssPlaceHolder()
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -530,7 +547,7 @@ class TextBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置表单控件值
      *  @public
      *  @instance
@@ -547,7 +564,7 @@ class TextBox extends FormField
         return me._value unless me.isString( val )
         me._setValue( val, true )
 
-    ###
+    ###*
      *  获取或者设置控件数据
      *  @public
      *  @instance

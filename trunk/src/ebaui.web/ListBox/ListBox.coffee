@@ -1,5 +1,22 @@
+###*
+*   @class      ListBox
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.ListBox( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).listbox( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="listbox" data-options="{}" /&gt;
+###
 class ListBox extends FormField
-  ###
+  ###*
    *  listbox列表项目的模板
    *  @private
    *  @instance
@@ -8,7 +25,7 @@ class ListBox extends FormField
   ###
   _itemTmpl: '',
 
-  ###
+  ###*
    *  已经编译好的ListBox项HTML模板，后续会重复使用
    *  @private
    *  @instance
@@ -17,7 +34,7 @@ class ListBox extends FormField
   ###
   _compiledItemTmpl : $.noop,
 
-  ###
+  ###*
    *  显示listbox正在加载的样式
    *  @private
    *  @instance
@@ -33,7 +50,7 @@ class ListBox extends FormField
     })
     $( 'table.eba-listbox-items',$root ).html( html )
 
-  ###
+  ###*
    *  更新listbox列表项
    *  @private
    *  @instance
@@ -54,7 +71,7 @@ class ListBox extends FormField
     } )
     $( 'table.eba-listbox-items',$root ).html( html )
 
-  ###
+  ###*
    *  更新UI显示
    *  @private
    *  @instance
@@ -66,7 +83,7 @@ class ListBox extends FormField
     me._loadData()
     super()
 
-  ###
+  ###*
    *  初始化DOM事件处理程序
    *  @private
    *  @instance
@@ -77,7 +94,7 @@ class ListBox extends FormField
     me  = this
     $root = me._$root
 
-    ###
+    ###*
     * 绑定事件处理程序
     ###
     me.onEvent( 'itemclick'     ,opts['onitemclick'] )
@@ -102,7 +119,7 @@ class ListBox extends FormField
 
     )
 
-  ###
+  ###*
    *  初始化控件，声明内部变量
    *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
    *  @private
@@ -126,7 +143,7 @@ class ListBox extends FormField
     ###
     me._compiledItemTmpl = me.compileTmpl( me._itemTmpl )
 
-  ###
+  ###*
    *  控件是否可以获取焦点
    *  @public
    *  @instance
@@ -139,7 +156,7 @@ class ListBox extends FormField
   ###
   focusable:() -> true
   
-  ###
+  ###*
    *  获取文本值
    *  @public
    *  @instance
@@ -159,7 +176,7 @@ class ListBox extends FormField
     toRet = (item[field] for item in data)
     return toRet
 
-  ###
+  ###*
    *  获取或者设置表单控件值
    *  @public
    *  @instance
@@ -173,7 +190,7 @@ class ListBox extends FormField
   ###
   value: ( val ) ->
     me = this
-    ###
+    ###*
     * get
     ###
     return me._value unless val
@@ -185,7 +202,7 @@ class ListBox extends FormField
       return toRet
     ###
 
-    ###
+    ###*
     * set
     ###
 
@@ -201,7 +218,7 @@ class ListBox extends FormField
 
     me.select( objArray )
 
-    ###
+    ###*
     val          = [ val ] unless me.isArray( val )
     selectedVal  = null
     selectedData = null
@@ -231,7 +248,7 @@ class ListBox extends FormField
     me.select( selectedData )
     ###
 
-  ###
+  ###*
    *  获取或者设置选中的项
    *  @public
    *  @instance
@@ -244,12 +261,12 @@ class ListBox extends FormField
   ###
   data: ( val ) ->
     me = this
-    ###
+    ###*
     * get
     ###
     return me.selectedItems() unless val
 
-    ###
+    ###*
     * set
     ###
 
@@ -286,7 +303,7 @@ class ListBox extends FormField
     me.select( selectedData )
     ###
 
-  ###
+  ###*
    *  listBox项的集合
    *  @private
    *  @instance
@@ -295,7 +312,7 @@ class ListBox extends FormField
   ###
   _items : []
 
-  ###
+  ###*
    *  数据加载开始前的处理程序
    *  @private
    *  @instance
@@ -304,7 +321,7 @@ class ListBox extends FormField
   ###
   _beforeLoading: () -> this._loadMask()
 
-  ###
+  ###*
    *  数据加载结束后的处理程序
    *  @private
    *  @instance
@@ -319,7 +336,7 @@ class ListBox extends FormField
     ### 渲染数据 ###
     me._renderData()
 
-  ###
+  ###*
    *  加载listbox的列表数据
    *  @private
    *  @instance
@@ -362,7 +379,7 @@ class ListBox extends FormField
       me._items = dataSource
       me._finishLoading()
 
-  ###
+  ###*
    *  listBox项的集合
    *  @public
    *  @instance
@@ -372,7 +389,7 @@ class ListBox extends FormField
   ###
   items: () -> this._items
 
-  ###
+  ###*
    *  选中的项
    *  @private
    *  @instance
@@ -381,7 +398,7 @@ class ListBox extends FormField
   ###
   _selectedItems: []
 
-  ###
+  ###*
    *  获取选中的项
    *  @public
    *  @instance
@@ -396,7 +413,7 @@ class ListBox extends FormField
   ###
   selectedItems:() -> this._selectedItems
 
-  ###
+  ###*
    *  添加列表项
    *  @public
    *  @instance
@@ -416,7 +433,7 @@ class ListBox extends FormField
       me._items = me._items.concat( toAdd )
       me._renderData()
 
-  ###
+  ###*
    *  删除列表项
    *  @public
    *  @instance
@@ -442,7 +459,7 @@ class ListBox extends FormField
 
       me._renderData()
 
-  ###
+  ###*
    *  更新列表中的项目
    *  @public 
    *  @instance
@@ -468,7 +485,7 @@ class ListBox extends FormField
 
         me._renderData()
 
-  ###
+  ###*
    *  移动列表项
    *  @public
    *  @instance
@@ -490,7 +507,7 @@ class ListBox extends FormField
 
     me._renderData()
 
-  ###
+  ###*
    *  当前选中项目的index
    *  @private
    *  @instance
@@ -499,7 +516,7 @@ class ListBox extends FormField
   ###
   _currItemIdx:-1
 
-  ###
+  ###*
    *  选中前一个项目
    *  @public
    *  @instance
@@ -521,7 +538,7 @@ class ListBox extends FormField
     me.select( currIdx )
     me.highlight( currIdx )
 
-  ###
+  ###*
    *  选中前一个项目
    *  @public
    *  @instance
@@ -543,7 +560,7 @@ class ListBox extends FormField
     me.select( currIdx )
     me.highlight( currIdx )
 
-  ###
+  ###*
    *  选中项目
    *  @public
    *  @instance
@@ -555,7 +572,7 @@ class ListBox extends FormField
    *  @tutorial listbox_selectItems
   ###
   select: ( items ) ->
-    ###
+    ###*
     * 实际上data属性，返回的也是_selectedItems
     * 所以不要重复已经有的方法
     * data以及value属性的变更，我想应该是可以整合到select方法来实现的
@@ -567,7 +584,7 @@ class ListBox extends FormField
     dataItems = me.items()
     return if isNum and not ( items >= 0 and items < dataItems.length )
 
-    ###
+    ###*
     *  如果参数是一个index选项，
     *  并且这个index在合理的范围内 
     ###
@@ -600,7 +617,7 @@ class ListBox extends FormField
     me._selectedItems = selectedData
     me._renderData()
 
-  ###
+  ###*
    *  取消选中项目
    *  @public
    *  @instance
@@ -641,7 +658,7 @@ class ListBox extends FormField
     me._currItemIdx = -1
     me._renderData()
 
-  ###
+  ###*
    *  取消所有选中项目
    *  @public
    *  @instance
@@ -654,7 +671,7 @@ class ListBox extends FormField
     me._selectedItems = []
     me._renderData()
 
-  ###
+  ###*
    *  高亮listbox的某条数据，但是不选中
    *  @public
    *  @instance
@@ -691,7 +708,7 @@ class ListBox extends FormField
       jq = ".eba-listbox-item:eq(#{itemIndex})"
       $( jq,$root ).addClass(hoverCls)
 
-  ###
+  ###*
    *  控件数据源对象的ID字段名
    *  @public
    *  @instance
@@ -709,7 +726,7 @@ class ListBox extends FormField
     return me._idField unless me.isString( val )
     me._idField = val
 
-  ###
+  ###*
    *  控件数据源对象字段中，用于作为控件值的字段名
    *  @public
    *  @instance
@@ -728,7 +745,7 @@ class ListBox extends FormField
     me._valueField = val
     me._renderData()
 
-  ###
+  ###*
    *  控件数据源对象字段中，用于作为控件文本的字段名
    *  @public
    *  @instance
@@ -747,7 +764,7 @@ class ListBox extends FormField
     me._textField = val
     me._renderData()
 
-  ###
+  ###*
    *  数据源，可以是URL地址或者是一个javascript数组对象作为数据源
    *  @public
    *  @instance
@@ -784,7 +801,7 @@ class ListBox extends FormField
     me._loadData()
 
   _multiSelect:false
-  ###
+  ###*
    *  获取或者设置控件是否支持多选
    *  @public
    *  @instance

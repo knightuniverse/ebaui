@@ -1,6 +1,17 @@
+###*
+*   @class      OnlyCnValidator
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Validator
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*      &lt;input data-role="textbox" data-options="{ validators:['cn'] }"/&gt;
+###
 class OnlyCnValidator extends Validator
     name      : 'cn'
-    ###
+    ###*
      *  错误提示信息
      *  @public
      *  @instance
@@ -9,13 +20,13 @@ class OnlyCnValidator extends Validator
      *  @memberof   OnlyCNValidator
      ###
     message   : 'Please only enter Chinese characters.'
-    ###
+    ###*
      *  执行验证
      *  @public
      *  @instance
      *  @method     validate
      *  @param      {Object}    value      -      要进行验证的值
-     *  @memberof   OnlyCnValidator
+     *  @memberof   ebaui.web.OnlyCnValidator
      ###
     validate: ( value ) ->
         ### 

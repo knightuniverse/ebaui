@@ -1,5 +1,22 @@
+###*
+*   @class      CheckBoxList
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.CheckBoxList( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).checkboxlist( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="checkboxlist" data-options="{}" /&gt;
+###
 class CheckBoxList extends FormField
-    ###
+    ###*
      *  控件HTML模板
      *  @private
      *  @instance
@@ -8,7 +25,7 @@ class CheckBoxList extends FormField
     ###
     _itemTmpl: ''
 
-    ###
+    ###*
      *  已经编译好的checkbox模板，使用underscore模板引擎，后续会重复使用
      *  @private
      *  @instance
@@ -17,7 +34,7 @@ class CheckBoxList extends FormField
     ###
     _compiledItemTmpl: $.noop
 
-    ###
+    ###*
      *  显示checkbox列表
      *  @private
      *  @instance
@@ -41,7 +58,7 @@ class CheckBoxList extends FormField
         $( 'tr',$root ).html( html )
 
     _items : []
-    ###
+    ###*
      *  CheckBoxList数据源
      *  @private
      *  @instance
@@ -50,7 +67,7 @@ class CheckBoxList extends FormField
     ###
     items:() -> this._items
 
-    ###
+    ###*
      *  数据加载开始前的处理程序
      *  @private
      *  @instance
@@ -59,7 +76,7 @@ class CheckBoxList extends FormField
     ###
     _beforeLoading: () -> 
 
-    ###
+    ###*
      *  数据加载结束后的处理程序
      *  @private
      *  @instance
@@ -83,7 +100,7 @@ class CheckBoxList extends FormField
 
         me._renderItems()
 
-    ###
+    ###*
      *  加载数据源，加载成功后填充本地数据源_items
      *  @private
      *  @instance
@@ -117,7 +134,7 @@ class CheckBoxList extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -150,7 +167,7 @@ class CheckBoxList extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -168,7 +185,7 @@ class CheckBoxList extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -186,7 +203,7 @@ class CheckBoxList extends FormField
 
         me._compiledItemTmpl = me.compileTmpl( me._itemTmpl )
 
-    ###
+    ###*
      *  获取或者设置CheckBoxList的选中项
      *  ，参数格式示例：[{ text : '',value : '' }]
      *  @public
@@ -216,7 +233,7 @@ class CheckBoxList extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置CheckBoxList的选中项
      *  @public
      *  @instance
@@ -240,7 +257,7 @@ class CheckBoxList extends FormField
         ###
         me._setValue( val )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -256,7 +273,7 @@ class CheckBoxList extends FormField
         )
         return checkedItems
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -284,7 +301,7 @@ class CheckBoxList extends FormField
         if dispatchEvent is true
             me.triggerEvent( 'change',eventArgs )
 
-    ###
+    ###*
      *  valueField以及textField属性访问器
      *  @public
      *  @instance
@@ -298,7 +315,7 @@ class CheckBoxList extends FormField
         me[prop] = val
 
     _valueField: 'value'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件值的字段名
      *  @public
      *  @instance
@@ -313,7 +330,7 @@ class CheckBoxList extends FormField
     valueField : ( val ) -> this._doFieldAccess( 'valueField',val )
 
     _textField: 'text'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件文本的字段名
      *  @public
      *  @instance
@@ -328,7 +345,7 @@ class CheckBoxList extends FormField
     textField : ( val ) -> this._doFieldAccess( 'textField',val )
 
     _dataSource: ''
-    ###
+    ###*
      *  CheckBoxList选项的数据源，可以是远程数据源URL配置对象或者是一个javascript数组对象作为数据源
      *  @public
      *  @instance

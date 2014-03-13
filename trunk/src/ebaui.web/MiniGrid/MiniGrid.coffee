@@ -1,5 +1,15 @@
+###*
+*   @private
+*   @class      MiniGrid
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+###
 class MiniGrid extends Control
-    ###
+    ###*
      *  控件HTML模板
      *  @private
      *  @instance
@@ -8,7 +18,7 @@ class MiniGrid extends Control
      ###
     _headerTmpl : ''
 
-    ###
+    ###*
      *  控件HTML模板
      *  @private
      *  @instance
@@ -17,7 +27,7 @@ class MiniGrid extends Control
      ###
     _itemTmpl : ''
 
-    ###
+    ###*
      *  已经编译好的ListBox项HTML模板，后续会重复使用
      *  @private
      *  @instance
@@ -26,7 +36,7 @@ class MiniGrid extends Control
      ###
     _compiledHeaderTmpl : $.noop
 
-    ###
+    ###*
      *  已经编译好的ListBox项HTML模板，后续会重复使用
      *  @private
      *  @instance
@@ -35,7 +45,7 @@ class MiniGrid extends Control
      ###
     _compiledItemTmpl : $.noop
 
-    ###
+    ###*
      *  更新UI的宽度和高度
      *  @private
      *  @instance
@@ -61,7 +71,7 @@ class MiniGrid extends Control
 
         return undefined
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @virtual
@@ -108,7 +118,7 @@ class MiniGrid extends Control
 
         return undefined
 
-    ###
+    ###*
      *  判断是否使用本地数据源还是使用remote数据源
      *  ，因为我直接整合jqgrid的配置，并没有做过多的修改
      *  @private
@@ -132,7 +142,7 @@ class MiniGrid extends Control
 
         return false
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -160,22 +170,22 @@ class MiniGrid extends Control
         me._compiledHeaderTmpl = me.compileTmpl( me._headerTmpl )
         me._compiledItemTmpl   = me.compileTmpl( me._itemTmpl )
 
-    ###
+    ###*
     *   _autowidth
     ###
     _autowidth:true
 
-    ###
+    ###*
     *   local data array
     ###
     _data: []
 
-    ###
+    ###*
     *   remote data source 
     ###
     _url:''
 
-    ###
+    ###*
     *  xml 
     *  xmlstring 
     *  json 
@@ -187,30 +197,30 @@ class MiniGrid extends Control
     ###
     _datatype:'local'
 
-    ###
+    ###*
     *   使用远程数据的时候，随着url一起提交到服务器的数据
     *   [{}]
     ###
     _postData:[]
 
-    ###
+    ###*
     *   控件数据源对象的ID字段名
     ###
     _colModel:[{ name:'id', label:'ID', width:150 },{ name:'text', label:'Text', width:150 }]
 
-    ###
+    ###*
     *   是否允许多选
     ###
     _multiselect: true
 
-    ###
+    ###*
      *  加载控件数据
      *  @private
      *  @instance
      *  @memberof   ebaui.web.MiniGrid
      *  @method     _loadData
      ###
-    _loadData:() ->
+    _loadData:(  ) ->
         me = this
         loadFromRemote = me._isRemoteDataSource()
 
@@ -256,7 +266,7 @@ class MiniGrid extends Control
         else
             $( '.eba-listbox-items',$root ).html( headerHtml + itemsHtml )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -270,7 +280,7 @@ class MiniGrid extends Control
         me._updateCssHeight()
 
     _items: []
-    ###
+    ###*
      *  当前MiniGrid的数据源
      *  @private
      *  @instance
@@ -279,7 +289,7 @@ class MiniGrid extends Control
      ###
     items: () -> this._items
 
-    ###
+    ###*
      *  当前MiniGrid的已经选中的项目
      *  @private
      *  @instance
@@ -307,7 +317,7 @@ class MiniGrid extends Control
 
         return selected
 
-    ###
+    ###*
      *  清空选中的项。如果有指定的数据行，则清空指定数据行的选中状态；
      *  否则，清空所有选中的数据行。
      *  @public
@@ -346,7 +356,7 @@ class MiniGrid extends Control
 
         return undefined
 
-    ###
+    ###*
      *  选中指定的数据行
      *  @public
      *  @instance
@@ -366,7 +376,7 @@ class MiniGrid extends Control
         $tr.addClass('eba-listbox-item-selected')
         me.triggerEvent( 'selectrow' )
 
-    ###
+    ###*
      *  获取grid的配置
      *  @public
      *  @instance
@@ -379,7 +389,7 @@ class MiniGrid extends Control
         prop = '_' + name
         return me[prop]
 
-    ###
+    ###*
      *  更新grid的配置   { data : [] }
      *  @public
      *  @instance
@@ -396,7 +406,7 @@ class MiniGrid extends Control
 
         return undefined
 
-    ###
+    ###*
      *  使用grid配置重新加载grid
      *  @public
      *  @instance

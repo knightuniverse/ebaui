@@ -1,4 +1,4 @@
-###
+###*
  *  发送请求，把控件值发送到服务端进行验证，validator的每个参数都是字符串类型，使用$作为分隔符。
  *  其中，url，pass参数以及token参数是必须指定的。
  *  url指定服务端地址
@@ -6,13 +6,15 @@
  *  ，pass参数是一个方法，实现根据服务端返回值，判断控件值是否合法。该方法有两个参数：value serverData
  *  @public
  *  @class      RemoteValidator
+ *  @memberof   ebaui.web
+ *  @extends    ebaui.web.Validator
  *  @param      {Array}    params     -     传递给验证器的外部参数
  *  @example
  *      function captchaPass( value,serverData ){ 
  *          if( !serverData || serverData['result'] == null || serverData['result'] == undefined ){ return false; }
  *          return parseInt( serverData['result'] ) == 1;
  *      };
- *      &lt;input data-role="button" data-options="{ validators:['remote[\'url$http://192.168.102.159:8080/cas/captcha\',\'token$verify\',\'pass$captchaPass\']'] }"/&gt;
+ *      &lt;input data-role="textbox" data-options="{ validators:['remote[\'url$http://192.168.102.159:8080/cas/captcha\',\'token$verify\',\'pass$captchaPass\']'] }"/&gt;
  ###
 class RemoteValidator extends Validator
     constructor:( params,msg ) ->
@@ -22,7 +24,7 @@ class RemoteValidator extends Validator
 
         ### 解析参数，生成_ajaxConfig ###
         me.parameters = params
-        ###
+        ###*
         *   $.type
         *
         *   Returns the sort of types we'd expect:
@@ -43,7 +45,7 @@ class RemoteValidator extends Validator
 
     name      : 'remote'
 
-    ### 
+    ###*
     *   请求服务端进行验证的时候，
     *   控件值对应的参数名，e.g. http://aa.com?token=value 
     ###
@@ -67,7 +69,7 @@ class RemoteValidator extends Validator
     _initFromParamsStr: ( params ) -> 
         me = this
         ajaxConfig   = me._ajaxConfig
-        ### 
+        ###*
         *   解析参数，生成_ajaxConfig
         ###
         for paramItem, i in params
@@ -91,7 +93,7 @@ class RemoteValidator extends Validator
     _initFromParamsObj: ( params ) -> 
         me = this
         ajaxConfig   = me._ajaxConfig
-        ### 
+        ###*
         *   解析参数，生成_ajaxConfig 
         ###
         for key,value of params
@@ -104,7 +106,15 @@ class RemoteValidator extends Validator
                 when 'pass'     then me._pass = eval( value )
                 else
                     ajaxConfig['data'][key] = value
-
+    
+    ###*
+     *  执行验证
+     *  @public
+     *  @instance
+     *  @method     validate
+     *  @param      {Object}    value      -      要进行验证的值
+     *  @memberof   ebaui.web.RemoteValidator
+     ###
     validate: ( value ) ->
         me       = this
         _isValid = false

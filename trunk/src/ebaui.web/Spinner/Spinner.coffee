@@ -1,17 +1,21 @@
-###
- *  控件全名 e.g. ebaui.web.Spinner
- *  控件描述
+###*
  *  @class      Spinner 
  *  @memberof   ebaui.web
  *  @extends    ebaui.web.FormElement
  *  @tutorial   spinner_index
- *  @param      {Object}    options     -   控件配置参数
  *  @param      {Object}    element     -   dom对象
- *  @example    
- *      &lt;input data-role="spinner" id="" name="" value="" data-options="{}"/&gt;
+ *  @param      {Object}    options     -   控件配置参数
+ *  @example
+ *      //  初始化方式一
+ *      var ns = ebaui.web;
+ *      var btn = new ns.Spinner( $( '' ),{ title:'',id:'',name:'' } );
+ *      //  初始化方式二
+ *      $( '' ).spinner( { title:'',id:'',name:'' } )
+ *      //  初始化方式三
+ *      &lt;input id="" title="" name="" data-role="spinner" data-options="{}" /&gt;
 ###
 class Spinner extends FormField
-    ###
+    ###*
      *  控件要用到的UI的CSS样式类
      *  @private
      *  @instance
@@ -23,7 +27,7 @@ class Spinner extends FormField
         focused : 'eba-buttonedit-focus'
         readonly: 'eba-readonly'
 
-    ###
+    ###*
      *  获取焦点
      *  @private
      *  @instance
@@ -37,7 +41,7 @@ class Spinner extends FormField
             me._updateCssFocused()
             me._$formInput.focus()
             
-    ###
+    ###*
      *  失去焦点
      *  @private
      *  @instance
@@ -50,7 +54,7 @@ class Spinner extends FormField
         if me.enabled()
             me._$formInput.blur()
 
-    ###
+    ###*
      *  设置或者移除据聚焦样式或者失焦样式
      *  @private
      *  @instance
@@ -66,7 +70,7 @@ class Spinner extends FormField
         else
             $root.removeClass( cls )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -88,7 +92,7 @@ class Spinner extends FormField
             $input.attr('disabled','disabled')
             $root.removeClass( focusCls ).addClass( disabledCls )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -112,7 +116,7 @@ class Spinner extends FormField
             $input.attr(attr,null)
             $btns.show()
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -126,7 +130,7 @@ class Spinner extends FormField
         fixed = if places < 0 then val.toString() else val.toFixed( places )
         return fixed
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -138,7 +142,7 @@ class Spinner extends FormField
         me = this
         me._$formInput.val( me._fixNumber() )
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -195,7 +199,7 @@ class Spinner extends FormField
             me.triggerEvent( 'spindown',event )
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -205,7 +209,7 @@ class Spinner extends FormField
     ###
     _init: ( opts ) ->
         super( opts )
-        ### 
+        ###*
         *   初始化控件自身的一系列属性  
         ###
         me             = this
@@ -222,7 +226,7 @@ class Spinner extends FormField
         initVal = if me.isNumber( opts['value'] ) then opts['value'] else 0
         me._setValue( initVal )
 
-    ###
+    ###*
      *  控件是否可以获取焦点
      *  @public
      *  @instance
@@ -235,7 +239,7 @@ class Spinner extends FormField
     ###
     focusable:() -> true
 
-    ###
+    ###*
      *  更新控件的值
      *  @private
      *  @instance
@@ -258,30 +262,30 @@ class Spinner extends FormField
         val   = min if val < min
         val   = max if val > max
         fixed = me._fixNumber( val )
-        ###
+        ###*
         *   格式化数据
         ###
         val   = parseFloat( fixed )
 
-        ### 
+        ###*
         *   更新控件值 
         ###
         me._value = val
         me._$formInput.val( fixed ) if updateHtml
 
-        ###
+        ###*
         *   如果允许触发事件，触发change事件
         ###
         me.triggerEvent( 'change',eventArgs ) if dispatchEvent is true
 
-        ###
+        ###*
         *   触发控件验证
         ###
         if me.validateOnChange() then me.validate()
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置spinner值,同value属性一致
      *  @public
      *  @instance
@@ -297,7 +301,7 @@ class Spinner extends FormField
         return me._value unless val?
         me._setValue( val )
 
-    ###
+    ###*
      *  获取或者设置spinner值
      *  @public
      *  @instance
@@ -314,7 +318,7 @@ class Spinner extends FormField
         me._setValue( val )
 
     _step:1
-    ###
+    ###*
      *  获取或者设置秒微调步进
      *  @public
      *  @instance
@@ -332,7 +336,7 @@ class Spinner extends FormField
         return me._step unless me.isNumber( val )
         me._step = val
 
-    ###
+    ###*
      *  
      *  @public
      *  @instance
@@ -348,7 +352,7 @@ class Spinner extends FormField
         val = if val > max then max else val
         me._setValue( val, updateHtml, dispatchEvent, eventArgs )
 
-    ###
+    ###*
      *  
      *  @public
      *  @instance
@@ -365,7 +369,7 @@ class Spinner extends FormField
         me._setValue( val, updateHtml, dispatchEvent, eventArgs )
 
     _min:0
-    ###
+    ###*
      *  获取或者设置秒微调步进
      *  @public
      *  @instance
@@ -384,7 +388,7 @@ class Spinner extends FormField
         me._min = val;
 
     _max:100
-    ###
+    ###*
      *  获取或者设置秒微调步进
      *  @public
      *  @instance
@@ -403,7 +407,7 @@ class Spinner extends FormField
         me._max = val
 
     _decimalPlaces:0
-    ###
+    ###*
      *  保留的小数点位数。默认值是-1，表示不作任何限制
      *  @public
      *  @instance

@@ -1,6 +1,15 @@
+###*
+*   @class      Tab
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+###
 class Tab extends Control
     _headerTmpl: ''
-    ###
+    ###*
      *  dom对象引用
      *  @private
      *  @instance
@@ -10,7 +19,7 @@ class Tab extends Control
     _$header: null
 
     _contentTmpl: ''
-    ###
+    ###*
      *  dom对象引用
      *  @private
      *  @instance
@@ -19,7 +28,7 @@ class Tab extends Control
     ###
     _$content: null
 
-    ###
+    ###*
      *  更新选项卡的icon
      *  @private
      *  @instance
@@ -33,7 +42,7 @@ class Tab extends Control
         cls += iconCls if iconCls
         $( '.eba-tab-icon',me._$header ).attr('class',cls)
 
-    ###
+    ###*
      *  更新选项卡的关闭按钮
      *  @private
      *  @instance
@@ -46,19 +55,11 @@ class Tab extends Control
         $root     = me.headerDom()
         $btnClose = $('span.eba-tab-close',$root)
         size      = $btnClose.size()
-
-        if not closable and size > 0
-            $btnClose.remove()
-            return
-        ###
-        if closable and size is 0
-            $root.append('<span class="eba-tab-close"></span>')
-            return
-        ###
-
+        
+        return $btnClose.remove() if not closable and size > 0
         return undefined
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -69,7 +70,7 @@ class Tab extends Control
         me = this
         $('.eba-tab-text',me._$header).text( me.title() )
 
-    ###
+    ###*
      *  tab的header dom对象
      *  @private
      *  @instance
@@ -78,7 +79,7 @@ class Tab extends Control
     ###
     headerDom : () -> this._$header
 
-    ###
+    ###*
      *  tab的content dom对象
      *  @private
      *  @instance
@@ -88,7 +89,7 @@ class Tab extends Control
     contentDom: () -> this._$content
 
     _title:''
-    ###
+    ###*
      *  tab的标题
      *  @public
      *  @instance
@@ -102,7 +103,7 @@ class Tab extends Control
         me._updateAttrTitle()
 
     _url:''
-    ###
+    ###*
      *  tab内容的URL
      *  @public
      *  @instance
@@ -116,7 +117,7 @@ class Tab extends Control
         me.refresh()
 
     _closable:true
-    ###
+    ###*
      *  获取或者设置tab是否可以关闭
      *  @public
      *  @instance
@@ -130,7 +131,7 @@ class Tab extends Control
         me._updateCssClosable()
 
     _iconCls:''
-    ###
+    ###*
      *  tab的icon
      *  @public
      *  @instance
@@ -146,7 +147,7 @@ class Tab extends Control
         return undefined
 
     _isActived : false
-    ###
+    ###*
      *  tab是否激活
      *  @public
      *  @instance
@@ -172,7 +173,7 @@ class Tab extends Control
 
         return undefined
 
-    ###
+    ###*
      *  刷新tab页面的内容
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的title属性进行查找
@@ -193,7 +194,7 @@ class Tab extends Control
         $( 'iframe',me._$content ).attr( 'src',url )
 
     _closed : false
-    ###
+    ###*
      *  指示该选项卡是否已经被关闭了
      *  @public
      *  @instance
@@ -202,7 +203,7 @@ class Tab extends Control
     ###
     isClosed:() -> this._closed
 
-    ###
+    ###*
      *  关闭选项卡
      *  @public
      *  @instance
@@ -228,7 +229,7 @@ class Tab extends Control
         me._updateCssClosable()
         me._updateCssIcon()
 
-    ###
+    ###*
      *  初始化
      *  @private
      *  @instance
@@ -256,7 +257,7 @@ class Tab extends Control
         html = me._contentTmpl.replace( '{0}',me.url() )
         me._$content  = $( html )
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -268,12 +269,12 @@ class Tab extends Control
         $header  = me._$header
         $content = me._$content
 
-        ###
+        ###*
         *   绑定事件处理程序
         ###
         me.onEvent( 'load'   ,opts['onload'] )
 
-        ### 
+        ###*
         *   mouseenter
         *   https://developer.mozilla.org/en-US/docs/DOM/DOM_event_reference/mouseenter
         *
@@ -295,9 +296,31 @@ class Tab extends Control
             $btn.remove()
         )
 
-        ###
+        ###*
         *   触发iframe的load事件
         ###
-        $( 'iframe',$content ).on('load',( eventArgs ) -> me.triggerEvent( 'load',eventArgs ) )
+        $( 'iframe',$content ).on('load',( eventArgs ) ->
+            try
+                contentDoc = this.contentDocument || this.contentWindow.document
+                if contentDoc
+                    $( contentDoc ).on( 'click', ( eventArgs ) ->
+                        ###
+                        *   判断当前是否处在iframe里
+                        ###
+                        win = contentDoc.defaultView
+                        top = win.top
+                        ###
+                        *   如果当前页面是在iframe里面，则触发父页面document的click事件处理程序
+                        ###
+                        $( top.document ).trigger( 'click' ) if win and top != win
+                    )
+                
+            catch error
+                ###
+                *   考虑到有跨域的可能，因此还是要try catch一下的
+                ###
+                
+            me.triggerEvent( 'load',eventArgs )
+        )
 
 ebaui['web'].registerControl( 'Tab',Tab )

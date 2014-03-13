@@ -1,5 +1,22 @@
+###*
+*   @class      FileUploader
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.FileUploader( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).fileuploader( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="fileuploader" data-options="{}" /&gt;
+###
 class FileUploader extends FormField
-    ###
+    ###*
      *  内部上传控件实例
      *  @private
      *  @instance
@@ -8,7 +25,7 @@ class FileUploader extends FormField
     ###
     _uploader:null
 
-    ###
+    ###*
      *  uploadUrl是必须有值的属性，如果该属性为空，抛出此异常
      *  @private
      *  @instance
@@ -17,7 +34,7 @@ class FileUploader extends FormField
     ###
     _uploadUrlEmptyException:'the uploadUrl property can not be null or empty!',
 
-    ###
+    ###*
      *  更新UI的按钮文本
      *  @private
      *  @instance
@@ -30,7 +47,7 @@ class FileUploader extends FormField
         $root = me.uiElement()
         $( '.eba-buttonedit-button',$root ).text( txt )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -41,7 +58,7 @@ class FileUploader extends FormField
         super()
         this._updateAttrBtnText()
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -56,7 +73,7 @@ class FileUploader extends FormField
         me.onEvent( 'succ'      ,opts['onsucc'] )
         me.onEvent( 'complete'  ,opts['oncomplete'] )
 
-    ###
+    ###*
      *  返回swfUploader的事件处理程序
      *  @private
      *  @instance
@@ -66,7 +83,7 @@ class FileUploader extends FormField
     _getEvtHandlers: () ->
         me   = this
         uper = me._uploader
-        ###
+        ###*
         fileinfo = {
             averageSpeed: 0,
             creationdate: Thu Aug 22 2013 09:35:25 GMT+0800 (China Standard Time),
@@ -172,7 +189,7 @@ class FileUploader extends FormField
         button_cursor           : SWFUpload.CURSOR.HAND,
         button_window_mode      : SWFUpload.WINDOW_MODE.TRANSPARENT
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -182,7 +199,7 @@ class FileUploader extends FormField
     ###
     _init: ( opts ) ->
         me  = this
-        ### 
+        ###*
         *   初始化控件自身的一系列属性  
         ###
         me._uploadUrl     = opts['uploadUrl'] ? ''
@@ -191,7 +208,7 @@ class FileUploader extends FormField
         super( opts )
         $root             = me.uiElement()
         libBaseUrl        = ebaui['web'].baseUrl
-        ### 
+        ###*
         *   初始化控件自身的一系列属性  
         ###
         me._width         = opts['width'] ? 150
@@ -236,7 +253,7 @@ class FileUploader extends FormField
         for name,value of me._extraParams
                 uper.addPostParam( name,value )
 
-    ###
+    ###*
      *  开始上传文件
      *  @public
      *  @instance
@@ -248,7 +265,7 @@ class FileUploader extends FormField
         uper = this._uploader
         uper.startUpload( file ) if uper
 
-    ###
+    ###*
      *  添加POST提交的参数
      *  @public
      *  @instance
@@ -262,7 +279,7 @@ class FileUploader extends FormField
         uper.addPostParam( name,value ) if uper and name and value
 
     _uploadUrl:''
-    ###
+    ###*
      *  服务端上传文件处理地址
      *  @private
      *  @instance
@@ -275,7 +292,7 @@ class FileUploader extends FormField
         me._uploadUrl = val
 
     _buttonText:'浏览...'
-    ###
+    ###*
      *  按钮的文本
      *  @private
      *  @instance
@@ -293,7 +310,7 @@ class FileUploader extends FormField
         uper.setButtonText( val ) if uper
 
     _uploadOnSelect:false
-    ###
+    ###*
      *  文件选择后即上传
      *  @private
      *  @instance
@@ -306,7 +323,7 @@ class FileUploader extends FormField
         me._uploadOnSelect  = val
 
     _fileType:'*.jpg;*.gif;*.png'
-    ###
+    ###*
      *  允许上传的文件类型,使用";"分割，默认只允许上传图片
      *  @private
      *  @instance
@@ -322,7 +339,7 @@ class FileUploader extends FormField
         uper.setFileTypes( val ) if uper
 
     _fileSizeLimit:'10MB'
-    ###
+    ###*
      *  上传文件大小限制，默认文件大小上限是10MB
      *  @private
      *  @instance
@@ -342,7 +359,7 @@ class FileUploader extends FormField
         uper.setFileSizeLimit( val ) if uper
 
     _filePostName:'ebauiUploadedFiles'
-    ###
+    ###*
      *  文件提交到服务端的时候，post的key值，比如在asp.net你可以使用Request.Files[filePostName]进行访问
      *  @private
      *  @instance
@@ -359,7 +376,7 @@ class FileUploader extends FormField
         uper.setFilePostName( val ) if uper
 
     _extraParams:{}
-    ###
+    ###*
      *  通过POST额外上传到服务器的参数
      *  @private
      *  @instance
@@ -371,7 +388,7 @@ class FileUploader extends FormField
         me = this
         return me._extraParams unless val?
 
-        ###  
+        ###*
         *   This applies to all future files that are queued. 
         *   The file_size_limit parameter will accept a unit. 
         *   Valid units are B, KB, MB, and GB. The default unit is KB.

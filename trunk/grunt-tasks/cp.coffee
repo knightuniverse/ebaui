@@ -25,6 +25,8 @@ module.exports = ( grunt ) ->
                 #   jquery ztree
                 {expand: true, src: ['lib/jqZtree/css/img/**'], dest: '../release/<%=pkg.version%>/css/images/ztree/',filter: 'isFile',flatten: true},
                 #   jqgrid
-                {expand: true, src: ['lib/jqGrid/css/images/**'], dest: '../release/<%=pkg.version%>/css/images/jqgrid/',filter: 'isFile',flatten: true}
+                {expand: true, src: ['lib/jqGrid/css/images/**'], dest: '../release/<%=pkg.version%>/css/images/jqgrid/',filter: 'isFile',flatten: true},
+                #   font awsome
+                {expand: false, src: ['doc/fontawsome/**'], dest: '../release/<%=pkg.version%>/',filter: 'isFile',flatten: true}
             ]
     })

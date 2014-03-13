@@ -1,5 +1,22 @@
+###*
+*   @class      CheckBox
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.CheckBox( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).checkbox( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="checkbox" data-options="{}" /&gt;
+###
 class CheckBox extends FormField
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -12,7 +29,7 @@ class CheckBox extends FormField
         me._updateCssChecked()
         me._updateAttrText()
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -31,7 +48,7 @@ class CheckBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  重写Control类的_updateAttrId方法
      *  ，更新$root的id属性的同时
      *  ，会更新input以及label的id for属性，增加可用性
@@ -51,7 +68,7 @@ class CheckBox extends FormField
         $input.attr( 'id',controlID )
         $( 'label',$root ).attr( 'for',controlID )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -68,9 +85,10 @@ class CheckBox extends FormField
         me._text       = opts['text'] ? false
         me._checked    = opts['checked'] ? false
         me._valueField = opts['valueField'] ? 'value'
+        me._value    = opts['value'] ? true
         me._textField  = opts['textField'] ? 'text'
 
-    ###
+    ###*
      *  更新UI界面的label文本
      *  @private
      *  @instance
@@ -82,7 +100,7 @@ class CheckBox extends FormField
         $root = me.uiElement()
         $( 'label',$root ).text( me.text() )
 
-    ###
+    ###*
      *  更新CheckBox的选中样式
      *  @private
      *  @instance
@@ -94,7 +112,7 @@ class CheckBox extends FormField
         me._$formInput.get(0).checked = me.checked()
 
     _text: ''
-    ###
+    ###*
      *  获取或者设置CheckBox控件的文本
      *  @public
      *  @instance
@@ -112,7 +130,7 @@ class CheckBox extends FormField
         me._text = val
         me._updateAttrText()
 
-    ###
+    ###*
      *  获取或者设置控件的所有值
      *  { 'text' : '','value' : null,'checked' : false }
      *  @public
@@ -137,7 +155,7 @@ class CheckBox extends FormField
 
         return undefined
 
-    ###
+    ###*
      *  获取或者设置CheckBox是否选中，同checked
      *  @public
      *  @instance
@@ -156,7 +174,7 @@ class CheckBox extends FormField
         me._value = val
 
     _checked: false
-    ###
+    ###*
      *  获取或者设置CheckBox是否选中
      *  @public
      *  @instance
@@ -176,7 +194,7 @@ class CheckBox extends FormField
         me._updateCssChecked()
 
     _valueField: 'value'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件值的字段名
      *  @public
      *  @instance
@@ -194,7 +212,7 @@ class CheckBox extends FormField
         me._valueField = val
 
     _textField: 'text'
-    ###
+    ###*
      *  控件数据源对象字段中，用于作为控件文本的字段名
      *  @public
      *  @instance

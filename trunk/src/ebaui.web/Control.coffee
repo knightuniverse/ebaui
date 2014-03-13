@@ -1,10 +1,19 @@
+#!/bin/env bash
+# ebaui.web.Control
 ArrayProto     = Array.prototype
 slice          = ArrayProto.slice
 nativeForEach  = ArrayProto.forEach
 
 ObjectProto    = Object.prototype
 toString       = ObjectProto.toString
-
+###*
+*   @class      Control
+*   @classdesc
+*   @memberof   ebaui.web
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+###
 class Control
     constructor:( element,options ) ->
         me       = this
@@ -34,62 +43,62 @@ class Control
         *   Tab控件对象是没有_$root属性的
         ###
         me._$root.data( 'model',me ) if me._$root?
-
+        
         return undefined
 
-    ###
+    ###*
      *  控件ID
      *  @private
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    _controlID
      ###
     _controlID : undefined
 
-    ###
+    ###*
      *  
      *  @private
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    _namespace
      ###
     _namespace : ''
 
-    ###
+    ###*
      *  
      *  @private
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    _controlFullName
      ###
     _controlFullName : ''
 
-    ###
+    ###*
      *  控件HTML模板
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    _rootTmpl
      ###
     _rootTmpl : ''
 
-    ###
+    ###*
      *  CSS长度单位的正则表达式匹配
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {RegExp}    _cssUnitRE
      ###
     _cssUnitRE:/^(\d+)(%|in|cm|mm|em|ex|pt|pc|px)?$/
 
-    ###
+    ###*
      *  更新UI的宽度和高度
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _doUpdateCssSize
      *  @arg        {String}    cssProp
      ###
@@ -107,31 +116,31 @@ class Control
         $root.css( cssProp,if cssUnit? then propVal else ( propVal + 'px' ) )
         return undefined
 
-    ###
+    ###*
      *  更新UI的宽度
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssWidth
      ###
     _updateCssWidth:() -> this._doUpdateCssSize( 'width' )
 
-    ###
+    ###*
      *  更新UI的高度
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssHeight
      ###
     _updateCssHeight:() -> this._doUpdateCssSize( 'height' )
 
-    ###
+    ###*
      *  更新UI的位置，top或者是left
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssOffset
      ###
     _updateCssOffset:( cssProp )->
@@ -143,32 +152,32 @@ class Control
         val = me[cssProp]()
         $root.css( cssProp,val + 'px' ) if not isNaN( val ) and val isnt 0
 
-    ###
+    ###*
      *  更新UI的位置top
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssTop
      ###
     _updateCssTop:() -> this._updateCssOffset( 'top' )
 
-    ###
+    ###*
      *  更新UI的位置left
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssLeft
      ###
     _updateCssLeft:() -> this._updateCssOffset( 'left' )
 
-    ###
+    ###*
      *  更新UI的position属性
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssPosition
      ###
     _updateCssPosition:() ->
@@ -183,12 +192,12 @@ class Control
 
         return undefined
 
-    ###
+    ###*
      *  更新UI的title属性
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateAttrTitle
      ###
     _updateAttrTitle:()->
@@ -202,23 +211,23 @@ class Control
 
         return undefined
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _setupEvents
      ###
     _setupEvents : $.noop
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _init
      ###
     _init : ( opts ) ->
@@ -238,45 +247,45 @@ class Control
         me._enabled    = opts['enabled'] ? true
         me._focused    = opts['focused'] ? false
 
-    ###
+    ###*
      *  获取焦点
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _focus
      ###
     _focus : $.noop
 
-    ###
+    ###*
      *  失去焦点
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _blur
      ###
     _blur : $.noop
 
-    ###
+    ###*
      *  更新控件enabled的UI样式
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssEnabled
      ###
     _updateCssEnabled:$.noop
 
-    ###
+    ###*
      *  设置或者移除据聚焦样式或者失焦样式
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateCssFocused
      ###
     _updateCssFocused:$.noop
 
-    ###
+    ###*
      *  更新控件visible的UI样式
      *  @private
      *  @instance
@@ -293,13 +302,13 @@ class Control
 
         return undefined
 
-    ###
+    ###*
      *  把HTML占位符转换成为控件自身的HTML结构
      *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _parseUi
      *  @param      {Object}    element HTML占位符
      ###
@@ -326,11 +335,11 @@ class Control
 
         return $html
 
-    ###
+    ###*
      *  把html标签定义的data-options字符串转换成javascript对象
      *  @private
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _parseDataOptions
      *  @param      {Object}    element
      ###
@@ -368,13 +377,13 @@ class Control
 
         return options
 
-    ###
+    ###*
      *  获取w3c中，html标签本身就支持的属性配置<br />
      *  ebaui框架中，html标签本身就支持的属性直接编写在html标签内，而不会放在data-option里面进行配置
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _parseAttrOptions
      *  @param      {Object}    element HTML占位符
      ###
@@ -403,12 +412,12 @@ class Control
 
         return options
 
-    ###
+    ###*
      *  更新$root的id属性
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _updateAttrId
      ###
     _updateAttrId:() ->
@@ -416,12 +425,12 @@ class Control
         id = me.id()
         me._$root.attr('id', id) unless me.isEmpty( id )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @virtual
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     _render
      ###
     _render:()->
@@ -450,24 +459,24 @@ class Control
 
         return undefined
 
-    ###
+    ###*
      *  获取控件类所属命名空间
      *  @public
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    namespace
      *  @example    <caption>get</caption>
      *      console.log( ctrl.namespace() );
      ###
     namespace:() -> this._namespace
 
-    ###
+    ###*
      *  获取包含命名空间在内的控件全名
      *  @public
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    controlFullName
      *  @example    <caption>get</caption>
      *      console.log( ctrl.controlFullName() );
@@ -475,12 +484,12 @@ class Control
     controlFullName:() -> this._controlFullName
 
     _id : ''
-    ###
+    ###*
      *  获取控件html标签的ID
      *  @public
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    id
      *  @example    <caption>get</caption>
      *      console.log( ctrl.id() );
@@ -488,18 +497,16 @@ class Control
     id:() -> this._id
 
     _enabled : true
-    ###
+    ###*
      *  获取或者设置控件是否可用
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Boolean}   enabled
      *  @default    true
      *  @example    <caption>get</caption>
-     *      //  true
      *      console.log( ctrl.enabled() );
      *  @example    <caption>set</caption>
-     *      //  disable control
      *      ctrl.enabled( false )
      ###
     enabled:( val ) ->
@@ -509,11 +516,11 @@ class Control
         me._updateCssEnabled()
 
     _title : ''
-    ###
+    ###*
      *  获取或者设置控件是否可见
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}   title
      *  @default    ''
      *  @example    <caption>get</caption>
@@ -530,11 +537,11 @@ class Control
         undefined
 
     _name : ''
-    ###
+    ###*
      *  表单的name属性
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}   name
      *  @default    ''
      *  @example    <caption>get</caption>
@@ -550,18 +557,16 @@ class Control
         undefined
 
     _visible : true
-    ###
+    ###*
      *  获取或者设置控件是否可见
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Boolean}   visible
      *  @default    true
      *  @example    <caption>get</caption>
-     *      //  true
      *      console.log( ctrl.visible() );
      *  @example    <caption>set</caption>
-     *      //  hide
      *      ctrl.visible( false )
      ###
     visible:( val ) ->
@@ -572,34 +577,31 @@ class Control
         me._updateCssVisible()
         undefined
 
-    ###
+    ###*
      *  控件是否可以获取焦点
      *  @public
      *  @instance
      *  @virtual
      *  @readonly
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Boolean}   focusable
      *  @default    false
      *  @example    <caption>get</caption>
-     *      //  false
      *      console.log( ctrl.focusable() );
      ###
     focusable:() -> false
 
     _focused : false
-    ###
+    ###*
      *  获取或者设置控件是否已经得到焦点
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Boolean}   focused
      *  @default    false
      *  @example    <caption>get</caption>
-     *      //  true
      *      console.log( ctrl.focused() );
      *  @example    <caption>set</caption>
-     *      //  true
      *      ctrl.focused( false );
      ###
     focused:( val ) ->
@@ -612,15 +614,14 @@ class Control
         me._updateCssFocused()
 
     _width : 0
-    ###
+    ###*
      *  获取或者设置控件宽度
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Number}    width
      *  @default    null
      *  @example    <caption>get</caption>
-     *      //  100
      *      console.log( ctrl.width() );
      *  @example    <caption>set</caption>
      *      ctrl.width( 100 );
@@ -634,15 +635,14 @@ class Control
         undefined
 
     _height : 0
-    ###
+    ###*
      *  获取或者设置控件高度
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Number}    height
      *  @default    null
      *  @example    <caption>get</caption>
-     *      //  100
      *      console.log( ctrl.height() );
      *  @example    <caption>set</caption>
      *      ctrl.height( 100 );
@@ -656,15 +656,14 @@ class Control
         undefined
 
     _top : 0
-    ###
+    ###*
      *  获取或者设置控件的位置top
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Number}    top
      *  @default    null
      *  @example    <caption>get</caption>
-     *      //  100
      *      console.log( ctrl.top() );
      *  @example    <caption>set</caption>
      *      ctrl.top( 100 );
@@ -678,15 +677,14 @@ class Control
         undefined
 
     _left : 0
-    ###
+    ###*
      *  获取或者设置控件的位置left
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Number}    left
      *  @default    null
      *  @example    <caption>get</caption>
-     *      //  100
      *      console.log( ctrl.left() );
      *  @example    <caption>set</caption>
      *      ctrl.left( 100 );
@@ -700,15 +698,14 @@ class Control
         undefined
 
     _position : ''
-    ###
+    ###*
      *  position设置
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    position
      *  @default    'static'
      *  @example    <caption>get</caption>
-     *      //  'static'
      *      console.log( ctrl.position() );
      *  @example    <caption>set</caption>
      *      ctrl.position( 'relative' );
@@ -723,35 +720,35 @@ class Control
         me._updateCssPosition()
         return undefined
 
-    ###
+    ###*
      *  获取控件ID
      *  @public
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {String}    controlID
      *  @example    <caption>get</caption>
      *      console.log( ctrl.controlID() );
      ###
     controlID:() -> this._controlID
 
-    ###
+    ###*
      *  获取控件关联的HTML DOM对象的jQuery包装
      *  @public
      *  @readonly
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @member     {Object}    uiElement
      *  @example    <caption>get</caption>
      *      console.log( ctrl.uiElement() );
      ###
     uiElement:() -> this._$root
 
-    ###
+    ###*
      *  绑定控件事件处理程序
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     onEvent
      *  @arg        {String}        event
      *  @arg        {Function}      fn
@@ -777,11 +774,11 @@ class Control
 
         return undefined
 
-    ###
+    ###*
      *  移除事件处理程序，如果第二个参数fn没有指定，那么将会移除所有指定event的事件处理程序
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     offEvent
      *  @arg        {String}        event
      *  @arg        {Function}      [fn]
@@ -806,11 +803,11 @@ class Control
             me._eventHandlers[event] = []
         return undefined
 
-    ###
+    ###*
      *  触发控件的事件处理程序
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     triggerEvent
      *  @arg        {String}        event
      *  @arg        {Object}        [args]
@@ -842,11 +839,11 @@ class Control
 
         return keys
 
-    ###
+    ###*
      *  编译HTML模板
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     compileTmpl
      *  @arg        tmpl
      *  @arg        data
@@ -924,11 +921,11 @@ class Control
 
         return template
 
-    ###
+    ###*
      *  forEach
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isNull
      *  @arg        obj
      *  @arg        iterator
@@ -954,7 +951,7 @@ class Control
           for item,i in keys
             if iterator.call(context, item, i, obj) is breaker then return
 
-    ###
+    ###*
      *  检查一个变量是否是空的。
      *  遇到以下情形，我们认为这个变量是空的：
      *  "" (an empty string)
@@ -966,7 +963,7 @@ class Control
      *  ，[](an empty array)
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isEmpty
      *  @arg        val
      *  @return     {Boolean}
@@ -983,11 +980,11 @@ class Control
 
         return true
 
-    ###
+    ###*
      *  判断一个变量是否是null值
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isNull
      *  @arg        val
      *  @return     {Boolean}
@@ -996,11 +993,11 @@ class Control
      ###
     isNull:( val ) -> val is null or val is undefined
 
-    ###
+    ###*
      *  判断一个变量是否是RegExp类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isRegExp
      *  @arg        obj
      *  @return     {Boolean}
@@ -1009,11 +1006,11 @@ class Control
      ###
     isRegExp:( val ) -> toString.call( val ) is '[object RegExp]'
 
-    ###
+    ###*
      *  判断一个变量是否是Date类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isDate
      *  @arg        obj
      *  @return     {Boolean}
@@ -1022,11 +1019,11 @@ class Control
      ###
     isDate:( val ) -> toString.call( val ) is '[object Date]'
 
-    ###
+    ###*
      *  判断一个变量是否是Object类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isObject
      *  @arg        obj
      *  @return     {Boolean}
@@ -1035,11 +1032,11 @@ class Control
      ###
     isObject:( val ) -> val is Object(val)
 
-    ###
+    ###*
      *  判断一个变量是否是Function类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isFunc
      *  @arg        obj
      *  @return     {Boolean}
@@ -1048,11 +1045,11 @@ class Control
      ###
     isFunc:( val ) -> toString.call(val) == '[object Function]'
 
-    ###
+    ###*
      *  判断一个变量是否是String类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isString
      *  @arg        obj
      *  @return     {Boolean}
@@ -1061,11 +1058,11 @@ class Control
      ###
     isString:( val ) -> toString.call(val) == '[object String]'
 
-    ###
+    ###*
      *  判断一个变量是否是数值类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isNumber
      *  @arg        obj
      *  @return     {Boolean}
@@ -1074,11 +1071,11 @@ class Control
      ###
     isNumber:( val ) -> toString.call(val) == '[object Number]'
 
-    ###
+    ###*
      *  判断一个变量是否是Array类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isArray
      *  @arg        obj
      *  @return     {Boolean}
@@ -1087,11 +1084,11 @@ class Control
      ###
     isArray:( val ) -> toString.call(val) == '[object Array]'
 
-    ###
+    ###*
      *  判断一个变量是否是Boolean类型
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isBoolean
      *  @arg        obj
      *  @return     {Boolean}
@@ -1100,11 +1097,11 @@ class Control
      ###
     isBoolean:( val ) -> val is true or val is false or toString.call(val) is '[object Boolean]'
 
-    ###
+    ###*
      *  判断是否使用远程数据源
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     isUsingRemoteData
      *  @param      {Object|Array}          dataSource              - 如果dataSource是一个数组对象，则认为采用本地数据作为数据源；反之，如果dataSource包含了url属性，data属性（可选），怎认为是使用远程数据源
      *  @property   {String}                dataSource.url          - 服务端URL
@@ -1118,11 +1115,11 @@ class Control
         return true if me.isObject( dataSource ) and dataSource['url']
         return false
 
-    ###
+    ###*
      *  移除所有事件监听，注销控件
      *  @public
      *  @instance
-     *  @memberof   Control
+     *  @memberof   ebaui.web.Control
      *  @method     destroy
      *  @example    
      *      ctrl.destroy();

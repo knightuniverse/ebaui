@@ -1,10 +1,16 @@
-###
- *  MainView
- *  Calendar的主视图
+###*
+*   @private
+*   @class      MainView
+*   @classdesc  MainView，Calendar的主视图
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
 ###
 class MainView extends Control
     _headerTmpl: ''
-    ###
+    ###*
      *  已经编译好的日历Week文本HTML模板
      *  ，'日', '一', '二', '三', '四', '五', '六'
      *  @private
@@ -15,7 +21,7 @@ class MainView extends Control
     _compiledHeaderTmpl : $.noop
 
     _weekTmpl: ''
-    ###
+    ###*
      *  已经编译好的日历Week的HTML模板
      *  @private
      *  @instance
@@ -24,7 +30,7 @@ class MainView extends Control
      ###
     _compiledWeekTmpl : $.noop
 
-    ###
+    ###*
      *  日期文本
      *  @private
      *  @instance
@@ -33,7 +39,7 @@ class MainView extends Control
      ###
     _weeks:['S','M','T','W','T','F','S']
 
-    ###
+    ###*
      *  get weeks data
      *  @private
      *  @instance
@@ -98,7 +104,7 @@ class MainView extends Control
         return weeks
 
     _currentYear: null
-    ###
+    ###*
      *  当前显示的年份
      *  @pubic
      *  @readonly
@@ -112,7 +118,7 @@ class MainView extends Control
         me._currentYear = val
 
     _currentMonth: null
-    ###
+    ###*
      *  当前显示的月份
      *  @pubic
      *  @readonly
@@ -126,7 +132,7 @@ class MainView extends Control
         me._currentMonth = val
 
     _currentDate: null
-    ###
+    ###*
      *  当前选中日期
      *  @pubic
      *  @readonly
@@ -145,7 +151,7 @@ class MainView extends Control
         me._renderWeeks()
 
     _titleFormat : 'MMM YYYY'
-    ###
+    ###*
      *  当前标题的格式，比如是xxxx年xx月或者是Sep 2013之类的
      *  @public
      *  @instance
@@ -158,7 +164,7 @@ class MainView extends Control
         me._titleFormat = val unless val
 
     _showButtons:false
-    ###
+    ###*
      *  是否显示按钮，目前只要显示两个按钮：今天 和 确定 按钮即可
      *  @public
      *  @instance
@@ -178,7 +184,7 @@ class MainView extends Control
         return undefined
 
     _showSpinner:false
-    ###
+    ###*
      *  是否显示timeSpinner
      *  @public
      *  @instance
@@ -197,7 +203,7 @@ class MainView extends Control
         me._updateFooterCssVisible()
         return undefined
 
-    ###
+    ###*
      *  输出calendar标题部分，比如2013年09月
      *  @private
      *  @instance
@@ -215,7 +221,7 @@ class MainView extends Control
         title = mo.format( me.titleFormat() )
         $( '.eba-calendar-title',$root ).text( title )
 
-    ###
+    ###*
      *  输出calendar日期的表头
      *  ，['日', '一', '二', '三', '四', '五', '六']
      *  @private
@@ -229,7 +235,7 @@ class MainView extends Control
         html  = me._compiledHeaderTmpl( text : me._weeks )
         $( '[data-inner-role="header"]',$root ).html( html )
 
-    ###
+    ###*
      *  输出calendar的日期
      *  @private
      *  @instance
@@ -257,7 +263,7 @@ class MainView extends Control
         $( '.eba-calendar-days',$root ).remove()
         $( '[data-inner-role="footer"]',$root ).before( output )
 
-    ###
+    ###*
      *  只有当timespinner或者是button显示出来的时候，footer才显示
      *  @private
      *  @instance
@@ -280,7 +286,7 @@ class MainView extends Control
 
         return undefined
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @virtual
@@ -298,7 +304,7 @@ class MainView extends Control
 
         me._updateFooterCssVisible()
 
-    ###
+    ###*
      *  对当前月份或者年份，进行递增或者递减的操作
      *  @private
      *  @instance
@@ -318,7 +324,7 @@ class MainView extends Control
         me._renderTitle( currYear,currMonth )
         me._renderWeeks( currDate,currYear,currMonth )
 
-    ###
+    ###*
      *  切换到下一个月
      *  @public
      *  @instance
@@ -327,7 +333,7 @@ class MainView extends Control
     ###
     nextMonth:() -> this._doRealStuff( '_currentMonth',true )
 
-    ###
+    ###*
      *  切换到上一个月
      *  @public
      *  @instance
@@ -337,7 +343,7 @@ class MainView extends Control
     prevMonth:() -> this._doRealStuff( '_currentMonth',false )
 
 
-    ###
+    ###*
      *  切换到下一年
      *  @public
      *  @instance
@@ -346,7 +352,7 @@ class MainView extends Control
     ###
     nextYear:() -> this._doRealStuff( '_currentYear',true )
 
-    ###
+    ###*
      *  切换到上一年
      *  @public
      *  @instance
@@ -355,7 +361,7 @@ class MainView extends Control
     ###
     prevYear:() -> this._doRealStuff( '_currentYear',false )
 
-    ###
+    ###*
      *  选中日期
      *  @public
      *  @instance
@@ -369,7 +375,7 @@ class MainView extends Control
         me.currentDate( date )
         return undefined
 
-    ###
+    ###*
      *  选中今天
      *  @public
      *  @instance
@@ -378,7 +384,7 @@ class MainView extends Control
     ###
     pickUpToday: () -> this.pickUp( (new Date) )
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -432,7 +438,7 @@ class MainView extends Control
 
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  ，在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -458,5 +464,7 @@ class MainView extends Control
         ###
         me._compiledWeekTmpl   = me.compileTmpl( me._weekTmpl )
         me._compiledHeaderTmpl = me.compileTmpl( me._headerTmpl )
+        
+        me._height = '100%'
 
 ebaui['web'].registerControl( 'MainView',MainView )

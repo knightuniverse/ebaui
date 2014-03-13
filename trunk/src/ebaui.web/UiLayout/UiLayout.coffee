@@ -1,4 +1,4 @@
-###
+###*
  *  spacing的配置
  *  参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
  *  
@@ -75,7 +75,7 @@
  *  resizerTip:             "Resize This Pane"
 ###
 
-###
+###*
 layout:{
     size                  : "auto"
 ,   minSize               : 0
@@ -203,27 +203,30 @@ layout:{
 }
 ###
 
-###
- *  ebaui.web.UiLayout
- *  ，相应的DEMO请查看/build/demo/layout_index.html这个文件
- *  ，自动化生成的DOC会有JS异常
- *  @class      UiLayout 
- *  @memberof   ebaui.web
- *  @extends    Control
- *  @param      {Object}    options     -   控件配置参数
- *  @param      {Object}    element     -   dom对象
- *  @example
- *          <body data-role="uilayout">
- *              <div data-role="layout-east"></div>
- *              <div data-role="layout-west"></div>
- *              <div data-role="layout-north"></div>
- *              <div data-role="layout-south"></div>
- *              <div data-role="layout-center"></div>
- *          </body>
+###*
+*   @class      UiLayout
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.UiLayout( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).uilayout( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;body data-role="uilayout" &gt;
+*           &lt;div id="" data-role="layout-north" data-options="{}" &gt;&lt;/div&gt;
+*           &lt;div id="" data-role="layout-west" data-options="{}" &gt;&lt;/div&gt;
+*           &lt;div id="" data-role="layout-center" data-options="{}" &gt;&lt;/div&gt;
+*       &lt;/body &gt;
 ###
 ns = ebaui['web']
 class UiLayout extends ns.Control
-    ###
+    ###*
      *  jQuery UI Layout插件实例
      *  @private
      *  @instance
@@ -232,7 +235,7 @@ class UiLayout extends ns.Control
     ####
     _layoutPlugin:null
 
-    ###
+    ###*
      *  配置名映射规则
      *  @private
      *  @instance
@@ -267,7 +270,7 @@ class UiLayout extends ns.Control
             open : 'spacing_open',
             close: 'spacing_closed'
 
-    ###
+    ###*
      *  rulenames 指定需要重命名的属性集
      *  @private
      *  @instance
@@ -283,18 +286,18 @@ class UiLayout extends ns.Control
         dest = {}
         for name,i in rulenames
             rules = me._mapRules[name]
-            ###
+            ###*
             *   name应该是fx或者toggler等
             *   判断原配置对象是否有配置对应的值
             ###
             if origin[name]
-                ###
+                ###*
                 *   对配置对象的每个属性进行映射
                 ###
                 for rule,subrules of rules
                     hasDefined = origin[name][rule]?
                     if not me.isString( subrules ) and hasDefined
-                        ###
+                        ###*
                         *  主要这边是有三级的配置对象。
                         *  确实，配置对象的深度过大也是很头疼的问题。
                         *  然后把最深处的配置对象扁平化，成为只包含一级的配置对象
@@ -317,7 +320,7 @@ class UiLayout extends ns.Control
 
         $.extend( dest,origin )
 
-    ###
+    ###*
      *  映射ui layout的整体默认配置
      *  @private
      *  @instance
@@ -327,7 +330,7 @@ class UiLayout extends ns.Control
     ####
     _mapDefaultSection:( opts ) ->
         me = this
-        ###
+        ###*
          *  about the applyDefaultStyles cconfig
          *  When applyDefaultStyles is enabled, the layout will apply basic styles directly to resizers & buttons. This is intended for quick mock-ups, so that you can 'see' your layout immediately.
          *  to read more, @see http:#layout.jquery-dev.net/documentation.cfm#Option_applyDefaultStyles
@@ -339,7 +342,7 @@ class UiLayout extends ns.Control
                 size   :  "auto"
                 minSize:  50
 
-        ###
+        ###*
         *   指定需要重命名的属性集
         ###
         rulenames = ['fx','button','content']
@@ -361,7 +364,7 @@ class UiLayout extends ns.Control
         
         return config
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -383,7 +386,7 @@ class UiLayout extends ns.Control
 
         return ret
 
-    ###
+    ###*
      *  把ebaui.web.UiLayout自定义的JS配置类格式，转换成为jqUILayout插件所使用的JS配置格式
      *  @private
      *  @instance
@@ -397,7 +400,7 @@ class UiLayout extends ns.Control
         panes    = me._mapPanes( opts )
         return $.extend( {},defaults,panes )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -564,7 +567,7 @@ class UiLayout extends ns.Control
 
         return defualts
 
-    ###
+    ###*
      *  把HTML占位符转换成为控件自身的HTML结构
      *  @private
      *  @instance
@@ -573,7 +576,7 @@ class UiLayout extends ns.Control
     ####
     _parseUi : ( element ) -> $( element )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -596,7 +599,7 @@ class UiLayout extends ns.Control
 
         me._layoutPlugin = me._$root.layout( layoutConfig )
 
-    ###
+    ###*
      *  A hash containing the dimensions of all the elements, including the layout container. Dimensions include borders and padding for: top, bottom, left, right, plus outerWidth, outerHeight, innerWidth, innerHeight.
      *  <br />获取当前uilayout的状态，包含uilayout容器的innerWidth，paddingLeft
      *  ，以及所有panes的top， bottom， left， right，outerWidth， outerHeight， innerWidth， innerHeight
@@ -616,7 +619,7 @@ class UiLayout extends ns.Control
             else
                 return plugin.state
 
-    ###
+    ###*
      *  pane objects( panes.north, panes.south, etc ).Each pane-element is in a jQuery wrapper.If a pane does not exist in the layout - for example no south-pane - then panes.south == false - instead of being a jQuery element.
      *  @public
      *  @instance
@@ -625,7 +628,7 @@ class UiLayout extends ns.Control
     ####
     panes: () -> this._layoutPlugin.panes
 
-    ###
+    ###*
      *  get pane object
      *  @public
      *  @instance
@@ -637,7 +640,7 @@ class UiLayout extends ns.Control
         if /north|east|south|west|center/i.test( pane )
             return this._layoutPlugin.panes[pane]
 
-    ###
+    ###*
      *  显示或者隐藏指定区域
      *  @public
      *  @instance
@@ -650,7 +653,7 @@ class UiLayout extends ns.Control
         return unless /north|east|south|west|center/i.test( pane )
         me._layoutPlugin.toggle( pane )
 
-    ###
+    ###*
      *  展开指定区域
      *  @public
      *  @instance
@@ -663,7 +666,7 @@ class UiLayout extends ns.Control
         return unless /north|east|south|west|center/i.test( pane )
         me._layoutPlugin.open( pane )
 
-    ###
+    ###*
      *  缩起指定区域
      *  @public
      *  @instance
@@ -676,7 +679,7 @@ class UiLayout extends ns.Control
         return unless /north|east|south|west|center/i.test( pane )
         me._layoutPlugin.close( pane )
 
-    ###
+    ###*
      *  显示指定区域
      *  @public
      *  @instance
@@ -689,7 +692,7 @@ class UiLayout extends ns.Control
         return unless /north|east|south|west|center/i.test( pane )
         me._layoutPlugin.show( pane )
 
-    ###
+    ###*
      *  隐藏指定区域
      *  @public
      *  @instance
@@ -702,7 +705,7 @@ class UiLayout extends ns.Control
         return unless /north|east|south|west|center/i.test( pane )
         me._layoutPlugin.hide( pane )
 
-    ###
+    ###*
      *  对于north 和 south 这两个pane更新其outerHeight
      *  ，对于east 和 west 则更新outerWidth
      *  @public
@@ -717,7 +720,7 @@ class UiLayout extends ns.Control
         if /north|east|south|west|center/i.test( pane )
             return me._layoutPlugin.sizePane( pane,sizeInPixels )
 
-    ###
+    ###*
      *  重新调整所有的pane，以便所有的pane能够适应容器元素的大小
      *  @public
      *  @instance

@@ -1,11 +1,28 @@
-###
+###*
 *   IE下，Button有一个比较蛋疼的问题就是，当你按下回车键的时候
 *   浏览器会触发Button的click事件
 *   关于这个问题的解决方案，就是给button标签添加属性：type="button"
-*   @see http://tjvantoll.com/2013/05/22/why-are-enter-keypresses-clicking-my-buttons-in-ie/
+*   see http://tjvantoll.com/2013/05/22/why-are-enter-keypresses-clicking-my-buttons-in-ie/
+###
+###*
+*   @class      Button
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Button( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).button( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="button" data-options="{}" /&gt;
 ###
 class Button extends Control
-    ###
+    ###*
      *  允许的button的state
      *  @private
      *  @instance
@@ -15,7 +32,7 @@ class Button extends Control
      ###
     _availableState:/^(primary|info|success|warning|danger|inverse|link|\s+)$/i
 
-    ###
+    ###*
      *  更新控件enabled的UI样式
      *  @private
      *  @instance
@@ -31,7 +48,7 @@ class Button extends Control
         $root[op](cls)
         $root.prop( 'disabled',not enabled )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -44,7 +61,7 @@ class Button extends Control
         me._$btnText.text( txt ) if txt
         undefined
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -58,7 +75,7 @@ class Button extends Control
         me._$root.attr( 'href',attrVal )
         undefined
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -124,7 +141,7 @@ class Button extends Control
                 me.triggerEvent( 'click',eventArgs )
         )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -153,7 +170,7 @@ class Button extends Control
     _blur:() -> this._$root.blur()
 
     _state : ''
-    ###
+    ###*
      *  获取或者设置button的状态
      *  可选的值：
      *  
@@ -186,7 +203,7 @@ class Button extends Control
         me._updateCssStates()
 
     _text : 'button'
-    ###
+    ###*
      *  获取或者设置button文本值
      *  @public
      *  @instance
@@ -210,7 +227,7 @@ class Button extends Control
         undefined
 
     _href : ''
-    ###
+    ###*
      *  获取或者设置button超链接地址
      *  @public
      *  @instance
@@ -238,7 +255,7 @@ class Button extends Control
         undefined
 
     _target : 'blank'
-    ###
+    ###*
      *  获取或者设置在何处打开目标 URL
      *  @public
      *  @instance
@@ -261,7 +278,7 @@ class Button extends Control
         me._target = val
         me._updateAttrTarget()
 
-    ###
+    ###*
      *  控件是否可以获取焦点
      *  @public
      *  @instance
@@ -276,7 +293,7 @@ class Button extends Control
     focusable:() -> true
 
     _iconCls:''
-    ###
+    ###*
      *  获取或者设置button的icon图标CSS样式类
      *  @public
      *  @instance
@@ -299,7 +316,7 @@ class Button extends Control
 
     _iconPosition : 'left'
 
-    ###
+    ###*
      *  获取或者设置button的icon图标位置，可选的值有：left right
      *  @public
      *  @instance
@@ -322,7 +339,7 @@ class Button extends Control
         me._updateCssIcon()
 
     _enterAsTab : true
-    ###
+    ###*
      *  获取或者设置表单控件是否允许按下enter键的时候，聚焦到下一个控件
      *  @public
      *  @instance

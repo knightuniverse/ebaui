@@ -1,5 +1,22 @@
+###*
+*   @class      Captcha
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.TextBox
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Captcha( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).captcha( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="captcha" data-options="{}" /&gt;
+###
 class Captcha extends TextBox
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -12,7 +29,7 @@ class Captcha extends TextBox
         $root = me._$root
         $root.on( 'click','[data-role="btn-reload"]',( event ) -> me.refresh() )
 
-    ###
+    ###*
      *  数据源格式错误
      *  @private
      *  @instance
@@ -21,7 +38,7 @@ class Captcha extends TextBox
      ###
     _serverDataInvalidException:'captcha code server response is invalid!!'
 
-    ###
+    ###*
      *  数据源格式错误
      *  @private
      *  @instance
@@ -30,7 +47,7 @@ class Captcha extends TextBox
      ###
     _dataSourceInvalidException:'the dataSource format is invalid, only remote dataSource supported!'
 
-    ###
+    ###*
      *  加载验证码图片以及图片的字符串
      *  @private
      *  @instance
@@ -58,7 +75,7 @@ class Captcha extends TextBox
         url += '?' + $.param( postData )
         me._$codeImg.attr( 'src',url )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -95,7 +112,7 @@ class Captcha extends TextBox
         ### load captcha code image from remote server ###
         me._loadCaptcha()
 
-    ###
+    ###*
      *  刷新验证码
      *  @public
      *  @instance
@@ -107,7 +124,7 @@ class Captcha extends TextBox
     refresh:() -> this._loadCaptcha()
 
     _dataSource:''
-    ###
+    ###*
      *  远程数据源
      *  @public
      *  @instance
@@ -139,7 +156,7 @@ class Captcha extends TextBox
         return me._dataSource unless val?
         me._dataSource = val
 
-    ###
+    ###*
      *  初始化服务端验证
      *  @public
      *  @instance
@@ -170,7 +187,7 @@ class Captcha extends TextBox
         me.removeValidator( 'remote' ) unless validateOnServer
 
     _validateOnServer:true
-    ###
+    ###*
      *  开启服务端验证
      *  @public
      *  @instance
@@ -189,7 +206,7 @@ class Captcha extends TextBox
         me._configRemoteValidator( val )
 
     _validationUrl:''
-    ###
+    ###*
      *  验证码的服务端验证地址，默认和dataSource里面配置的url一样
      *  @public
      *  @instance
@@ -207,7 +224,7 @@ class Captcha extends TextBox
         me._validationUrl = val
 
     _queryKey:'verify'
-    ###
+    ###*
      *  控件进行验证的时候，要提交到验证服务器的url query parameter key
      *  @public
      *  @instance

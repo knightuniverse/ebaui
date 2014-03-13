@@ -14,8 +14,9 @@ module.exports = ( grunt ) ->
     cssfiles["../release/#{grunt.config('pkg.version')}/css/#{cssname}"] = css
 
     js = [
-        'lib/jqGrid/js/jquery.jqGrid.src.js',
         'lib/jqGrid/js/i18n/grid.locale-cn.js',
+        'lib/jqGrid/js/jquery.jqGrid.src.js',
+        'lib/jqGrid/plugins/*.js',
         'build/ebaui.web/DataGrid.js'
     ]
 

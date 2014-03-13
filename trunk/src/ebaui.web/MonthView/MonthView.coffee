@@ -1,10 +1,16 @@
-###
- *  MonthView
- *  Calendar的month视图，用来切换calendar当前的month以及year
+###*
+*   @private
+*   @class      MonthView
+*   @classdesc  MonthView，Calendar的month视图，用来切换calendar当前的month以及year
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
 ###
 class MonthView extends Control
     _monthsTmpl:''
-    ###
+    ###*
      *  已经编译好的日历Week文本HTML模板
      *  ，'日', '一', '二', '三', '四', '五', '六'
      *  @private
@@ -15,7 +21,7 @@ class MonthView extends Control
     _compiledMonthsTmpl : $.noop
 
     _yearsTmpl:''
-    ###
+    ###*
      *  已经编译好的日历Week文本HTML模板
      *  ，'日', '一', '二', '三', '四', '五', '六'
      *  @private
@@ -25,7 +31,7 @@ class MonthView extends Control
      ###
     _compiledYearsTmpl : $.noop
 
-    ###
+    ###*
      *  月份文本
      *  @private
      *  @instance
@@ -34,7 +40,7 @@ class MonthView extends Control
     ###
     _months:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-    ###
+    ###*
      *  menu界面，点击月份的时候触发
      *  @private
      *  @instance
@@ -76,7 +82,7 @@ class MonthView extends Control
         )
         $( '.eba-calendar-menu-months',$root ).html( output )
 
-    ###
+    ###*
      *  
      *  @private
      *  @instance
@@ -97,7 +103,7 @@ class MonthView extends Control
 
         $( '.eba-calendar-menu-years',$root ).html( output )
 
-    ###
+    ###*
      *  更新UI显示
      *  @private
      *  @virtual
@@ -111,7 +117,7 @@ class MonthView extends Control
         me._renderYears()
         me._updateCssVisible()
 
-    ###
+    ###*
      *  menu界面，点击上一个十年或者下一个十年的时候触发
      *  @private
      *  @instance
@@ -125,7 +131,7 @@ class MonthView extends Control
         menuYears = me._getMenuYears( start )
         me._renderMenu( menuYears,me._currYear,me._currMonth )
 
-    ###
+    ###*
      *  初始化控件，声明内部变量
      *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
      *  @private
@@ -144,8 +150,10 @@ class MonthView extends Control
         ###
         me._compiledMonthsTmpl = me.compileTmpl( me._monthsTmpl )
         me._compiledYearsTmpl  = me.compileTmpl( me._yearsTmpl )
+        
+        me._height = '100%'
 
-    ###
+    ###*
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -201,7 +209,7 @@ class MonthView extends Control
             me.triggerEvent( 'apply',event )
         )
 
-    ###
+    ###*
      *  当前显示的年份
      *  @pubic
      *  @readonly
@@ -215,7 +223,7 @@ class MonthView extends Control
         me._currentDate.setFullYear( val )
         me._renderYears()
 
-    ###
+    ###*
      *  当前显示的月份
      *  @pubic
      *  @readonly
@@ -230,7 +238,7 @@ class MonthView extends Control
         me._renderMonths()
 
     _currentDate: null
-    ###
+    ###*
      *  当前选中日期
      *  @pubic
      *  @readonly

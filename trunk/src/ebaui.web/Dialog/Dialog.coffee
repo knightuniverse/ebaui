@@ -1,42 +1,47 @@
 ns = ebaui
 vexDialog = vex.dialog
 
-### 
+###*
  *  文档请参考 http://api.jquery.com/jQuery.ajax/
+ *  @static
  *  @method     ajax
  *  @memberof   ebaui
 ###
 ns['ajax'] = jQuery.ajax
 
-### 
+###*
  *  文档请参考 http://api.jquery.com/jQuery.get/
+ *  @static
  *  @method     httpGet
  *  @memberof   ebaui
 ###
 ns['httpGet'] = jQuery.get
 
-### 
+###*
  *  http://api.jquery.com/jQuery.post/
+ *  @static
  *  @method     httpPost
  *  @memberof   ebaui
 ###
 ns['httpPost'] = jQuery.post
 
-###
+###*
  *  给指定的HTML元素设置遮罩
+ *  @static
  *  @method     mask
  *  @memberof   ebaui
- *  @param      {Object}    selector                 -   必选，jquery 选择器
- *  @param      {String}    [label='']       -   可选，遮罩层的文本信息
- *  @param      {Number}    [delay=null]             -   可选，在HTML元素打上遮罩之前的延迟时间
- *  @param      {Object}    [context=null]           -   可选，jquery 选择器上下文
+ *  @param      {Object}    selector           -   必选，jquery 选择器
+ *  @param      {String}    [label='']         -   可选，遮罩层的文本信息
+ *  @param      {Number}    [delay=null]       -   可选，在HTML元素打上遮罩之前的延迟时间
+ *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
 ###
 ns['mask'] = (selector, label, delay, context) ->
   label = unless label then '' else label
   $(selector, context).mask(label, delay)
 
-### 
+###*
  *  取消指定HTML元素上的遮罩
+ *  @static
  *  @method     unmask
  *  @memberof   ebaui
  *  @param      {Object}    selector           -   必选，jquery 选择器
@@ -45,8 +50,9 @@ ns['mask'] = (selector, label, delay, context) ->
 ns['unmask'] = (selector, context) ->
   $(selector, context).unmask()
 
-### 
+###*
  *  判断指定的HTML元素是否有遮罩
+ *  @static
  *  @method     isMasked
  *  @memberof   ebaui
  *  @param      {Object}    selector           -   必选，jquery 选择器
@@ -55,11 +61,14 @@ ns['unmask'] = (selector, context) ->
 ns['isMasked'] = (selector, context) ->
   $(selector, context).isMasked()
 
-### 
+###*
  *  alert对话框
+ *  @static
  *  @method     alert
  *  @memberof   ebaui
- *  @param      {String}        message                     -   alert的提示消息
+ *  @param      {String}        message        -   alert的提示消息
+ *  @example
+ *    ebaui.alert( 'alert message' )
 ###
 ns['alert'] = (msg) ->
   vexDialog.alert(
@@ -69,8 +78,9 @@ ns['alert'] = (msg) ->
     message: msg
   )
 
-### 
+###*
  *  confirm对话框
+ *  @static
  *  @method     confirm
  *  @memberof   ebaui
  *  @param      {Object}        options                     -  配置对象
@@ -94,15 +104,16 @@ ns['confirm'] = (opts) ->
   }, opts)
   vexDialog.confirm(vexOpts)
 
-### 
+###*
  *  prompt对话框
+ *  @static
  *  @method     prompt
  *  @memberof   ebaui
  *  @param      {Object}        options                      -  配置对象
  *  @prop       {String}        options.message             -   prompt的提示消息
  *  @prop       {String}        options.placeholder         -   prompt的文本占位符
  *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
- *  @example    
+ *  @example
  *      ebaui.prompt({
  *          message      : 'prompt',
  *          placeholder  : 'placeholder',
@@ -120,8 +131,9 @@ ns['prompt'] = (opts) ->
   }, opts)
   vexDialog.prompt(opts)
 
-### 
+###*
  *  打开一个新的窗口
+ *  @static
  *  @method     win
  *  @memberof   ebaui
  *  @param      {Object}        options                   -   配置对象
@@ -133,10 +145,12 @@ ns['prompt'] = (opts) ->
  *  @prop       {Number}        options.height            -   窗口的高度
  *  @prop       {Function}      options.beforeclose       -   关闭窗口前的事件处理程序
  *  @prop       {Function}      options.afterclose        -   关闭窗口后的事件处理程序
- *  @example    
+ *  @example
  *      ebaui.win({
  *          url    : 'http://www.baidu.com',
- *          title  : 'baidu'
+ *          title  : 'baidu',
+ *          width  : 400
+ *          height : 300
  *      });
 ###
 ns['win'] = (opts) ->
@@ -204,7 +218,7 @@ ns['win'] = (opts) ->
       $(this).show()
     })
 
-  ###
+  ###*
   * 优化性能
   * 首先先打开dialog
   * 然后在更新dialog content（ content有可能就是一个iframe ）

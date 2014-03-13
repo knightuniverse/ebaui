@@ -1,6 +1,22 @@
+###*
+*   @class      Label
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      <knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Label( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).label( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="label" data-options="{}" /&gt;
+###
 class Label extends FormField
-
-  ###
+  ###*
    *  允许的button的state
    *  @private
    *  @instance
@@ -10,7 +26,7 @@ class Label extends FormField
   ###
   _availableState: /white|primary|info|success|warning|danger|\s+/i
 
-  ###
+  ###*
    *  更新lable标签的边框
    *  @private
    *  @instance
@@ -33,7 +49,7 @@ class Label extends FormField
 
     $root.attr('class', cls)
 
-  ###
+  ###*
    *  更新lable标签的文字对其方式
    *  @private
    *  @instance
@@ -57,7 +73,7 @@ class Label extends FormField
     cls += ' ' + alignment[align]
     $root.attr('class', cls)
 
-  ###
+  ###*
    *  更新lable标签的文本
    *  @private
    *  @instance
@@ -69,7 +85,7 @@ class Label extends FormField
     $root = me.uiElement()
     $root.text(me.text())
 
-  ###
+  ###*
    *  更新lable标签的for属性
    *  @private
    *  @instance
@@ -81,7 +97,7 @@ class Label extends FormField
     $root = me.uiElement()
     $root.attr('for', me.for())
 
-  ###
+  ###*
    *  更新UI显示
    *  @private
    *  @instance
@@ -96,7 +112,7 @@ class Label extends FormField
     me._updateAttrText()
     me._updateCssStates()
 
-  ###
+  ###*
    *  初始化控件，声明内部变量
    *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
    *  @private
@@ -115,7 +131,7 @@ class Label extends FormField
     me._textAlign = opts['textAlign'] ? 'right'
 
   _state: ''
-  ###
+  ###*
    *  获取或者设置button的状态
    *  可选的值：
    *
@@ -144,7 +160,7 @@ class Label extends FormField
     me._state = val.toLowerCase()
     me._updateCssStates()
 
-  ###
+  ###*
    *  更新label文字的颜色
    *  @private
    *  @instance
@@ -159,7 +175,7 @@ class Label extends FormField
     $root.attr('class', "#{cls} label-#{state}") if state.length > 0
 
   _hasBorder: false
-  ###
+  ###*
    *  获取或者设置是否显示label边框
    *  @public
    *  @instance
@@ -181,7 +197,7 @@ class Label extends FormField
     me._updateCssBorder()
 
   _text: ''
-  ###
+  ###*
    *  获取或者设置label文本值
    *  @public
    *  @instance
@@ -201,7 +217,7 @@ class Label extends FormField
     me._updateAttrText()
 
   _for: ''
-  ###
+  ###*
    *  获取或者设置for属性
    *  @public
    *  @instance
@@ -219,7 +235,7 @@ class Label extends FormField
     me._for = val
     me._updateAttrFor()
 
-  ###
+  ###*
    *  同text
    *  @see ebaui.web.Label.text
    *  @public
@@ -240,7 +256,7 @@ class Label extends FormField
     me._updateAttrText()
 
   _textAlign: 'right'
-  ###
+  ###*
    *  获取或者设置label文本对其方式，目前只支持'left','center','right'三种对齐方式
    *  @public
    *  @instance

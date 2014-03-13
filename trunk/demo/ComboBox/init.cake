@@ -30,11 +30,11 @@
 
 <h4>单选，html代码</h4>
 <pre>
-    &lt;input id="combobox1" placeholder="" value="1" data-role="combobox" data-options="{ dataSource : people,idField : 'id', valueField : 'id',textField:'name' }" /&gt;
+    &lt;input id="combobox1" placeholder="" data-role="combobox" data-options="{ dataSource : people,idField : 'id', valueField : 'id',textField:'name',value:1 }" /&gt;
 </pre>
 
 <h4>单选示例</h4>
-<input id="combobox1" placeholder="请选择..." value="1" data-role="combobox" data-options="{ dataSource : people,idField : 'id', valueField : 'id',textField:'name' }" />
+<input id="combobox1" placeholder="请选择..." data-role="combobox" data-options="{ dataSource : people,idField : 'id', valueField : 'id',textField:'name',value:1 }" />
 
 <br /><br />
 
