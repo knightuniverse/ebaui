@@ -9,6 +9,7 @@
 +   [swfupload](https://code.google.com/p/swfupload/)
 +   [jQuery UI Layout](http://layout.jquery-dev.net/index.cfm)
 +   [Vex – Modern Modal Boxes](https://github.com/HubSpot/vex)
++   [ztree](http://www.ztree.me/v3/main.php)
 
 ##说明##
 
