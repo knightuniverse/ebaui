@@ -1,6 +1,4 @@
-##ebaui控件库##
-
-###依赖###
+###第三方库###
 
 +   [jquery](http://jquery.com/)
 +   [jqGrid](http://www.trirand.com/blog/)
@@ -11,31 +9,34 @@
 +   [Vex – Modern Modal Boxes](https://github.com/HubSpot/vex)
 +   [ztree](http://www.ztree.me/v3/main.php)
 
-##说明##
+###说明###
 
 1.  ebaui控件库将会自动转换HTML占位符，把占位符替换成框架定义好的HTML模板
-2.  框架定义好的HTML模板分成两种：
-    +   ebaui.templates.min.html
-    +   ebaui.templates.js
-3.  在**同一个域名下**，你只要**直接引用**ebaui.js就能使用
-4.  如果你引用**CDN**上的ebaui.js，那么你还需要引用ebaui.templates.js加载HTML模板
+2.  框架定义好的HTML静态模板文件是：ebaui.templates.js
 
 ###内网linux服务器###
 
-IP: 192.168.102.6
+**IP**: 192.168.102.6
 
-服务器登录账号/密码:   root/bcpjadmin
+**服务器登录账号/密码**:   root/bcpjadmin
 
 ###开发环境搭建###
 
-####依赖####
+**项目构建**
 
-+   java runtime
+首先确保你的开发环境上已经安装好了以下环境：
+
++   java
 +   nodejs
-+   grunt
-+   grunt-jsdoc
-+   grunt-contrib-copy
 
-####Windows####
+**Grunt**
 
-####Linux####
+然后我们要安装[grunt](http://gruntjs.com/)以及coffeescript。打开命令窗口，运行以下代码：
+
+    npm install -g coffee-script && npm install -g grunt && npm install -g grunt-cli
+
+接下来，我们就开始安装其他构建项目用的grunt任务了：
+
+    npm install
+
+完成之后，你就已经把开发环境给搭建起来了。
