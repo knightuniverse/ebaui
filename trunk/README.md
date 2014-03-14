@@ -1,3 +1,7 @@
+### FontAwsome Icons ###
+
++   [Icons Class](fontawsome/icons/index.html)
+
 ###第三方库###
 
 +   [jquery](http://jquery.com/)
@@ -26,8 +30,8 @@
 
 首先确保你的开发环境上已经安装好了以下环境：
 
-+   java
-+   nodejs
++   [java](http://java.com/en/)
++   [nodejs](http://nodejs.org/)
 
 **Grunt**
 

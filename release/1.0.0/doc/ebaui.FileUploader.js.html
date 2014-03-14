@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.web/ebaui.FileUploader.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.web/ebaui.FileUploader.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  依赖于SWFUpload
+ *  @see http://demo.swfupload.org/Documentation/
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ) {
+
+    ebaui.web.registerControl( 'FileUploader',true );
+
+    /** 
+     *  控件全名 e.g. ebaui.web.FileUploader
+     *  控件描述
+     *  @class      FileUploader 
+     *  @memberof   ebaui.web
+     *  @extends    ebaui.web.FormElement
+     *  @tutorial   fileuploader_index
+     *  @param      {Object}    options     -   控件配置参数
+     *  @param      {Object}    element     -   dom对象
+     *  @example
+     *      &lt;input data-role="fileuploader" data-options="{ }"/&gt;
+     */
+    ebaui.control( 'web.FileUploader',ebaui.web.FormElement, {
+
+        /**
+         *  内部上传控件实例
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {SWFUpload}    _uploader
+         */
+        _uploader:null,
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _rootHtmlTmpl : '#ebaui-template-fileuploader',
+
+        /**
+         *  uploadUrl是必须有值的属性，如果该属性为空，抛出此异常
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    _uploadUrlEmptyException
+         */
+        _uploadUrlEmptyException:'the uploadUrl property can not be null or empty!',
+
+        /**
+         *  更新UI的按钮文本
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @method     _updateUIButtonText
+         */
+        _updateUIButtonText:function(){
+            $( '.eba-buttonedit-button',this._$root ).text( this.buttonText() );
+        },
+
+        /**
+         *  更新UI显示
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @method     _render
+         */
+        _render : function(){
+            var me = this;
+            me._super();
+            me._updateUIButtonText();
+        },
+
+        /**
+         *  初始化控件，声明内部变量
+         *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @method     _initControl
+         */
+        _initControl : function(){
+
+            var self      = this;
+            var uploadUrl = self.uploadUrl();
+
+            if( !uploadUrl ){
+                throw self._uploadUrlEmptyException;
+            }
+
+            self._$formInput = $( 'input',self._$root );
+
+            var btnID     = self.controlID()+'$span';
+            var $root     = self._$root;
+            var offset    = $root.offset();
+            var $flashEl  = $( '&lt;div>&lt;span id="' + btnID + '"">&lt;/span>&lt;/div>' )
+                                               .css({ 'position' : 'absolute','top' : offset.top,'left' : offset.left,'width' : $root.width(),'height' : $root.height() })
+                                               .appendTo( document.body );
+
+            var flashUrl = ebaui.web.urlRoot + 'lib/SWFUpload/Flash/swfupload.swf';
+
+            var customer = {
+
+                post_params          : self.extraParams(),
+                file_post_name       : self.filePostName(),
+
+                file_types           : self.fileType(),
+                file_size_limit      : self.fileSizeLimit(),
+                file_queue_limit     : 0,
+                file_upload_limit    : 0,
+
+                button_width         : '100%',
+                button_height        : '100%',
+                button_placeholder_id: btnID,
+                
+                upload_url           : self.uploadUrl()
+
+            };
+
+/**
+//  fileinfo 对象属性列表
+
+var fileinfo = {
+
+    averageSpeed: 0,
+    creationdate: Thu Aug 22 2013 09:35:25 GMT+0800 (China Standard Time),
+    currentSpeed: 0,
+    filestatus: -1,
+    id: "SWFUpload_0_0",
+    index: 0,
+    modificationdate: Thu Aug 22 2013 08:38:53 GMT+0800 (China Standard Time),
+    movingAverageSpeed: 0,
+    name: "bg-scrollbar-thumb-y.png",
+    percentUploaded: 0,
+    post: Object,
+    size: 2567,
+    sizeUploaded: 0,
+    timeElapsed: 0,
+    timeRemaining: 0,
+    type: ".png"
+
+}
+
+*/
+
+            var evtHandles={
+
+                upload_start_handler : function( fileinfo ){
+
+                    //   disable the swfupload
+                    self._uploader.setButtonDisabled( true );
+
+                    self.options['onuploadstart']( self,{
+                        'file' : fileinfo
+                    } );
+
+                },
+
+                upload_progress_handler : function( fileinfo,complete,total ){
+
+                    self.options['onuploadprogress']( self,{
+                        'file'         : fileinfo,
+                        'bytesComplete': complete,
+                        'totalBytes'   : total
+                    } );
+
+                },
+
+                upload_error_handler : function( fileinfo,errorCode,message ){
+
+                    //   enable the swfupload
+                    self._uploader.setButtonDisabled( false );
+
+                    self.options['onuploaderror']( self,{
+                        'file'    : fileinfo,
+                        'errorMsg': message
+                    } );
+
+                },
+
+                upload_success_handler : function( fileinfo,data,response){
+                    
+                    //   enable the swfupload
+                    self._uploader.setButtonDisabled( false );
+                    self.options['onuploadsucc']( self,{
+                        'file'          : fileinfo,
+                        'serverData'    : data,
+                        'serverResponse': response
+                    } );
+
+                },
+
+                upload_complete_handler : function(fileinfo){
+
+                    self.options['onuploadcomplete']( self,{
+                        'file' : fileinfo
+                    } );
+
+                },
+
+                file_dialog_start_handler:function () {
+                    //  clear queue
+                    self._uploader.cancelQueue();
+                },
+
+                file_queued_handler : function( fileinfo ){
+                    //  display file path
+                    self._$formInput.val( fileinfo.name );
+                },
+
+                file_queue_error_handler : function( fileinfo,errorCode,message ){
+
+                    switch( errorCode ){
+
+                        case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+                            //  File is too big
+                            break;
+
+                        case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+                            //  Cannot upload Zero Byte files
+                            break;
+
+                        case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+                            //  Invalid File Type
+                            break;
+
+                        case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+                            //  You have selected too many file
+                            break;
+
+                    }
+
+                },
+
+                file_dialog_complete_handler : function( fileSelectedCount,fileQueuedCount,fileQueueLength ){
+                    //  todo
+                    var stats = self._uploader.getStats();
+                    if( self.uploadOnSelect() ){
+                        //  upload files
+                        self._uploader.startUpload();
+                    }
+
+                }
+
+            };
+
+            //  event handlers
+            var defaults = {
+
+                flash_url               : flashUrl,
+
+                use_query_string        : false,
+                requeue_on_error        : true,
+                http_success            : [201, 202],
+                assume_success_timeout  : 0,
+                file_types_description  : "",
+                
+                debug                   : false,
+                debug_handler           : $.noop,
+                
+                prevent_swf_caching     : false,
+                preserve_relative_urls  : false,
+                
+                //  button text && style setting
+                button_text             : '',
+                button_image_url        : '',
+                button_text             : '',
+                button_text_style       : '',
+                button_text_left_padding: 3,
+                button_text_top_padding : 2,
+                button_action           : SWFUpload.BUTTON_ACTION.SELECT_FILES,
+                button_disabled         : false,
+                button_cursor           : SWFUpload.CURSOR.HAND,
+                button_window_mode      : SWFUpload.WINDOW_MODE.TRANSPARENT
+
+                /*
+
+                //  events
+
+                swfupload_loaded_handler    : swfupload_loaded_function,
+                file_dialog_start_handler   : file_dialog_start_function,
+                file_queued_handler         : file_queued_function,
+                file_queue_error_handler    : file_queue_error_function,
+                file_dialog_complete_handler: file_dialog_complete_function
+
+
+                */
+
+            };
+
+            var settings = $.extend( defaults,customer,evtHandles );
+            self._uploader = new SWFUpload( settings );
+
+        },
+
+        /**
+         *  开始上传文件
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @method     startUpload
+         *  @param      {Object}    file
+         */
+        startUpload:function ( file ){
+            var uploader = this._uploader;
+            if( uploader ){
+                uploader.startUpload( file );
+            }
+        },
+
+        /**
+         *  添加POST提交的参数
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @method     addPostParam
+         *  @param      {String}    name
+         *  @param      {String}    value
+         */
+        addPostParam:function (name, value) {
+
+            var uploader = this._uploader;
+            if( uploader && name && value ){
+                uploader.addPostParam( name,value );
+            }
+
+        },
+
+        /**
+         *  服务端上传文件处理地址
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    uploadUrl
+         */
+        uploadUrl : function ( val ) {
+            var me = this;
+            if( !me.isString( val ) ){
+                return me.options['uploadUrl'];
+            }
+            me.options['uploadUrl'] = val;
+        },
+
+        /**
+         *  按钮的文本
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    buttonText
+         */
+        buttonText : function ( val ) {
+            var me = this;
+            if( !me.isString( val ) ){
+                return me.options['buttonText'];
+            }
+
+            var uploader = me._uploader;
+            me.options['buttonText'] = val;
+            me._updateUIButtonText();
+            if( uploader ){
+                uploader.setButtonText( val );
+            }
+        },
+
+        /**
+         *  文件选择后即上传
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {Boolean}    uploadOnSelect
+         */
+        uploadOnSelect : function( val ){
+            var me = this;
+            if( !me.isBoolean( val ) ){
+                return me.options['uploadOnSelect'];
+            }
+            me.options['uploadOnSelect']  = val;
+        },
+
+        /**
+         *  允许上传的文件类型,使用";"分割，默认只允许上传图片
+         *  @private
+         *  @instance
+         *  @default    '*.jpg;*.gif;*.png'
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    fileType
+         */
+        fileType : function ( val ) {
+            var me = this;
+            if( !me.isString( val ) ){
+                return me.options['fileType'];
+            }
+
+            var uploader = me._uploader;
+            me.options['fileType'] = val;
+            if( uploader ){
+                uploader.setFileTypes( val );
+            }
+        },
+
+        /**
+         *  上传文件大小限制，默认文件大小上限是10MB
+         *  @private
+         *  @instance
+         *  @default    '10MB'
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    fileSizeLimit
+         */
+        fileSizeLimit : function( val ) {
+
+            var me = this;
+            if( !me.isString( val ) ){
+                return me.options['fileSizeLimit'];
+            }
+
+            //  This applies to all future files that are queued. 
+            //  The file_size_limit parameter will accept a unit. 
+            //  Valid units are B, KB, MB, and GB. The default unit is KB.
+            var uploader = me._uploader;
+            me.options['fileSizeLimit'] = val;
+            if( uploader ){
+                uploader.setFileSizeLimit( val );
+            }
+
+        },
+
+        /**
+         *  文件提交到服务端的时候，post的key值，比如在asp.net你可以使用Request.Files[filePostName]进行访问
+         *  @private
+         *  @instance
+         *  @default    'ebauiUploadedFiles'
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {String}    fileSizeLimit
+         */
+        filePostName : function( val ) {
+
+            var me = this;
+            if( !me.isString( val ) ){
+                return me.options['filePostName'];
+            }
+
+            var uploader = me._uploader;
+            me.options['filePostName'] = val;
+            if( uploader ){
+                uploader.setFilePostName( val );
+            }
+
+        },
+
+        /**
+         *  通过POST额外上传到服务器的参数
+         *  @private
+         *  @instance
+         *  @default    {}
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {Object}    extraParams
+         */
+        extraParams : function( val ) {
+
+            var me = this;
+            if( !me.isObject( val ) ){
+                return me.options['extraParams'];
+            }
+
+            //  This applies to all future files that are queued. 
+            //  The file_size_limit parameter will accept a unit. 
+            //  Valid units are B, KB, MB, and GB. The default unit is KB.
+            var uploader = me._uploader;
+            var old = me.options['extraParams'];
+
+            if( uploader && old ){
+                for( var name in old ){
+                    uploader.removePostParam( name );
+                }
+            }
+
+            if( uploader && val ){
+                for( var name in val ){
+                    uploader.addPostParam( name,val[name] );
+                }
+            }
+
+            me.options['extraParams'] = val;
+
+        },
+
+        /**
+         *  控件配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.FileUploader
+         *  @member     {Object}    options
+         */
+        options : {
+            // css position property
+            position   : 'absolute',
+            //  default width
+            width : 150,
+            //  default height
+            height : 21,
+            //  按钮的文本
+            buttonText : '浏览...',
+            //  允许上传的文件类型
+            fileType : '*.jpg;*.gif;*.png',
+            //  上传文件大小限制
+            fileSizeLimit:'10MB',
+            //  文件提交到服务端的时候，post的key值，比如在asp.net你可以使用Request.Files[filePostName]进行访问
+            filePostName : 'ebauiUploadedFiles',
+            //  服务端上传文件处理地址
+            uploadUrl:'',
+            //  文件选择后即上传
+            uploadOnSelect : false,
+            //  通过POST额外上传到服务器的参数
+            extraParams:{},
+            /**
+             *  开始上传文件的时候触发
+             *  。此事件处理程序中，如果返回true，文件真正开始上传
+             *  ；如果返回false，则文件上传失败，同时触发onuploaderror事件
+             *  @event  ebaui.web.FileUploader#onuploadstart
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             *  @prop   {Object}    eventArgs.file
+             */
+            onuploadstart : $.noop,
+            /**
+             *  文件正在上传的过程中不断触发
+             *  @event  ebaui.web.FileUploader#onuploadprogress
+             *  @param  {Object}    file       - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             *  @prop   {Object}    eventArgs.file
+             *  @prop   {Object}    eventArgs.bytesComplete
+             *  @prop   {Object}    eventArgs.totalBytes
+             */
+            onuploadprogress : $.noop,
+            /**
+             *  文件上传失败触发
+             *  @event  ebaui.web.FileUploader#onuploaderror
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             *  @prop   {Object}    eventArgs.file
+             *  @prop   {Object}    eventArgs.errorMsg
+             */
+            onuploaderror : $.noop,
+            /**
+             *  文件上传成功触发
+             *  @event  ebaui.web.FileUploader#onuploadsucc
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             *  @prop   {Object}    eventArgs.file
+             *  @prop   {Object}    eventArgs.serverData
+             *  @prop   {Object}    eventArgs.serverResponse
+             */
+            onuploadsucc: $.noop,
+            /**
+             *  不论文件上传成功还是失败，这个事件都会触发
+             *  @event  ebaui.web.FileUploader#onuploadcomplete
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             *  @prop   {Object}    eventArgs.file
+             */
+            onuploadcomplete: $.noop
+
+        }
+
+    });
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ebaui.validationRules.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: ebaui.validationRules.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  ebaui.validators
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ){
+
+    /**
+     *  Required验证规则
+     *  @public
+     *  @class      RequiredValidator
+     *  @param      {Array}    params     -     传递给验证器的外部参数
+     */
+    function RequiredValidator ( params,msg ) {
+
+        if( _.isString( msg ) ){
+            this.message = msg;
+        }
+
+        if( _.isArray( params ) ){
+            this.parameters = params;
+        }
+
+    };
+
+    RequiredValidator.prototype = {
+
+        name      : 'required',
+        parameters: [],
+        /**
+         *  错误提示信息
+         *  @public
+         *  @instance
+         *  @default    'This field is required.'
+         *  @member     {String}    message
+         *  @memberof   RequiredValidator
+         */
+        message   : 'This field is required.',
+        /**
+         *  执行验证
+         *  @public
+         *  @instance
+         *  @method      validate
+         *  @param      {Object}    value      -      要进行验证的值
+         *  @memberof   RequiredValidator
+         */
+        validate  : function( value ){
+
+            if( _.isArray( value ) || _.isString( value ) ){
+                return value.length > 0;
+            }
+
+            if( _.isBoolean( value ) ){ return true; }
+
+            return ( value ) ? true : false;
+            
+        }
+
+    };
+
+    /**
+     *  Email地址验证规则
+     *  @public
+     *  @class      EmailValidator
+     *  @param      {Array}    params     -     传递给验证器的外部参数
+     */
+    function EmailValidator ( params,msg ) {
+
+        if( _.isString( msg ) ){
+            this.message = msg;
+        }
+
+        if( _.isArray( params ) ){
+            this.parameters = params;
+        }
+
+    };
+
+    EmailValidator.prototype = {
+
+        name      : 'email',
+        parameters: [],
+        /**
+         *  错误提示信息
+         *  @public
+         *  @instance
+         *  @default    'Please enter a valid email address.'
+         *  @member     {String}    message
+         *  @memberof   EmailValidator
+         */
+        message   : 'Please enter a valid email address.',
+        /**
+         *  执行验证
+         *  @public
+         *  @instance
+         *  @method      validate
+         *  @param      {Object}    value      -      要进行验证的值
+         *  @memberof   EmailValidator
+         */
+        validate  : function( value ){
+            return /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i.test(value);
+        }
+
+    };
+
+    /**
+     *  Url地址验证规则
+     *  @public
+     *  @class      UrlValidator
+     *  @param      {Array}    params     -     传递给验证器的外部参数
+     */
+    function UrlValidator ( params,msg ) {
+
+        if( _.isString( msg ) ){
+            this.message = msg;
+        }
+
+        if( _.isArray( params ) ){
+            this.parameters = params;
+        }
+
+    };
+
+    UrlValidator.prototype = {
+
+        name      : 'url',
+        parameters: [],
+        /**
+         *  错误提示信息
+         *  @public
+         *  @instance
+         *  @default    'Please enter a valid URL.'
+         *  @member     {String}    message
+         *  @memberof   UrlValidator
+         */
+        message   : 'Please enter a valid URL.',
+        /**
+         *  执行验证
+         *  @public
+         *  @instance
+         *  @method      validate
+         *  @param      {Object}    value      -      要进行验证的值
+         *  @memberof   UrlValidator
+         */
+        validate  : function( value ){
+            return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
+        }
+
+    };
+
+    /**
+     *  表单控件验证规则的构造器工厂，默认提供required,email,url等验证规则  &lt;br />
+     *  关于如何启用验证规则请参考 {@tutorial form_index}  &lt;br />
+     *  关于拓展当前控件规则请参考 {@tutorial extend_validationRules}  &lt;br />
+     *  @public
+     *  @member     {Object}    validationRules
+     *  @memberof   ebaui
+     *  @property   {RequiredValidator}     required        -       required验证规则构造函数
+     *  @property   {EmailValidator}        email           -       email地址验证规则构造函数
+     *  @property   {UrlValidator}          url             -       url地址验证规则构造函数
+     *  @property   {UrlValidator}          captcha         -       认证码验证规则构造函数
+     */
+    ebaui.validationRules = {
+        'required': RequiredValidator,
+        'email'   : EmailValidator,
+        'url'     : UrlValidator
+    };
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul><h3>Global</h3><ul><li><a href="global.html#support">support</a></li><li><a href="global.html#utils">utils</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Thu Oct 31 2013 17:38:13 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

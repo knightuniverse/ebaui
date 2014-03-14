@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.Control.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.Control.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  定义了ebaui所有控件的基类control类
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $ ){
+
+    var ArrayProto     = Array.prototype;
+    var slice          = ArrayProto.slice;
+    var nativeForEach  = ArrayProto.forEach;
+    
+    var ObjectProto    = Object.prototype;
+    var toString       = ObjectProto.toString;
+    
+
+    /**
+     *  驼峰命名
+     *  Button      -> button
+     *  ButtonEdit  -> buttonEdit
+     */
+    ebaui.control = function( name, base, prototype ){
+
+        var fullName, constructor, basePrototype, proxiedPrototype = {},namespace = name.split( "." )[ 0 ]; ;
+
+        name = name.split( "." )[ 1 ];
+        fullName = namespace + "-" + name;
+
+        if ( !prototype ) {
+            prototype = base;
+            base = ebaui.Control;
+        }
+
+        ebaui[ namespace ] = ebaui[ namespace ] || {};
+
+        basePrototype = new base();
+        // we need to make the options hash a property directly on the new instance
+        // otherwise we'll modify the options hash on the prototype that we're
+        // inheriting from
+        basePrototype.options = ebaui.control.extend( {}, basePrototype.options );
+
+        $.each( prototype, function( prop, value ) {
+            if ( !$.isFunction( value ) ) {
+                proxiedPrototype[ prop ] = value;
+                return;
+            }
+            proxiedPrototype[ prop ] = (function() {
+                var _super = function() {
+                        return base.prototype[ prop ].apply( this, arguments );
+                    },
+                    _superApply = function( args ) {
+                        return base.prototype[ prop ].apply( this, args );
+                    };
+                return function() {
+                    var __super = this._super,
+                        __superApply = this._superApply,
+                        returnValue;
+
+                    this._super = _super;
+                    this._superApply = _superApply;
+                    
+                    returnValue = value.apply( this, arguments );
+
+                    this._super = __super;
+                    this._superApply = __superApply;
+
+                    return returnValue;
+                };
+            })();
+        });
+
+        constructor = ebaui[ namespace ][ name ] = function( options, element ) {
+
+            // allow instantiation without "new" keyword
+            if ( !this._createControl ) {
+                return new constructor( options, element );
+            }
+
+            // allow instantiation without initializing for simple inheritance
+            // must use "new" keyword (the code above always passes args)
+            if ( arguments.length ) {
+                this._createControl( options, element );
+            }
+
+        };
+
+        constructor.prototype = ebaui.control.extend( basePrototype, proxiedPrototype, {
+            constructor    : constructor,
+
+            _namespace      : namespace,
+            _controlName    : name,
+            _controlFullName: fullName
+
+        } );
+
+        ebaui.control.bridge( name, constructor );
+
+        return constructor;
+
+    };
+
+    ebaui.control.bridge = function( name, constructor ){
+        
+        //  var fullName = constructor.prototype.controlFullName || name;
+        //  实际上，$.fn['ctrl']这个实际上应该是一个方法，所以name应该首先toLowerCase()
+        name = name.toLocaleLowerCase();
+
+        $.fn[ name ] = function( options ) {
+
+            return this.each(function( idx,el ) {
+
+                var $el = $( el );
+                if( !$el.attr( 'data-parsed' ) || $el.attr( 'data-parsed' ) != 'true' ){
+                    //  $el.data( 'model', new constructor( options, el ) );
+                    new constructor( options, el );
+                }
+
+            });
+
+        };
+
+    };
+
+    ebaui.control.extend = function( target ) {
+        var input = slice.call( arguments, 1 ),
+            inputIndex = 0,
+            inputLength = input.length,
+            key,
+            value;
+        for ( ; inputIndex &lt; inputLength; inputIndex++ ) {
+            for ( key in input[ inputIndex ] ) {
+                value = input[ inputIndex ][ key ];
+                if ( input[ inputIndex ].hasOwnProperty( key ) && value !== undefined ) {
+                    // Clone objects
+                    if ( $.isPlainObject( value ) ) {
+                        target[ key ] = $.isPlainObject( target[ key ] ) ?
+                            ebaui.control.extend( {}, target[ key ], value ) :
+                            // Don't extend strings, arrays, etc. with objects
+                            ebaui.control.extend( {}, value );
+                    // Copy everything else by reference
+                    } else {
+                        target[ key ] = value;
+                    }
+                }
+            }
+        }
+        return target;
+    };
+
+    /** 
+     *  ebaui控件基类
+     *  @class      Control 
+     *  @param      {Object}    options     -   控件配置参数
+     *  @param      {Object}    element     -   dom对象
+     */
+    function Control( /* options,element */ ){  };
+
+    Control.prototype = {
+
+        /**
+         *  控件配置
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Object}    options
+         */
+        options : {
+            id      : '',
+            enabled : true,
+            visible : true,
+            focused : false,
+            
+            width   : 0,
+            height  : 0,
+            top     : 0,
+            left    : 0,
+            
+            position: ''
+        },
+
+        /**
+         *  控件ID
+         *  @private
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    _controlID
+         */
+        _controlID : undefined,
+
+        /**
+         *  
+         *  @private
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    _namespace
+         */
+        _namespace : '',
+
+        /**
+         *  
+         *  @private
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    _controlName
+         */
+        _controlName : '',
+
+        /**
+         *  
+         *  @private
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    _controlFullName
+         */
+        _controlFullName : '',
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _rootHtmlTmpl : '',
+
+        /**
+         *  CSS长度单位的正则表达式匹配
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @member     {RegExp}    _cssUnitRE
+         */
+        _cssUnitRE:/^\d+(%|in|cm|mm|em|ex|pt|pc|px)?$/,
+
+        /**
+         *  更新UI的宽度
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleWidth
+         */
+        _updateStyleWidth : function(){
+
+            var me    = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var width = me.width();
+            var isNum = me.isNumber( width );
+
+            if( isNum && width &lt;= 0 ){
+                return;
+            }
+
+            if( isNum && width > 0 ){
+                 $root.width( width );
+                 return;
+            }
+
+            var result = me._cssUnitRE.exec( width );
+            if( result[1] ){
+                //  if one css unit has been assigned
+                $root.css( 'width',width );
+            }else{
+                //  default css unit is px
+                $root.css( 'width',width + 'px' );
+            }
+
+        },
+
+        /**
+         *  更新UI的高度
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleHeight
+         */
+        _updateStyleHeight : function(){
+
+            var me     = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var height = me.height();
+            var isNum  = me.isNumber( height );
+
+            if( isNum && height &lt;= 0 ){
+                return;
+            }
+
+            if( isNum && height > 0 ){
+                $root.height( height );
+                return;
+            }
+
+            var result = me._cssUnitRE.exec( height );
+            if( result[1] ){
+                //  if one css unit has been assigned
+                $root.css( 'height',height );
+            }else{
+                //  default css unit is px
+                $root.css( 'height',height + 'px' );
+            }
+
+        },
+
+        /**
+         *  更新UI的位置top
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleTop
+         */
+        _updateStyleTop : function(){ 
+            var me = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var top = me.top();
+            if( !isNaN( top ) && top != 0 ){
+                $root.css( 'top',top + 'px' ); 
+            }
+        },
+
+        /**
+         *  更新UI的位置left
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleLeft
+         */
+        _updateStyleLeft : function(){
+            var me = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var left = me.left();
+            if( !isNaN( left ) && left != 0 ){
+                $root.css( 'left',left + 'px' ); 
+            }
+        },
+
+        /**
+         *  更新UI的position属性
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStylePosition
+         */
+        _updateStylePosition:function(){
+
+            var me = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var position = me.position();
+            if(position){
+                /* position !== '' */
+                $root.css( 'position',position ); 
+            }else{
+                $root.css( 'position',null ); 
+            }
+
+        },
+
+        /**
+         *  更新UI的title属性
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleTitle
+         */
+        _updateStyleTitle:function(){
+            var me = this;
+            var $root = me._$root;
+            if( !$root ){ return; }
+
+            var title = me.title();
+            if(title){ $root.attr( 'title',title ); }
+        },
+
+        /**
+         *  初始化DOM事件处理程序
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _setupEvents
+         */
+        _setupEvents : $.noop,
+
+        /**
+         *  初始化控件，声明内部变量
+         *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _initControl
+         */
+        _initControl : $.noop,
+
+        /**
+         *  获取焦点
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _focus
+         */
+        _focus : $.noop,
+
+        /**
+         *  失去焦点
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _blur
+         */
+        _blur : $.noop,
+
+        /**
+         *  更新控件enabled的UI样式
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleEnabled
+         */
+        _updateStyleEnabled:$.noop,
+
+        /**
+         *  设置或者移除据聚焦样式或者失焦样式
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _updateStyleFocused
+         */
+        _updateStyleFocused:$.noop,
+
+        /**
+         *  更新控件visible的UI样式
+         *  @private
+         *  @instance
+         *  @memberof    ebaui.web.Control
+         *  @method     _updateStyleVisible
+         */
+        _updateStyleVisible:function() {
+            var me = this;
+            if( !me._$root ){ return; }
+            var op = me.visible() ? 'show' : 'hide';
+            me._$root[op]();
+        },
+
+        /**
+         *  把HTML占位符转换成为控件自身的HTML结构
+         *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _parseUi
+         *  @param      {Object}    element HTML占位符
+         */
+        _parseUi : function( element ){
+
+            /*
+                创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
+                _parseDataOptions
+                _parseAttrOptions
+                _parseUi
+                _initControl
+                _setupEvents
+                _render
+
+                self._$root.data( 'model',self );
+            */
+            var me = this;
+            // replace html with control template
+            if( !me._rootHtmlTmpl ){ return null; }
+
+            var template = $( me._rootHtmlTmpl ).html(),
+                $el = $( element ),
+                $html = $( template );
+            $el.replaceWith( $html );
+            //  如果是Form表单控件，一般会有name属性
+            //  反之没有
+            $html.attr( { 'data-name'  : me.name ? me.name() : '','data-parsed': 'true' } );
+
+            if( me.id() !== '' ){
+                $html.attr( 'id',me.id() );
+            }
+
+            return $html;
+
+        },
+
+        /**
+         *  获取w3c中，html标签本身就支持的属性配置&lt;br />
+         *  ebaui框架中，html标签本身就支持的属性直接编写在html标签内，而不会放在data-option里面进行配置
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _parseAttrOptions
+         *  @param      {Object}    element HTML占位符
+         */
+        _parseAttrOptions : function( element ){
+
+            /*
+                创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
+                _parseDataOptions
+                _parseAttrOptions
+                _parseUi
+                _initControl
+                _setupEvents
+                _render
+
+                self._$root.data( 'model',self );
+            */
+
+            var $el   = $(element);
+            var id    = $el.attr( 'id' );
+            var name  = $el.attr( 'name' );
+            var title = $el.attr( 'title' );
+
+            var options      = {
+                'id'   : id ? id : '',
+                'name' : name ? name : '',
+                'title': title ? title : '',
+            };
+
+            return options;
+        },
+
+        /**
+         *  更新UI显示
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   Control
+         *  @method     _render
+         */
+        _render : function(){
+
+            /*
+                创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
+                _parseDataOptions
+                _parseAttrOptions
+                _parseUi
+                _initControl
+                _setupEvents
+                _render
+
+                self._$root.data( 'model',self );
+            */
+
+            var me = this;
+            me._updateStyleWidth();
+            me._updateStyleHeight();
+            me._updateStylePosition();
+            me._updateStyleTop();
+            me._updateStyleLeft();
+            me._updateStyleEnabled();
+            me._updateStyleVisible();
+            me._updateStyleTitle();
+        },
+
+        /**
+         *  创建控件——获取初始化参数，初始化，绑定事件，输出控件样式
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _createControl
+         */
+        _createControl:function( options, element ){
+
+            var self        = this;
+            var finalOpts   = $.extend( {}, self.options, self._parseDataOptions( element ), self._parseAttrOptions( element ) );
+
+            if( options ){
+                finalOpts = $.extend( finalOpts,options );
+            }
+
+            self.options    = finalOpts;
+
+            self._controlID = ebaui.guid();
+            self._$root     = self._parseUi( element );
+
+            self._initControl();
+            self._setupEvents();
+            self._render();
+            
+            self._$root.data( 'model',self );
+            
+        },
+
+        /**
+         *  
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _setOptions
+         */
+        _setOptions: function( options ) {
+            var key;
+
+            for ( key in options ) {
+                this._setOption( key, options[ key ] );
+            }
+        },
+
+        /**
+         *  
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _getOption
+         *  @param      {String}    key     - option key
+         */
+        _getOption: function( key ){
+            return this.options[key];
+        },
+
+        /**
+         *  
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _setOption
+         *  @param      {String}    key     - option key
+         *  @param      {Object}    value   - option key
+         */
+        _setOption: function( key, value ) {
+            this.options[ key ] = value;
+        },
+
+        /**
+         *  把html标签定义的data-options字符串转换成javascript对象
+         *  @private
+         *  @instance
+         *  @memberof   Control
+         *  @method     _parseDataOptions
+         *  @param      {Object}    element
+         */
+        _parseDataOptions:function( element ){
+
+            /*
+                创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
+                _parseDataOptions
+                _parseAttrOptions
+                _parseUi
+                _initControl
+                _setupEvents
+                _render
+
+                self._$root.data( 'model',self );
+            */
+
+            var $el     = $( element );
+            var options = {};
+            
+            if( $el.size() == 0 ){ return options; }
+
+            var s = $.trim( $el.attr('data-options') );
+            if ( s ){
+
+                var first = s.substring(0,1);
+                var last  = s.substring(s.length-1);
+
+                if (first != '{') {  s = '{' + s; }
+                if (last != '}') { s = s + '}'; }
+
+                options = ( new Function( 'return ' + s ) )();
+
+            }
+
+            return options;
+
+        },
+
+        /**
+         *  获取控件类所属命名空间
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    namespace
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.namespace() );
+         */
+        namespace:function() {
+            return this._namespace;
+        },
+
+        /**
+         *  获取控件名称
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    controlName
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.controlName() );
+         */
+        controlName:function() {
+            return this._controlName;
+        },
+
+        /**
+         *  获取包含命名空间在内的控件全名
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    controlFullName
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.controlFullName() );
+         */
+        controlFullName:function() {
+            return this._controlFullName;
+        },
+
+        /**
+         *  获取控件html标签的ID
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    id
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.id() );
+         */
+        id : function(){
+            return this.options['id'];
+        },
+
+        /**
+         *  获取或者设置控件是否可用
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Boolean}   enabled
+         *  @default    true
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  true
+         *      console.log( ctrl.enabled() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      //  disable control
+         *      ctrl.enabled( false )
+         */
+        enabled : function( val ){
+
+            var me = this;
+            if( !me.isBoolean( val ) ){
+                return me.options['enabled'];
+            }
+            me._setOption( 'enabled',val );
+            me._updateStyleEnabled();
+
+        },
+
+        /**
+         *  获取或者设置控件是否可见
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}   title
+         *  @default    ''
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.title() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.title( 'pls type user name' )
+         */
+        title : function( val ){
+            var me = this;
+            if( !me.isString( val ) ){ 
+                return me.options['title']; 
+            }
+            me.options['title'] = val;
+        },
+
+        /**
+         *  获取或者设置控件是否可见
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Boolean}   visible
+         *  @default    true
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  true
+         *      console.log( ctrl.visible() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      //  hide
+         *      ctrl.visible( false )
+         */
+        visible : function( val ){
+            var me = this;
+            if( !me.isBoolean( val ) ){
+                return me.options['visible'];
+            }
+            me._setOption( 'visible',val );
+            me._updateStyleVisible();
+        },
+
+        /**
+         *  控件是否可以获取焦点
+         *  @public
+         *  @instance
+         *  @virtual
+         *  @readonly
+         *  @memberof   Control
+         *  @member     {Boolean}   focusable
+         *  @default    false
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  false
+         *      console.log( ctrl.focusable() );
+         */
+        focusable:function() { return false },
+
+        /**
+         *  获取或者设置控件是否已经得到焦点
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Boolean}   focused
+         *  @default    false
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  true
+         *      console.log( ctrl.focused() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      //  true
+         *      ctrl.focused( false );
+         */
+        focused : function( val ){
+
+            var me = this;
+            if( me.isBoolean( val ) ){
+
+                me._setOption( 'focused',val );
+
+                if( val ){
+                    me._focus();
+                }else{
+                    me._blur();
+                }
+
+                me._updateStyleFocused();
+                
+            }
+
+            return me.options['focused'];
+        },
+
+        /**
+         *  获取或者设置控件宽度
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Number}    width
+         *  @default    null
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  100
+         *      console.log( ctrl.width() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.width( 100 );
+         */
+        width : function( val ){
+
+            var me = this;
+            if( me.isNumber( val ) ){
+                me.options['width'] = val;
+                me._updateStyleWidth();
+            }else{
+                return me.options['width'];
+            }
+
+        },
+
+        /**
+         *  获取或者设置控件高度
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Number}    height
+         *  @default    null
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  100
+         *      console.log( ctrl.height() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.height( 100 );
+         */
+        height : function( val ){
+
+            var me = this;
+            if( me.isNumber( val ) ){
+                me.options['height'] = val;
+                me._updateStyleHeight();
+            }else{
+                return me.options['height'];
+            }
+
+        },
+
+        /**
+         *  获取或者设置控件的位置top
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Number}    top
+         *  @default    null
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  100
+         *      console.log( ctrl.top() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.top( 100 );
+         */
+        top : function( val ) {
+            var me = this;
+            if( me.isNumber( val ) ){
+                me.options['top'] = val;
+                me._updateStyleTop();
+            }else{
+                return me.options['top'];
+            }
+        },
+
+        /**
+         *  获取或者设置控件的位置left
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Number}    left
+         *  @default    null
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  100
+         *      console.log( ctrl.left() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.left( 100 );
+         */
+        left : function( val ) {
+            var me = this;
+            if( me.isNumber( val ) ){
+                me.options['left'] = val;
+                me._updateStyleLeft();
+            }else{
+                return me.options['left'];
+            }
+        },
+
+        /**
+         *  position设置
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    position
+         *  @default    'static'
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  'static'
+         *      console.log( ctrl.position() );
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.position( 'relative' );
+         */
+        position : function( val ){
+            var me = this;
+            if( !val ){ return me.options['position']; }
+
+            if( /absolute|fixed|relative|static|inherit|\s*/.test( val ) ){
+                me.options['position'] = $.trim(val);
+                me._updateStylePosition();
+            }
+
+        },
+
+        /**
+         *  获取控件ID
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {String}    controlID
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.controlID() );
+         */
+        controlID : function(){
+            return this._controlID;
+        },
+
+        /**
+         *  获取控件关联的HTML DOM对象的jQuery包装
+         *  @public
+         *  @readonly
+         *  @instance
+         *  @memberof   Control
+         *  @member     {Object}    uiElement
+         *  @example    &lt;caption>get&lt;/caption>
+         *      console.log( ctrl.uiElement() );
+         */
+        uiElement : function(){
+            return this._$root;
+        },
+
+        keys:function( obj ){
+
+            var me = this;
+            if ( !me.isObject(obj) ){
+                throw new TypeError('Invalid object');
+            }
+
+            var keys = [];
+            for (var key in obj) {
+                if( obj.hasOwnProperty( key ) ){
+                    keys.push(key);
+                }
+            }
+
+            return keys;
+
+        },
+
+        /**
+         *  编译HTML模板
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     compileTmpl
+         *  @arg        tmpl
+         *  @arg        data
+         *  @example
+         *      console.log( ctrl.compileTmpl( '' ) );
+         */
+        compileTmpl:function( text, data ){
+
+            var render;
+            var noMatch = /(.)^/;
+            var settings = {
+                evaluate    : /&lt;%([\s\S]+?)%>/g,
+                interpolate : /&lt;%=([\s\S]+?)%>/g,
+                escape      : /&lt;%-([\s\S]+?)%>/g
+            };
+            var escapes = {
+                "'":      "'",
+                '\\':     '\\',
+                '\r':     'r',
+                '\n':     'n',
+                '\t':     't',
+                '\u2028': 'u2028',
+                '\u2029': 'u2029'
+            };
+            var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+
+            // Combine delimiters into one regular expression via alternation.
+            var matcher = new RegExp([
+              (settings.escape || noMatch).source,
+              (settings.interpolate || noMatch).source,
+              (settings.evaluate || noMatch).source
+            ].join('|') + '|$', 'g');
+
+            // Compile the template source, escaping string literals appropriately.
+            var index = 0;
+            var source = "__p+='";
+            text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+              source += text.slice(index, offset)
+                .replace(escaper, function(match) { return '\\' + escapes[match]; });
+
+              if (escape) {
+                source += "'+\n((__t=(" + escape + "))==null?'':ebaui.escape(__t))+\n'";
+              }
+              if (interpolate) {
+                source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
+              }
+              if (evaluate) {
+                source += "';\n" + evaluate + "\n__p+='";
+              }
+              index = offset + match.length;
+              return match;
+            });
+            source += "';\n";
+
+            // If a variable is not specified, place data values in local scope.
+            if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+
+            source = "var __t,__p='',__j=Array.prototype.join," +
+              "print=function(){__p+=__j.call(arguments,'');};\n" +
+              source + "return __p;\n";
+
+            try {
+              render = new Function(settings.variable || 'obj', source);
+            } catch (e) {
+              e.source = source;
+              throw e;
+            }
+
+            if (data){
+                return render(data);
+            }
+            
+            var template = function(data) {
+              return render.call(this, data);
+            };
+
+            // Provide the compiled function source as a convenience for precompilation.
+            template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
+
+            return template;
+
+        },
+
+        /**
+         *  forEach
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isNull
+         *  @arg        obj
+         *  @arg        iterator
+         *  @arg        context
+         *  @example
+         *      console.log( ctrl.isNull( null ) );
+         */
+        each:function( obj, iterator, context ){
+
+            var me = this;
+            if (obj == null) return;
+            if (nativeForEach && obj.forEach === nativeForEach) {
+              obj.forEach(iterator, context);
+            } else if (obj.length === +obj.length) {
+              for (var i = 0, length = obj.length; i &lt; length; i++) {
+                if (iterator.call(context, obj[i], i, obj) === breaker) return;
+              }
+            } else {
+              var keys = me.keys(obj);
+              for (var i = 0, length = keys.length; i &lt; length; i++) {
+                if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
+              }
+            }
+
+        },
+
+        /**
+         *  检查一个变量是否是空的。
+         *  遇到以下情形，我们认为这个变量是空的：
+         *  "" (an empty string)
+         *  ，0 (0 as an integer)
+         *  ，0.0 (0 as a float)
+         *  ，null
+         *  ，undefined
+         *  ，false
+         *  ，[](an empty array)
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isEmpty
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isEmpty( '' ) );
+         */
+        isEmpty : function( val ){
+
+            if( val === null || val === undefined ){
+                return true;
+            }
+            var me = this;
+            //  false
+            if( me.isBoolean( val ) ){ return val; }
+            //  empty string && array
+            if( me.isString( val ) || me.isArray( val ) ){ return val.length == 0; }
+            //  0 (0 as an integer) || 0.0 (0 as a float)
+            if( me.isNumber( val ) && !val ){ return true; }
+
+            return true;
+
+        },
+
+        /**
+         *  判断一个变量是否是null值
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isNull
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isNull( null ) );
+         */
+        isNull : function(obj){ return (obj === null || obj === undefined); },
+
+        /**
+         *  判断一个变量是否是RegExp类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isRegExp
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isRegExp() );
+         */
+        isRegExp:function(obj){ return toString.call(obj) == '[object RegExp]'; },
+
+        /**
+         *  判断一个变量是否是Date类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isDate
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isDate() );
+         */
+        isDate:function(obj){ return toString.call(obj) == '[object Date]'; },
+
+        /**
+         *  判断一个变量是否是Object类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isObject
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isObject() );
+         */
+        isObject:function( obj ) { return obj === Object(obj); },
+
+        /**
+         *  判断一个变量是否是Function类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isFunc
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isFunc() );
+         */
+        isFunc:function( obj ){ return toString.call(obj) == '[object Function]'; },
+
+        /**
+         *  判断一个变量是否是String类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isString
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isString() );
+         */
+        isString:function(obj){ return toString.call(obj) == '[object String]'; },
+
+        /**
+         *  判断一个变量是否是数值类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isNumber
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isNumber() );
+         */
+        isNumber:function(obj){ return toString.call(obj) == '[object Number]'; },
+
+        /**
+         *  判断一个变量是否是Array类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isArray
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isArray() );
+         */
+        isArray:function(obj){ return toString.call(obj) == '[object Array]'; },
+
+        /**
+         *  判断一个变量是否是Boolean类型
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isBoolean
+         *  @arg        obj
+         *  @return     {Boolean}
+         *  @example
+         *      console.log( ctrl.isBoolean() );
+         */
+        isBoolean:function( obj ){ return obj === true || obj === false || toString.call(obj) == '[object Boolean]'; },
+
+        /**
+         *  判断是否使用远程数据源
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     isUsingRemoteData
+         *  @param      {Object|Array}          dataSource              - 如果dataSource是一个数组对象，则认为采用本地数据作为数据源；反之，如果dataSource包含了url属性，data属性（可选），怎认为是使用远程数据源
+         *  @property   {String}                dataSource.url          - 服务端URL
+         *  @property   {Object|Function}       dataSource.data         - 向服务器发起AJAX请求的时候，要发送给服务器的URL参数
+         */
+        isUsingRemoteData:function( dataSource ){
+            if( !dataSource ){
+                throw 'dataSource can not be null!';
+            }
+
+            var me = this;
+            if( me.isArray( dataSource ) ){
+                return false;
+            }else if( me.isObject( dataSource ) && 'url' in dataSource ){
+                return true;
+            }
+
+            return false;
+        },
+
+        /**
+         *  移除所有事件监听，注销控件
+         *  @public
+         *  @instance
+         *  @memberof   Control
+         *  @method     destroy
+         *  @example    
+         *      ctrl.destroy();
+         *  @todo       暂时还没有任何相关实现
+         */
+        destroy:function(){}
+        
+    };
+
+    // exported
+    ebaui.Control = Control;
+
+})( jQuery );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

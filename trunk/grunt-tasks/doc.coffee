@@ -2,7 +2,7 @@
 module.exports = ( grunt ) ->
     grunt.config('jsdoc',{
         release:
-            src: ['build/ebaui.web/*.js']
+            src: ['README.md','build/ebaui.web/*.js']
             options: {
                 'private'       : false
                 'destination'   : "../release/#{grunt.config('pkg')['version']}/doc"

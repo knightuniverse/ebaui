@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: FileUploader.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: FileUploader.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   @class      FileUploader
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.FileUploader( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).fileuploader( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="fileuploader" data-options="{}" /&gt;
+*/
+
+
+(function() {
+  var FileUploader, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  FileUploader = (function(_super) {
+    __extends(FileUploader, _super);
+
+    function FileUploader() {
+      _ref = FileUploader.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    /**
+     *  内部上传控件实例
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {SWFUpload}    _uploader
+    */
+
+
+    FileUploader.prototype._uploader = null;
+
+    /**
+     *  uploadUrl是必须有值的属性，如果该属性为空，抛出此异常
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    _uploadUrlEmptyException
+    */
+
+
+    FileUploader.prototype._uploadUrlEmptyException = 'the uploadUrl property can not be null or empty!';
+
+    /**
+     *  更新UI的按钮文本
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     _updateAttrBtnText
+    */
+
+
+    FileUploader.prototype._updateAttrBtnText = function() {
+      var $root, me, txt;
+      me = this;
+      txt = me.buttonText();
+      $root = me.uiElement();
+      return $('.eba-buttonedit-button', $root).text(txt);
+    };
+
+    /**
+     *  更新UI显示
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     _render
+    */
+
+
+    FileUploader.prototype._render = function() {
+      FileUploader.__super__._render.call(this);
+      return this._updateAttrBtnText();
+    };
+
+    /**
+     *  初始化DOM事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.TextBox
+     *  @method     _setupEvents
+    */
+
+
+    FileUploader.prototype._setupEvents = function(opts) {
+      var me;
+      me = this;
+      me.onEvent('start', opts['onstart']);
+      me.onEvent('progress', opts['onprogress']);
+      me.onEvent('error', opts['onerror']);
+      me.onEvent('succ', opts['onsucc']);
+      return me.onEvent('complete', opts['oncomplete']);
+    };
+
+    /**
+     *  返回swfUploader的事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     _getEvtHandlers
+    */
+
+
+    FileUploader.prototype._getEvtHandlers = function() {
+      var evtHandles, me, uper;
+      me = this;
+      uper = me._uploader;
+      /**
+      fileinfo = {
+          averageSpeed: 0,
+          creationdate: Thu Aug 22 2013 09:35:25 GMT+0800 (China Standard Time),
+          currentSpeed: 0,
+          filestatus: -1,
+          id: "SWFUpload_0_0",
+          index: 0,
+          modificationdate: Thu Aug 22 2013 08:38:53 GMT+0800 (China Standard Time),
+          movingAverageSpeed: 0,
+          name: "bg-scrollbar-thumb-y.png",
+          percentUploaded: 0,
+          post: Object,
+          size: 2567,
+          sizeUploaded: 0,
+          timeElapsed: 0,
+          timeRemaining: 0,
+          type: ".png"
+      }
+      */
+
+      evtHandles = {
+        upload_start_handler: function(fileinfo) {
+          uper.setButtonDisabled(true);
+          return me.triggerEvent('start', {
+            'file': fileinfo
+          });
+        },
+        upload_progress_handler: function(fileinfo, complete, total) {
+          return me.triggerEvent('progress', {
+            'file': fileinfo,
+            'bytesComplete': complete,
+            'totalBytes': total
+          });
+        },
+        upload_error_handler: function(fileinfo, errorCode, message) {
+          uper.setButtonDisabled(false);
+          return me.triggerEvent('error', {
+            'file': fileinfo,
+            'errorMsg': message
+          });
+        },
+        upload_success_handler: function(fileinfo, data, response) {
+          uper.setButtonDisabled(false);
+          return me.triggerEvent('succ', {
+            'file': fileinfo,
+            'serverData': data,
+            'serverResponse': response
+          });
+        },
+        upload_complete_handler: function(fileinfo) {
+          return me.triggerEvent('complete', {
+            'file': fileinfo
+          });
+        },
+        file_dialog_start_handler: function() {
+          return uper.cancelQueue();
+        },
+        file_queued_handler: function(fileinfo) {
+          return me._$formInput.val(fileinfo.name);
+        },
+        file_queue_error_handler: function(fileinfo, errorCode, message) {
+          switch (errorCode) {
+            case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+              break;
+            case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+              break;
+            case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+              break;
+            case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
+          }
+        },
+        file_dialog_complete_handler: function(fileSelectedCount, fileQueuedCount, fileQueueLength) {
+          if (me.uploadOnSelect()) {
+            return uper.startUpload();
+          }
+        }
+      };
+      return evtHandles;
+    };
+
+    FileUploader.prototype._swf = {
+      use_query_string: false,
+      requeue_on_error: true,
+      http_success: [201, 202],
+      assume_success_timeout: 0,
+      file_types_description: "",
+      debug: false,
+      debug_handler: $.noop,
+      prevent_swf_caching: false,
+      preserve_relative_urls: false,
+      button_text: '',
+      button_image_url: '',
+      button_text: '',
+      button_text_style: '',
+      button_text_left_padding: 3,
+      button_text_top_padding: 2,
+      button_action: SWFUpload.BUTTON_ACTION.SELECT_FILES,
+      button_disabled: false,
+      button_cursor: SWFUpload.CURSOR.HAND,
+      button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     _init
+    */
+
+
+    FileUploader.prototype._init = function(opts) {
+      var $root, $swp, btnID, customer, evtHandles, libBaseUrl, me, name, offset, settings, swpHtml, uper, value, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _results;
+      me = this;
+      /**
+      *   初始化控件自身的一系列属性
+      */
+
+      me._uploadUrl = (_ref1 = opts['uploadUrl']) != null ? _ref1 : '';
+      if (!me._uploadUrl) {
+        throw me._uploadUrlEmptyException;
+      }
+      FileUploader.__super__._init.call(this, opts);
+      $root = me.uiElement();
+      libBaseUrl = ebaui['web'].baseUrl;
+      /**
+      *   初始化控件自身的一系列属性
+      */
+
+      me._width = (_ref2 = opts['width']) != null ? _ref2 : 150;
+      me._height = (_ref3 = opts['height']) != null ? _ref3 : 21;
+      me._extraParams = (_ref4 = opts['extraParams']) != null ? _ref4 : {};
+      me._fileType = (_ref5 = opts['fileType']) != null ? _ref5 : '*.jpg;*.gif;*.png';
+      me._fileSizeLimit = (_ref6 = opts['fileSizeLimit']) != null ? _ref6 : '10MB';
+      me._filePostName = (_ref7 = opts['filePostName']) != null ? _ref7 : 'ebauiUploadedFiles';
+      if (opts['buttonText']) {
+        me._buttonText = opts['buttonText'];
+      }
+      me._$formInput = $('input', $root);
+      btnID = me.controlID() + '$span';
+      offset = $root.offset();
+      swpHtml = "&lt;div>&lt;span id=\"" + btnID + "\" \n        style=\"position:'absolute';\n                top:" + offset.top + "px;\n                left:" + offset.left + "px;\n                width:" + ($root.width()) + "px;\n                height:" + ($root.height()) + "px;\">&lt;/span>\n&lt;/div>";
+      $swp = $(swpHtml).appendTo(document.body);
+      customer = {
+        button_placeholder_id: btnID,
+        flash_url: "" + libBaseUrl + "lib/SWFUpload/Flash/swfupload.swf",
+        post_params: me.extraParams(),
+        file_post_name: me._filePostName,
+        file_types: me._fileType,
+        file_size_limit: me._fileSizeLimit,
+        upload_url: me._uploadUrl,
+        file_queue_limit: 0,
+        file_upload_limit: 0,
+        button_width: '100%',
+        button_height: '100%'
+      };
+      evtHandles = me._getEvtHandlers();
+      settings = $.extend(me._swf, customer, evtHandles);
+      uper = me._uploader = new SWFUpload(settings);
+      _ref8 = me._extraParams;
+      _results = [];
+      for (name in _ref8) {
+        value = _ref8[name];
+        _results.push(uper.addPostParam(name, value));
+      }
+      return _results;
+    };
+
+    /**
+     *  开始上传文件
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     startUpload
+     *  @param      {Object}    file
+    */
+
+
+    FileUploader.prototype.startUpload = function(file) {
+      var uper;
+      uper = this._uploader;
+      if (uper) {
+        return uper.startUpload(file);
+      }
+    };
+
+    /**
+     *  添加POST提交的参数
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @method     addPostParam
+     *  @param      {String}    name
+     *  @param      {String}    value
+    */
+
+
+    FileUploader.prototype.addPostParam = function(name, value) {
+      var uper;
+      uper = this._uploader;
+      if (uper && name && value) {
+        return uper.addPostParam(name, value);
+      }
+    };
+
+    FileUploader.prototype._uploadUrl = '';
+
+    /**
+     *  服务端上传文件处理地址
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    uploadUrl
+    */
+
+
+    FileUploader.prototype.uploadUrl = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._uploadUrl;
+      }
+      return me._uploadUrl = val;
+    };
+
+    FileUploader.prototype._buttonText = '浏览...';
+
+    /**
+     *  按钮的文本
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    buttonText
+    */
+
+
+    FileUploader.prototype.buttonText = function(val) {
+      var me, uper;
+      me = this;
+      if (!me.isString(val)) {
+        return me._buttonText;
+      }
+      me._buttonText = val;
+      me._updateAttrBtnText();
+      uper = me._uploader;
+      if (uper) {
+        return uper.setButtonText(val);
+      }
+    };
+
+    FileUploader.prototype._uploadOnSelect = false;
+
+    /**
+     *  文件选择后即上传
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {Boolean}    uploadOnSelect
+    */
+
+
+    FileUploader.prototype.uploadOnSelect = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._uploadOnSelect;
+      }
+      return me._uploadOnSelect = val;
+    };
+
+    FileUploader.prototype._fileType = '*.jpg;*.gif;*.png';
+
+    /**
+     *  允许上传的文件类型,使用";"分割，默认只允许上传图片
+     *  @private
+     *  @instance
+     *  @default    '*.jpg;*.gif;*.png'
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    fileType
+    */
+
+
+    FileUploader.prototype.fileType = function(val) {
+      var me, uper;
+      me = this;
+      if (!me.isString(val)) {
+        return me._fileType;
+      }
+      me._fileType = val;
+      uper = me._uploader;
+      if (uper) {
+        return uper.setFileTypes(val);
+      }
+    };
+
+    FileUploader.prototype._fileSizeLimit = '10MB';
+
+    /**
+     *  上传文件大小限制，默认文件大小上限是10MB
+     *  @private
+     *  @instance
+     *  @default    '10MB'
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    fileSizeLimit
+    */
+
+
+    FileUploader.prototype.fileSizeLimit = function(val) {
+      var me, uper;
+      me = this;
+      if (!me.isString(val)) {
+        return me._fileSizeLimit;
+      }
+      me._fileSizeLimit = val;
+      uper = me._uploader;
+      if (uper) {
+        return uper.setFileSizeLimit(val);
+      }
+    };
+
+    FileUploader.prototype._filePostName = 'ebauiUploadedFiles';
+
+    /**
+     *  文件提交到服务端的时候，post的key值，比如在asp.net你可以使用Request.Files[filePostName]进行访问
+     *  @private
+     *  @instance
+     *  @default    'ebauiUploadedFiles'
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {String}    fileSizeLimit
+    */
+
+
+    FileUploader.prototype.filePostName = function(val) {
+      var me, uper;
+      me = this;
+      if (!me.isString(val)) {
+        return me._filePostName;
+      }
+      me._filePostName = val;
+      uper = me._uploader;
+      if (uper) {
+        return uper.setFilePostName(val);
+      }
+    };
+
+    FileUploader.prototype._extraParams = {};
+
+    /**
+     *  通过POST额外上传到服务器的参数
+     *  @private
+     *  @instance
+     *  @default    {}
+     *  @memberof   ebaui.web.FileUploader
+     *  @member     {Object}    extraParams
+    */
+
+
+    FileUploader.prototype.extraParams = function(val) {
+      var me, name, old, uper, value;
+      me = this;
+      if (val == null) {
+        return me._extraParams;
+      }
+      /**
+      *   This applies to all future files that are queued. 
+      *   The file_size_limit parameter will accept a unit. 
+      *   Valid units are B, KB, MB, and GB. The default unit is KB.
+      */
+
+      uper = me._uploader;
+      old = me._extraParams;
+      if (uper) {
+        if (old) {
+          for (name in old) {
+            value = old[name];
+            uper.removePostParam(name);
+          }
+        }
+        if (val) {
+          for (name in val) {
+            value = val[name];
+            uper.addPostParam(name, value);
+          }
+        }
+      }
+      return me._extraParams = val;
+    };
+
+    return FileUploader;
+
+  })(FormField);
+
+  ebaui['web'].registerFormControl('FileUploader', FileUploader);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

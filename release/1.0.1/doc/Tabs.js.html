@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: Tabs.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: Tabs.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   @class      Tabs
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Tabs( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).tabs( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="tabs" data-options="{}" /&gt;
+*/
+
+
+(function() {
+  var Tabs, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Tabs = (function(_super) {
+    __extends(Tabs, _super);
+
+    function Tabs() {
+      _ref = Tabs.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @member         {jQuery}    -   contentRegion
+    */
+
+
+    Tabs.prototype._$contentRegion = null;
+
+    /**
+     *  初始化DOM事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         _setupEvents
+    */
+
+
+    Tabs.prototype._setupEvents = function(opts) {
+      var $root, me;
+      me = this;
+      $root = me.uiElement();
+      $root.on('click', '.eba-tab', function(event) {
+        var tabIndex;
+        tabIndex = $('.eba-tab', $root).index(this);
+        if (tabIndex === -1) {
+          return;
+        }
+        return me.activateTab(tabIndex);
+      });
+      return $root.on('click', '.eba-tab-close', function(event) {
+        var tabIndex;
+        tabIndex = $('.eba-tab', $root).index($(this).parent());
+        if (tabIndex === -1) {
+          return;
+        }
+        return me.closeTab(tabIndex);
+      });
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         _init
+    */
+
+
+    Tabs.prototype._init = function(opts) {
+      var $region, isValid, me, tab, _ref1;
+      Tabs.__super__._init.call(this, opts);
+      me = this;
+      /**
+      *   初始化控件自身的一系列属性
+      *   contentRegion是必选参数
+      */
+
+      if (opts['home'] != null) {
+        me._home = opts['home'];
+      }
+      if (opts['contentRegion'] != null) {
+        me._contentRegion = opts['contentRegion'];
+      }
+      me._$contentRegion = $(me._contentRegion);
+      /**
+      *   如果指定的contentRegion里面没有ul，那么初始化的时候append一个新的ul
+      *   我们的content的html格式是&lt;li>&lt;iframe src="">&lt;/iframe>&lt;/li>
+      */
+
+      $region = me._$contentRegion;
+      if ($('ul', $region).size() === 0) {
+        $region.append('&lt;ul>&lt;/ul>');
+      }
+      /**
+      *   默认添加homeTab
+      */
+
+      tab = me._home;
+      isValid = tab && tab['url'] ? true : false;
+      if (isValid) {
+        tab['title'] = (_ref1 = tab['title']) != null ? _ref1 : tab['url'];
+        return me.addTab(tab);
+      }
+    };
+
+    /**
+     *  私有变量，用来保存所有tab对象
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {Array}         _tabs
+    */
+
+
+    Tabs.prototype._tabs = [];
+
+    /**
+     *  homeTab配置，homeTab是默认首页
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {Object}         _homeTab
+    */
+
+
+    Tabs.prototype._homeTab = null;
+
+    /**
+     *  当前激活的tab选项卡的对应引用
+     *  @private
+     *  @instance
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {Tab}        _currentTab
+    */
+
+
+    Tabs.prototype._currentTab = null;
+
+    /**
+     *  设置或者获取当前激活的tab选项卡对象
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {Tab}                           currentTab
+     *  @example        &lt;caption>get&lt;/caption>
+     *      tab = console.log( ctrl.currentTab() );
+     *  @example        &lt;caption>set&lt;/caption>
+     *      console.log( ctrl.currentTab( {Number|String|Function} ) );
+    */
+
+
+    Tabs.prototype.currentTab = function(tab) {
+      var curr, instance, me;
+      me = this;
+      if (tab == null) {
+        return me._currentTab;
+      }
+      curr = me._currentTab;
+      instance = me.getTab(tab);
+      if (curr && !curr.isClosed()) {
+        curr.isActived(false);
+      } else {
+        /*
+        *   当前tab已经关闭了，那么就移除其引用
+        */
+
+        me._currentTab = null;
+      }
+      if (instance) {
+        instance.isActived(true);
+        me._currentTab = instance;
+      }
+      return void 0;
+    };
+
+    /**
+     *  添加一个新的选项卡
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         addTab
+     *  @param          {Tab}                           tab
+    */
+
+
+    Tabs.prototype.addTab = function(tab) {
+      var instance, me, tabIndex;
+      if (tab == null) {
+        return;
+      }
+      me = this;
+      tabIndex = me.indexOf(tab['url']);
+      if (tabIndex !== -1) {
+        return;
+      }
+      tabIndex = me._tabs.length;
+      instance = new Tab(null, tab);
+      me._tabs.push(instance);
+      $('ul', me._$root).append(instance.headerDom());
+      $('ul', me._$contentRegion).append(instance.contentDom());
+      me.activateTab(tabIndex);
+      return void 0;
+    };
+
+    /**
+     *  关闭选项卡
+     *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
+     *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
+     *  ，tab参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         closeTab
+     *  @param          {Number|String|Function}        tab
+    */
+
+
+    Tabs.prototype.closeTab = function(tab) {
+      var currTab, lastIndex, me, myTabs, tabIndex, tabToClose;
+      me = this;
+      tabIndex = me.indexOf(tab);
+      if (tabIndex === -1) {
+        return;
+      }
+      myTabs = me._tabs;
+      lastIndex = tabIndex === 0 ? 1 : (tabIndex - 1 > 0 ? tabIndex - 1 : 0);
+      if (lastIndex > myTabs.length) {
+        lastIndex = myTabs.length - 1;
+      }
+      tabToClose = myTabs[tabIndex];
+      currTab = me.currentTab();
+      if (currTab === tabToClose) {
+        me.activateTab(lastIndex);
+      }
+      tabToClose.close();
+      tabToClose = null;
+      myTabs.splice(tabIndex, 1);
+      return me._tabs = myTabs;
+    };
+
+    /**
+     *  关闭所有选项卡
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         closeAllTab
+    */
+
+
+    Tabs.prototype.closeAllTab = function() {
+      var i, item, keep, me, myTabs, removal, rm, _i, _j, _len, _len1;
+      me = this;
+      keep = [];
+      removal = [];
+      myTabs = me._tabs;
+      for (i = _i = 0, _len = myTabs.length; _i &lt; _len; i = ++_i) {
+        item = myTabs[i];
+        item = myTabs[i];
+        if (item.closable()) {
+          removal.push(item);
+        } else {
+          keep.push(item);
+        }
+      }
+      for (i = _j = 0, _len1 = removal.length; _j &lt; _len1; i = ++_j) {
+        rm = removal[i];
+        rm.close();
+      }
+      me._tabs = keep;
+      if (keep.length > 0) {
+        me.activateTab(0);
+      }
+      return void 0;
+    };
+
+    /**
+     *  关闭指定选项卡以外的所有选项卡
+     *  ，but参数如果是一个int对象,那么直接but参数作为索引查找tab
+     *  ，but参数如果是一个string对象，那么默认按照url属性进行查找
+     *  ，but参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         closeAllTab
+     *  @param          {Number|String|Function}        but
+     *  @example
+     *      ctrl.closeOtherTabs(0);
+     *      ctrl.closeOtherTabs('tabname');
+    */
+
+
+    Tabs.prototype.closeOtherTabs = function(but) {
+      var excludeTab, i, item, me, tabIndex, tabs, _i, _len;
+      me = this;
+      tabIndex = me.indexOf(but);
+      if (tabIndex === -1) {
+        return;
+      }
+      me.activateTab(tabIndex);
+      tabs = me._tabs;
+      for (i = _i = 0, _len = tabs.length; _i &lt; _len; i = ++_i) {
+        item = tabs[i];
+        if (tabIndex !== i) {
+          item.close();
+        }
+      }
+      excludeTab = me.getTab(tabIndex);
+      me._tabs = [excludeTab];
+      return void 0;
+    };
+
+    /**
+     *  获取选项卡对象
+     *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
+     *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
+     *  ，tab参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  ，如果没有找到tab的实例，返回null
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         getTab
+     *  @param          {Number|String|Function}        tab
+     *  @returns        {Tab}
+    */
+
+
+    Tabs.prototype.getTab = function(tab) {
+      var me, tabIndex;
+      me = this;
+      tabIndex = me.indexOf(tab);
+      if (tabIndex === -1) {
+        return null;
+      }
+      return me._tabs[tabIndex];
+    };
+
+    /**
+     *  获取选项卡对象的索引
+     *  ，如果isEqual参数是一个合法的索引，那么直接返回
+     *  ，isEqual参数如果是一个string对象，那么默认按照tab的url属性进行查找
+     *  ，isEqual参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         indexOf
+     *  @param          {Number|String|Function}               isEqual or tab name
+     *  @returns        {Number}
+    */
+
+
+    Tabs.prototype.indexOf = function(isEqual) {
+      var fn, i, item, me, size, tabIndex, tabs, _i, _len;
+      me = this;
+      tabs = me._tabs;
+      size = tabs.length;
+      if (me.isNull(isEqual) || size === 0) {
+        return -1;
+      }
+      tabIndex = -1;
+      if (me.isNumber(isEqual)) {
+        tabIndex = parseInt(isEqual);
+        if (isNaN(tabIndex) || tabIndex &lt; 0 || tabIndex >= size) {
+          tabIndex = -1;
+        }
+        return tabIndex;
+      }
+      fn = null;
+      if (me.isString(isEqual)) {
+        /* 
+        *   well, tab parameter is a instance of Tab class
+        */
+
+        fn = function(tab) {
+          return tab['url']() === isEqual;
+        };
+      } else if (me.isFunc(isEqual)) {
+        fn = isEqual;
+      } else {
+        return -1;
+      }
+      for (i = _i = 0, _len = tabs.length; _i &lt; _len; i = ++_i) {
+        item = tabs[i];
+        if (fn(item)) {
+          tabIndex = i;
+          break;
+        }
+      }
+      return tabIndex;
+    };
+
+    /**
+     *  激活指定的选项卡
+     *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
+     *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
+     *  ，tab参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         activateTab
+     *  @param          {Number|String|Function}        tab
+    */
+
+
+    Tabs.prototype.activateTab = function(tab) {
+      var me, tabIndex;
+      me = this;
+      tabIndex = me.indexOf(tab);
+      if (tabIndex === -1) {
+        return;
+      }
+      return me.currentTab(tabIndex);
+    };
+
+    /**
+     *  刷新tab页面的内容
+     *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
+     *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
+     *  ，tab参数如果是一个function对象，那么会在查找的过程中，使用指定的函数作为判等条件
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         refreshTab
+     *  @param          {Number|String|Function}        tab
+    */
+
+
+    Tabs.prototype.refreshTab = function(tab) {
+      var currTab, me, tabInstance;
+      me = this;
+      /* 
+      *   if tab parameter was not been assigned,
+      *   the current active tab will be refreshed
+      */
+
+      if (me.isNull(tab)) {
+        currTab = me.currentTab();
+        if (currTab) {
+          currTab.refresh();
+        }
+        return;
+      }
+      tabInstance = me.getTab(tab);
+      if (tabInstance) {
+        return tabInstance.refresh();
+      }
+    };
+
+    /**
+     *  调整tab内容区域的iframe的width以及height
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs 
+     *  @method         resizeContent
+    */
+
+
+    Tabs.prototype.resizeContent = function(size) {
+      var $ifm, me;
+      if (!size) {
+        return;
+      }
+      me = this;
+      if (size['width'] == null) {
+        return;
+      }
+      $ifm = $('iframe', me._$contentRegion);
+      $ifm.width(size['width']);
+      return $ifm.height(size['height']);
+    };
+
+    Tabs.prototype._contentRegion = '.eba-tabs-body';
+
+    /**
+     *  jquery选择器
+     *  ，用来指定tab内容的区域
+     *  ，控件content内容将会输出在这个地方
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @default        .eba-tabs-body
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {String}            contentRegion
+    */
+
+
+    Tabs.prototype.contentRegion = function() {
+      return this._contentRegion;
+    };
+
+    Tabs.prototype._home = {
+      title: '',
+      url: '',
+      closable: false
+    };
+
+    /**
+     *  默认首页，{ title:'',url:'' }，其中，url是必选项。
+     *  如果没有指定title，则title默认为 Tab + tabIndex。
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof       ebaui.web.Tabs 
+     *  @member         {Object}                        home
+    */
+
+
+    Tabs.prototype.home = function(val) {
+      return this._home;
+    };
+
+    return Tabs;
+
+  })(Control);
+
+  ebaui['web'].registerControl('Tabs', Tabs);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

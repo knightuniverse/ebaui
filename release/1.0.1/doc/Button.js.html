@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: Button.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: Button.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   IE下，Button有一个比较蛋疼的问题就是，当你按下回车键的时候
+*   浏览器会触发Button的click事件
+*   关于这个问题的解决方案，就是给button标签添加属性：type="button"
+*   see http://tjvantoll.com/2013/05/22/why-are-enter-keypresses-clicking-my-buttons-in-ie/
+*/
+
+
+/**
+*   @class      Button
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Button( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).button( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="button" data-options="{}" /&gt;
+*/
+
+
+(function() {
+  var Button, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Button = (function(_super) {
+    __extends(Button, _super);
+
+    function Button() {
+      _ref = Button.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    /**
+     *  允许的button的state
+     *  @private
+     *  @instance
+     *  @virtual
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    _availableState
+    */
+
+
+    Button.prototype._availableState = /^(primary|info|success|warning|danger|inverse|link|\s+)$/i;
+
+    /**
+     *  更新控件enabled的UI样式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @method     _updateCssEnabled
+    */
+
+
+    Button.prototype._updateCssEnabled = function() {
+      var $root, cls, enabled, me, op;
+      me = this;
+      $root = me.uiElement();
+      cls = 'eba-button-disabled';
+      enabled = me.enabled();
+      op = enabled ? 'removeClass' : 'addClass';
+      $root[op](cls);
+      return $root.prop('disabled', !enabled);
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @method     _updateAttrText
+    */
+
+
+    Button.prototype._updateAttrText = function() {
+      var me, txt;
+      me = this;
+      txt = me.text();
+      if (txt) {
+        me._$btnText.text(txt);
+      }
+      return void 0;
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @method     _updateAttrHref
+    */
+
+
+    Button.prototype._updateAttrHref = function() {
+      var attrVal, href, me;
+      me = this;
+      href = me.href();
+      attrVal = me.enabled() && href ? href : 'javascript:void(0);';
+      me._$root.attr('href', attrVal);
+      return void 0;
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @method     _updateAttrTarget
+    */
+
+
+    Button.prototype._updateAttrTarget = function() {
+      var me, target;
+      me = this;
+      target = me.target();
+      me._$root.attr('target', target.length > 0 ? target : null);
+      return void 0;
+    };
+
+    Button.prototype._updateCssStates = function() {
+      var $root, cls, me, state, stateCls;
+      me = this;
+      state = $.trim(me.state());
+      $root = me.uiElement();
+      cls = $root.attr('class').replace(/eba-button-primary|eba-button-info|eba-button-success|eba-button-warning|eba-button-danger|eba-button-inverse|eba-button-link/ig, '');
+      stateCls = state ? "eba-button-" + state : "";
+      if (state) {
+        $root.attr('class', "" + cls + " " + stateCls);
+      }
+      return void 0;
+    };
+
+    Button.prototype._updateCssIcon = function() {
+      var $root, iconHtml, iconPosition, me;
+      me = this;
+      $root = me._$root;
+      iconPosition = me.iconPosition();
+      iconHtml = '&lt;i class="{0}">&lt;/i>'.replace('{0}', me.iconCls());
+      $('i', $root).remove();
+      if (iconPosition !== 'left') {
+        $root.append(iconHtml);
+      } else {
+        $root.prepend(iconHtml);
+      }
+      return void 0;
+    };
+
+    Button.prototype._render = function() {
+      var me;
+      Button.__super__._render.call(this);
+      me = this;
+      me._updateAttrText();
+      me._updateCssIcon();
+      me._updateAttrHref();
+      me._updateAttrTarget();
+      return me._updateCssStates();
+    };
+
+    Button.prototype._setupEvents = function(opts) {
+      var $root, keyboard, me;
+      me = this;
+      $root = me.uiElement();
+      keyboard = ebaui['web'].keyboard;
+      me.onEvent('click', opts['onclick']);
+      $root.on('keydown', function(eventArgs) {
+        var enter;
+        enter = eventArgs.which === 13;
+        if (me.enabled() && me.focused() && enter) {
+          eventArgs.preventDefault();
+          return me.triggerEvent('click', eventArgs);
+        }
+      });
+      return $root.on('click', function(eventArgs) {
+        if (me.enabled()) {
+          eventArgs.preventDefault();
+          return me.triggerEvent('click', eventArgs);
+        }
+      });
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @virtual
+     *  @instance
+     *  @memberof   Button
+     *  @method     _init
+    */
+
+
+    Button.prototype._init = function(opts) {
+      var initState, me, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
+      Button.__super__._init.call(this, opts);
+      me = this;
+      me._$btnText = $('.eba-button-text ', me._$root);
+      initState = opts['state'];
+      if (me._availableState.test(initState)) {
+        me._state = initState.toLowerCase();
+      }
+      me._text = (_ref1 = opts['text']) != null ? _ref1 : '';
+      me._href = (_ref2 = opts['href']) != null ? _ref2 : '';
+      me._target = (_ref3 = opts['target']) != null ? _ref3 : 'blank';
+      me._iconCls = (_ref4 = opts['iconCls']) != null ? _ref4 : '';
+      me._iconPosition = (_ref5 = opts['iconPosition']) != null ? _ref5 : 'left';
+      return me._enterAsTab = (_ref6 = opts['enterAsTab']) != null ? _ref6 : true;
+    };
+
+    Button.prototype._focus = function() {
+      return this._$root.focus();
+    };
+
+    Button.prototype._blur = function() {
+      return this._$root.blur();
+    };
+
+    Button.prototype._state = '';
+
+    /**
+     *  获取或者设置button的状态
+     *  可选的值：
+     *  
+     *  primary
+     *  info
+     *  success
+     *  warning
+     *  danger
+     *  inverse
+     *  link
+     *  
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    state
+     *  @default    ''
+     *  @example    &lt;caption>get&lt;/caption>
+     *      var state = ctrl.state();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.state( '' );
+    */
+
+
+    Button.prototype.state = function(val) {
+      var availableState, me;
+      me = this;
+      availableState = me._availableState;
+      if (!availableState.test(val)) {
+        return me._state;
+      }
+      me._state = val.toLowerCase();
+      return me._updateCssStates();
+    };
+
+    Button.prototype._text = 'button';
+
+    /**
+     *  获取或者设置button文本值
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    text
+     *  @default    ''
+     *  @example    &lt;caption>get&lt;/caption>
+     *      #text == 'text'
+     *      var text = ctrl.text();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.text( 'label' );
+    */
+
+
+    Button.prototype.text = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._text;
+      }
+      me._text = val;
+      me._$btnText.text(val);
+      return void 0;
+    };
+
+    Button.prototype._href = '';
+
+    /**
+     *  获取或者设置button超链接地址
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    href
+     *  @default    ''
+     *  @example    &lt;caption>get&lt;/caption>
+     *      #href == 'href'
+     *      var href = ctrl.href();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.href( 'http://xxx.com/xxx' );
+    */
+
+
+    Button.prototype.href = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._href;
+      }
+      if ($.trim(val).length !== 0) {
+        return me._href;
+      }
+      me._href = val;
+      me._updateAttrHref();
+      return void 0;
+    };
+
+    Button.prototype._target = 'blank';
+
+    /**
+     *  获取或者设置在何处打开目标 URL
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    target
+     *  @default    '_blank'
+     *  @example    &lt;caption>get&lt;/caption>
+     *      var target = ctrl.target();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      #_blank _parent _self _top 
+     *      ctrl.target( '_blank' );
+    */
+
+
+    Button.prototype.target = function(val) {
+      var me, re;
+      me = this;
+      re = /_parent|_blank|_self|_top/i;
+      if (!re.test(val)) {
+        return me._target;
+      }
+      me._target = val;
+      return me._updateAttrTarget();
+    };
+
+    /**
+     *  控件是否可以获取焦点
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof   ebaui.web.Button
+     *  @member     {Boolean}   focusable
+     *  @default    false
+     *  @example    &lt;caption>get&lt;/caption>
+     *      #false
+     *      console.log( ctrl.focusable() );
+    */
+
+
+    Button.prototype.focusable = function() {
+      return true;
+    };
+
+    Button.prototype._iconCls = '';
+
+    /**
+     *  获取或者设置button的icon图标CSS样式类
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    iconCls
+     *  @default    ''
+     *  @example    &lt;caption>get&lt;/caption>
+     *      #iconCls == 'icon-add'
+     *      var iconCls = ctrl.iconCls();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.iconCls( 'icon-add' );
+    */
+
+
+    Button.prototype.iconCls = function(val) {
+      var me;
+      me = this;
+      if (me.isEmpty(val)) {
+        return me._iconCls;
+      }
+      me._iconCls = val;
+      return me._updateCssIcon();
+    };
+
+    Button.prototype._iconPosition = 'left';
+
+    /**
+     *  获取或者设置button的icon图标位置，可选的值有：left right
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {String}    iconPosition
+     *  @default    'left'
+     *  @example    &lt;caption>get&lt;/caption>
+     *      #position == 'left'
+     *      var position = ctrl.iconPosition();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.iconPosition( 'left' );
+     *      ctrl.iconPosition( 'right' );
+    */
+
+
+    Button.prototype.iconPosition = function(val) {
+      var me, re;
+      me = this;
+      re = /left|right/i;
+      if (!re.test(val)) {
+        return me._iconPosition;
+      }
+      me._iconPosition = val;
+      return me._updateCssIcon();
+    };
+
+    Button.prototype._enterAsTab = true;
+
+    /**
+     *  获取或者设置表单控件是否允许按下enter键的时候，聚焦到下一个控件
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Button
+     *  @member     {Boolean}   enterAsTab
+     *  @default    false
+     *  @example    &lt;caption>get&lt;/caption>
+     *      var enterAsTab = ctrl.enterAsTab();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.enterAsTab( true );
+    */
+
+
+    Button.prototype.enterAsTab = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._enterAsTab;
+      }
+      return me._enterAsTab = val;
+    };
+
+    return Button;
+
+  })(Control);
+
+  ebaui['web'].registerControl('Button', Button);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

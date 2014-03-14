@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.web/ebaui.Spinner.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.web/ebaui.Spinner.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  定义了ebaui.web.Calendar，依赖[Moment.js](http://momentjs.com/)库
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ) {
+
+    ebaui.web.registerFormControl( 'Spinner',true );
+
+    /**
+     *  控件全名 e.g. ebaui.web.Spinner
+     *  控件描述
+     *  @class      Spinner 
+     *  @memberof   ebaui.web
+     *  @extends    ebaui.web.FormElement
+     *  @tutorial   spinner_index
+     *  @param      {Object}    options     -   控件配置参数
+     *  @param      {Object}    element     -   dom对象
+     *  @example    
+     *      &lt;input data-role="spinner" id="" name="" value="" data-options="{}"/&gt;
+     */
+    ebaui.control( 'web.Spinner',ebaui.web.FormElement, {
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _rootHtmlTmpl : '#ebaui-template-spinner',
+
+        /**
+         *  控件要用到的UI的CSS样式类
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Object}    _cssClass
+         */
+        _cssClass : {
+            disabled: 'eba-disabled',
+            focused : 'eba-buttonedit-focus',
+            readonly: 'eba-readonly'
+        },
+
+        /**
+         *  获取焦点
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _focus
+         */
+        _focus : function(){
+            var me = this;
+            $( 'input',me._$root ).eq( me._currInput ).focus();
+        },
+
+        /**
+         *  失去焦点
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _blur
+         */
+        _blur : function(){
+            var me = this;
+            $( 'input',me._$root ).eq( me._currInput ).blur();
+        },
+
+        /**
+         *  设置或者移除据聚焦样式或者失焦样式
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _updateStyleFocused
+         */
+        _updateStyleFocused:function() {
+            var me = this;
+            if( me.focused() ){
+                me._$root.addClass( me._cssClass['focused'] );
+            }else{
+                me._$root.removeClass( me._cssClass['focused'] );
+            }
+
+        },
+
+        /**
+         *  
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _updateStyleEnabled
+         */
+        _updateStyleEnabled:function() {
+            var me = this;
+            var $root     = me._$root;
+            if( me.enabled() ){
+                $( 'input',$root ).attr('disabled',null);
+                $root.removeClass( me._cssClass['disabled'] );
+            }else{
+                $( 'input',$root ).attr('disabled','disabled');
+                $root.removeClass( me._cssClass['focused'] )
+                     .addClass( me._cssClass['disabled'] );
+            }
+
+        },
+
+        /**
+         *  
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _updateStyleEnabled
+         */
+        _updateStyleReadonly:function() {
+            var me = this;
+            var $root = me._$root;
+            if( me.readonly() ){
+                $root.addClass( me._cssClass['readonly'] );
+                $( '.eba-buttonedit-buttons',$root ).hide();
+                $( 'input',$root ).attr('readonly','readonly');
+            }else{
+                $root.removeClass( me._cssClass['readonly'] );
+                $( 'input',$root ).attr('readonly',null);
+                $( '.eba-buttonedit-buttons',$root ).show();
+            }
+
+        },
+
+        /**
+         *  
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _fixNumber
+         */
+        _fixNumber:function( ctrlVal ){
+            var me = this;
+            if( me.isNull( ctrlVal ) ){ ctrlVal = me.value(); }
+            var decimalPlaces = me.decimalPlaces();
+            var fixedNumberStr = decimalPlaces &lt; 0 ? ctrlVal.toString() :  ctrlVal.toFixed( decimalPlaces );
+            return fixedNumberStr;
+        },
+
+        /**
+         *  更新UI显示
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _render
+         */
+        _render : function(){
+            var me = this;
+            me._$formInput.val( me._fixNumber() );
+            me._super();
+        },
+
+        /**
+         *  初始化DOM事件处理程序
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _setupEvents
+         */
+        _setupEvents : function(){
+
+            var self    = this,
+                $root   = self._$root,
+                $input  = self._$formInput;
+
+            $root.on( 'keyup','input',function( event ){
+
+                if( event.which == ebaui.keycodes.up_arrow ){
+                    //  increase
+                    self.stepUp();
+                }else if( event.which == ebaui.keycodes.down_arrow ){
+                    //  decrease
+                    self.stepDown();
+                }
+
+            } );
+
+            $root.on( 'change','input',function( event ){
+                var val = $input.val();
+                self.value( val );
+            } );
+
+            $root.on( 'focus','input',function( event ){
+                self._setOption( 'focused',true );
+                self._updateStyleFocused();
+            } );
+
+            $root.on( 'blur','input',function( event ){
+                self._setOption( 'focused',false );
+                self._updateStyleFocused();
+            } );
+
+            $root.on( 'click','.eba-buttonedit-up',function( event ){
+                self.stepUp();
+                self.options['onspinup']( self,event );
+            } );
+
+            $root.on( 'click','.eba-buttonedit-down',function( event ){
+                self.stepDown();
+                self.options['onspindown']( self,event );
+            } );
+
+        },
+
+        /**
+         *  初始化控件，声明内部变量
+         *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     _initControl
+         */
+        _initControl : function(){
+
+            var me = this;
+            me._$formInput = $( 'input',me._$root );
+            me._$border    = $('.eba-buttonedit-border',me._$root);
+            
+            //  validators
+            me._initValidators();
+
+            //  check init value
+            //  if init value is invalid then set it to 0
+            var initVal = me.options['value'];
+            if( !me.isNumber( initVal ) ){
+                initVal = 0;
+            }
+
+            var fixed = me._fixNumber( initVal );
+            me.options['value'] = parseFloat( fixed );
+        },
+
+        /**
+         *  控件是否可以获取焦点
+         *  @public
+         *  @instance
+         *  @readonly
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Boolean}   focusable
+         *  @example    &lt;caption>get&lt;/caption>
+         *      //  false
+         *      console.log( ctrl.focusable() );
+         */
+        focusable:function() { return true; },
+
+        /**
+         *  获取或者设置spinner值
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {String}        _accessValue
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var value = ctrl._accessValue();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl._accessValue( '19:20' );
+         */
+        _accessValue : function( val ){
+
+            var me = this;
+            if( me.isNull( val ) ){
+                return me.options['value'];
+            }
+
+            val = parseFloat( val );
+            if( isNaN( val ) ){ val = 0; }
+
+            var me = this;
+            var max = me.max();
+            var min = me.min();
+
+            if( val &lt; min ){ val = min; }
+            if( val > max ){ val = max; }
+
+            var fixedNumberStr = me._fixNumber( val );
+            //  格式化数据
+            val = parseFloat( fixedNumberStr );
+            //  update value 
+            me.options['value'] = val;
+            //  display value
+            me._$formInput.val( fixedNumberStr );
+            //  trigger 'onchange' event
+            me.options['onchange']( me,{} );
+        },
+
+        /**
+         *  获取或者设置spinner值,同value属性一致
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {String}        data
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var data = ctrl.data();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.data( '19:20' );
+         */
+        data: function( val ){ return this._accessValue( val ); },
+
+        /**
+         *  获取或者设置spinner值,同value属性一致
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {String}    text
+         *  @default    ''
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var text = ctrl.text();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.text( '19:20' );
+         */
+        text : function( val ){ return this._accessValue( val ); },
+
+        /**
+         *  获取或者设置spinner值
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {String}     value
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var value = ctrl.value();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.value( '19:20' );
+         */
+        value : function( val ){ return this._accessValue( val ); },
+
+        /**
+         *  获取或者设置秒微调步进
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Number}     step
+         *  @default    1
+         *  @tutorial   timespinner_steps
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var value = ctrl.step();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.step( 20 );
+         */
+        step:function( val ){ 
+
+            var me = this;
+            if( !me.isNumber( val ) ){
+                return me.options['step'];
+            }
+
+            me.options['step'] = val;
+
+        },
+
+        /**
+         *  
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     stepUp
+         *  @example    
+         *      ctrl.stepUp();
+         */
+        stepUp:function(){
+
+            var step      = this.step();
+            var max       = this.max();
+            var currValue = this.value();
+            currValue = ( ( currValue + step ) > max ) ? max : ( currValue + step );
+            this.value( currValue );
+
+        },
+
+        /**
+         *  
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @method     stepDown
+         *  @example    
+         *      ctrl.stepDown();
+         */
+        stepDown:function(){
+
+            var me        = this;
+            var step      = me.step();
+            var min       = me.min();
+            var currValue = me.value();
+            currValue = ( ( currValue - step ) &lt; min ) ? min : ( currValue - step );
+            me.value( currValue );
+
+        },
+
+        /**
+         *  获取或者设置秒微调步进
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Number}     min
+         *  @default    0
+         *  @tutorial   timespinner_steps
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var value = ctrl.min();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.min( 20 );
+         */
+        min:function( val ){ 
+
+            var me = this;
+            if( !me.isNumber( val ) ){
+                return me.options['min'];
+            }
+
+            me.options['min'] = val;
+
+        },
+
+        /**
+         *  获取或者设置秒微调步进
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Number}     max
+         *  @default    100
+         *  @tutorial   timespinner_steps
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var value = ctrl.max();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.max( 20 );
+         */
+        max:function( val ){ 
+
+            var me = this;
+            if( !me.isNumber( val ) ){
+                return me.options['max'];
+            }
+
+            me.options['max'] = val;
+
+        },
+
+        /**
+         *  保留的小数点位数。默认值是-1，表示不作任何限制
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Number}     decimalPlaces
+         *  @default    0
+         *  @example    &lt;caption>get&lt;/caption>
+         *      var decimalPlaces = ctrl.decimalPlaces();
+         *  @example    &lt;caption>set&lt;/caption>
+         *      ctrl.decimalPlaces( 20 );
+         */
+        decimalPlaces : function( val ){
+            var me = this;
+            if( !me.isNumber( val ) ){ 
+                return me.options['decimalPlaces']; 
+            }
+            me.options['decimalPlaces'] = val;
+        },
+
+        /**
+         *  控件配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Spinner
+         *  @member     {Object}    options
+         */
+        options : {
+
+            //  保留的小数点位数。默认值是-1，表示不作任何限制
+            decimalPlaces:-1,
+            //  default width
+            width : 150,
+            //  default height
+            height : 21,
+            //  default timeSpinner value is now
+            value : 0,
+            //  微调步进
+            step : 1,
+            //  min value 
+            min : 0,
+            //  max value 
+            max : 100,
+            /**
+             *  增加数值的时候触发
+             *  @tutorial   timespinner_events
+             *  @event  ebaui.web.Spinner#onspinup
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             */
+            onspinup : $.noop,
+            /**
+             *  减少数值的时候触发
+             *  @tutorial   timespinner_events
+             *  @event  ebaui.web.Spinner#onspindown
+             *  @param  {Object}    sender      - 事件发送对象
+             *  @param  {Object}    eventArgs   - 事件参数
+             */
+            onspindown : $.noop,
+            /**
+             *  控件的值发生改变的时候触发
+             *  @tutorial   timespinner_events
+             *  @event      ebaui.web.Spinner#onchange
+             *  @param      {Object}    sender      - 事件发送对象
+             *  @param      {Object}    eventArgs   - 事件参数
+             */
+            onchange : $.noop
+        }
+
+    });
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.web/ebaui.MiniGrid.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.web/ebaui.MiniGrid.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  定义了ebaui.web.MiniGrid
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ) {
+    
+     /** 
+     *  ebaui.web.MiniGrid
+     *  控件描述
+     *  @class      MiniGrid 
+     *  @memberof   ebaui.web
+     *  @extends    Control
+     *  @param      {Object}    options     -   控件配置参数
+     *  @param      {Object}    element     -   dom对象
+     *  @example    ''
+     */
+    ebaui.control( 'web.MiniGrid', {
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _rootHtmlTmpl : '#ebaui-template-minigrid',
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _headerHtmlTmpl : '#ebaui-template-minigrid-header',
+
+        /**
+         *  控件HTML模板
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @member     {String}    _rootHtmlTmpl
+         */
+        _itemHtmlTmpl : '#ebaui-template-minigrid-item',
+
+        /**
+         *  已经编译好的ListBox项HTML模板，后续会重复使用
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _compiledHeaderTmpl
+         */
+        _compiledHeaderTmpl : $.noop,
+
+        /**
+         *  已经编译好的ListBox项HTML模板，后续会重复使用
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _compiledItemTmpl
+         */
+        _compiledItemTmpl : $.noop,
+
+        _updateStyleHeight : function(){
+
+            var me      = this;
+            var height  = me.height();
+            var isNum   = me.isNumber( height );
+            
+            var $root   = me._$root;
+            var $border = $('.eba-listbox-border',$root);
+            var $view   = $('.eba-listbox-view',$root);
+
+            if( isNum ){
+                if( height > 0 ){ 
+                    $view.height( height );
+                }
+            }else if( height ){
+                var result = me._cssUnitRE.exec( height );
+                if( result[1] ){
+                    //  if one css unit has been assigned
+                    $view.css( 'height',height );
+                }else{
+                    //  default css unit is px
+                    $view.css( 'height',height + 'px' );
+                }
+            }
+
+        },
+
+        _updateStyleWidth:function(){
+
+            var me      = this;
+            var width   = me.width();
+            var isNum   = me.isNumber( width );
+            
+            var $root   = me._$root;
+            var $border = $('.eba-listbox-border',$root);
+            var $view   = $('.eba-listbox-view',$root);
+
+            if( isNum ){
+                if( width > 0 ){ $view.width( width ); }
+            }else if( width ){
+                var result = me._cssUnitRE.exec( width );
+                if( result[1] ){
+                    //  if one css unit has been assigned
+                    $view.css( 'width',width );
+                }else{
+                    //  default css unit is px
+                    $view.css( 'width',width + 'px' );
+                }
+            }
+
+        },
+
+        /**
+         *  初始化DOM事件处理程序
+         *  @private
+         *  @virtual
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _setupEvents
+         */
+        _setupEvents : function(){
+
+            var self  = this;
+            var $root = self._$root;
+
+            /* because of event delegation,so I stop event bubbling here */
+            $root.on( 'click',function( event ){ 
+                event.stopPropagation();
+            } );
+
+            $root.on( 'change',':checkbox',function( event ){
+
+                event.stopPropagation();
+
+                var $this       = $(this);
+                var value       = $this.val();
+                var selectedCls = 'eba-listbox-item-selected';
+                if( value === 'selectall' && $this.is(':checked') ){
+                    //  in case of select all
+                    $( ':checkbox[value!="selectall"]',$root ).each(function( index,el ){
+                        el.checked = true;
+                    });
+
+                    $( '.eba-listbox-view tr[data-index!=""]',$root ).addClass(selectedCls);
+
+                    if( self.isFunc( self.options['onSelectAll'] ) ){
+                        self.options['onSelectAll']( self,{} );
+                    }
+
+                }else if( value === 'selectall' && !$this.is(':checked') ){
+                    //  in case of deselect all
+                    self.resetSelection();
+                    $( '.eba-listbox-view .' + selectedCls,$root ).removeClass(selectedCls);
+                    self.options['onSelectAll']( self,{} );
+                }else if( value !== 'selectall' && $this.is(':checked') ){
+
+                    $this.parent().parent().addClass(selectedCls);
+                    if( self.isFunc( self.options['onSelectRow'] ) ){
+                        self.options['onSelectRow']( self,{} );
+                    }
+
+                }else if( value !== 'selectall' && !$this.is(':checked') ){
+                    $this.parent().parent().removeClass(selectedCls);
+                    self.options['onSelectRow']( self,{} );
+                }
+
+            } );
+
+        },
+
+        /**
+         *  判断是否使用本地数据源还是使用remote数据源
+         *  ，因为我直接整合jqgrid的配置，并没有做过多的修改
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _isRemoteDataSource
+         */
+        _isRemoteDataSource:function(){
+            var me = this;
+            var dataSource = me.options['data'];
+            var url = $.trim( me.options['url'] );
+
+            /*
+             *  优先加载远程数据，然后才是本地数据
+             */
+            if( url ){ return true; }
+
+            if( dataSource && me.isArray( dataSource ) ){
+                return false;
+            }
+            
+            //  at last, it comes to an empty array as a local dataSource
+            me.options['data'] = [];
+            return false;
+        },
+
+        /**
+         *  初始化控件，声明内部变量
+         *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _initControl
+         */
+        _initControl : function(){
+
+            var me = this;
+            var headerTmpl = $.trim( $( me._headerHtmlTmpl ).html() );
+            me._compiledHeaderTmpl = me.compileTmpl( headerTmpl );
+
+            var itemHtmlTmpl = $.trim( $( me._itemHtmlTmpl ).html() );
+            me._compiledItemTmpl = me.compileTmpl( itemHtmlTmpl );
+
+            me._usingRemoteData = me._isRemoteDataSource();
+
+        },
+
+        _usingRemoteData  : false,
+
+        _loadRemoteData : function( callback ){
+
+            var me = this;
+            var opts = me.options;
+            var dataSource = opts['url'];
+            var postData = opts['postData'];
+            var parameters = {};
+            if( postData ){
+                for( var i = 0,l = postData.length;i&lt;l;i++ ){
+                    $.extend( parameters,postData[i] );
+                }
+            }
+
+            $.getJSON(dataSource, parameters, function(serverData) {
+                callback( serverData );
+            });
+
+        },
+
+        _loadData:function( callback ){
+
+            var self = this;
+            if( self._usingRemoteData ){
+                self._loadRemoteData( function( serverData ){
+                    self._items = serverData;
+                    callback();
+                    self.options['loadComplete']( self,{} );
+                } );
+            }else{
+                self._items = self.options.data;
+                callback();
+                self.options['loadComplete']( self,{} );
+            }
+
+        },
+
+        /**
+         *  更新UI显示
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     _render
+         */
+        _render : function(){
+
+            var self = this;
+            var $root = this._$root;
+
+            self._loadData( function(){
+
+                var headerHtml = self._compiledHeaderTmpl({
+                    'headers' : self.options['colModel']
+                });
+
+                var itemsHtml = self._compiledItemTmpl({
+                    'headers'  : self.options['colModel'],
+                    'rows'     : self.items(),
+                    'autowidth': self.options['autowidth']
+                });
+
+                if( self.options['autowidth'] ){
+                    $( '.eba-listbox-headerInner',$root ).html( headerHtml );
+                    $( '.eba-listbox-items',$root ).html( itemsHtml );
+                }else{
+                    $( '.eba-listbox-items',$root ).html( headerHtml + itemsHtml );
+                }
+
+                self._updateStyleWidth();
+                self._updateStyleHeight();
+
+            } );
+
+        },
+
+        //  本地数据源
+        _items : [],
+
+        /**
+         *  当前MiniGrid的数据源
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @member     items
+         */
+        items : function(){ return this._items; },
+
+        /**
+         *  当前MiniGrid的已经选中的项目
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @member     selectedItems
+         */
+        selectedItems : function(){
+
+            var me = this;
+            if( me._items.length &lt;=0 ){
+                return [];
+            }
+
+            var idx   = [];
+            var $root = me._$root;
+            $( ':checked',$root ).each( function( index,el ){
+                var $this = $( el );
+                var value = $this.val();
+                if( el.checked && value !== "selectall" ){
+                    idx.push( parseInt( value ) );
+                }
+            } );
+
+            var selected = [];
+            for( var i = 0,l = idx.length; i &lt; l; i++ ){
+                var index = idx[i];
+                selected.push( me._items[index] );
+            }
+            return selected;
+
+        },
+
+        /**
+         *  清空选中的项。如果有指定的数据行，则清空指定数据行的选中状态；
+         *  否则，清空所有选中的数据行。
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     resetSelection
+         *  @param      {String}        rowId
+         */
+        resetSelection : function( rowId ){
+
+            var $root            = this._$root;
+            var $checkboxes      = $( ':checkbox',$root );
+            var $checked         = $( ':checked',$root );
+            var checkedItemCount = $checked.size();
+            var allChecked       = checkedItemCount == this._items.length;
+            var resetAll         = !_.isNumber( rowId );
+
+            if( checkedItemCount == 0 ){
+                return ;
+            }
+
+            if( !resetAll && allChecked ){
+                //  in case of checked all
+                $checkboxes.get( 0 ).checked = false;
+                $checkboxes.get( rowId + 1 ).checked = false;
+            }else if( !resetAll && !allChecked ){
+                //  in case of reset one row
+                $checkboxes.get( rowId + 1 ).checked = false;
+            }else{
+                //  in case of reset all
+                $( '.eba-listbox-item-selected',$root ).removeClass('eba-listbox-item-selected');
+                $checked.each( function( index,el ){
+                    el.checked = false;
+                } );
+            }
+
+        },
+
+        /**
+         *  选中指定的数据行
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     setSelection
+         *  @param      {String}        rowId
+         */
+        setSelection : function( rowId ){
+
+            var me = this;
+            var selector = ':checkbox[value="{0}"]'.replace( '{0}',rowId );
+            var $tr = $( 'tr[data-index="{0}"]'.replace( '{0}',rowId ),me._$root );
+
+            if(  $tr.size() > 0 ){
+                $tr.find(':checkbox').get(0).checked = true;
+                $tr.addClass('eba-listbox-item-selected');
+                if( me.isFunc( me.options['onSelectRow'] ) ){
+                    me.options['onSelectRow']( me,{} );
+                }
+            }
+
+        },
+
+        //  { data : [] }
+        /**
+         *  更新grid的配置
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     setGridParam
+         *  @param      {Object}        options
+         */
+        setGridParam : function( parameters ){
+            if( !parameters ){ return; }
+            this.options = $.extend( this.options,parameters );
+        },
+
+        /**
+         *  使用grid配置重新加载grid
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.MiniGrid
+         *  @method     reloadGrid
+         */
+        reloadGrid : function(){
+            var me = this;
+            //  
+            me._usingRemoteData = me._isRemoteDataSource();
+            //  re-render
+            me._render();
+        },
+
+        /**
+         *  控件配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.Button
+         *  @member     {Object}    options
+         */
+        options : {
+            //  
+            autowidth : true,
+            //  default width
+            width : 400,
+            //  default height
+            height : 120,
+            //  remote data source 
+            url         : '',
+            //  local data array
+            data        : [],
+            //  xml 
+            //  xmlstring 
+            //  json 
+            //  jsonstring 
+            //  local 
+            //  javascript 
+            //  function 
+            //  clientSide
+            datatype    : "local",
+            //  使用远程数据的时候，随着url一起提交到服务器的数据
+            postData    : [{}],
+            //  控件数据源对象的ID字段名
+            colModel    : [ 
+                {name       :'id', label : 'ID', width : 150},
+                {name       :'text', label : 'Text', width : 150} 
+            ],
+            //  是否允许多选
+            multiselect : true,
+            //  
+            onSelectRow : $.noop,
+            //  
+            onSelectAll : $.noop,
+            //
+            loadComplete: $.noop
+        }
+
+    });
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

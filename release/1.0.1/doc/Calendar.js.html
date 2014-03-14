@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: Calendar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: Calendar.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   depend on MainView and MonthView
+*   所有原生JS对象的拓展代码，放在了web.coffee文件，
+*   比如Date.prototype.clone
+*/
+
+
+/**
+*   @class      Calendar
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormElement
+*   @tutorial   calendar_index
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.Calendar( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).calendar( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="calendar" data-options="{}" /&gt;
+*/
+
+
+(function() {
+  var Calendar, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Calendar = (function(_super) {
+    __extends(Calendar, _super);
+
+    function Calendar() {
+      _ref = Calendar.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    Calendar.prototype._timeSpinner = null;
+
+    /**
+     *  timespinner控件
+     *  @public
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {TimeSpinner}    timeSpinner
+    */
+
+
+    Calendar.prototype.timeSpinner = function() {
+      return this._timeSpinner;
+    };
+
+    Calendar.prototype._todayButtonText = 'Today';
+
+    Calendar.prototype._todayButton = null;
+
+    /**
+     *  选择今天按钮
+     *  @public
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Button}    todayButton
+    */
+
+
+    Calendar.prototype.todayButton = function() {
+      return this._todayButton;
+    };
+
+    Calendar.prototype._applyButtonText = 'Done';
+
+    Calendar.prototype._applyButton = null;
+
+    /**
+     *  确定按钮
+     *  @public
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Button}    applyButton
+    */
+
+
+    Calendar.prototype.applyButton = function() {
+      return this._applyButton;
+    };
+
+    /**
+     *  控件要用到的UI的CSS样式类
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Object}    _rootCls
+    */
+
+
+    Calendar.prototype._rootCls = {
+      disabled: 'eba-calendar-disabled',
+      selected: 'eba-calendar-selected'
+    };
+
+    /**
+     *  通过代码设置calendar.value属性的时候，如果传入错误的日期，抛出的异常提示信息
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {String}    _formatInvalidException
+    */
+
+
+    Calendar.prototype._formatInvalidException = 'The date is invalid, please input a valid date!';
+
+    /**
+     *  更新控件enabled的UI样式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _updateCssEnabled
+    */
+
+
+    Calendar.prototype._updateCssEnabled = function() {
+      var $root, cls, me;
+      me = this;
+      $root = me._$root;
+      cls = me._rootCls['disabled'];
+      if (me.enabled()) {
+        return $root.removeClass(cls);
+      } else {
+        return $root.addClass(cls);
+      }
+    };
+
+    Calendar.prototype._showButtons = false;
+
+    /**
+     *  是否显示按钮，目前只要显示两个按钮：今天 和 确定 按钮即可
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Boolean}    showButtons
+    */
+
+
+    Calendar.prototype.showButtons = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._showButtons;
+      }
+      me._showButtons = val;
+      me._mainView.showButtons(val);
+      if (!me._todayButton) {
+        return me._initButtons();
+      }
+    };
+
+    Calendar.prototype._showSpinner = false;
+
+    /**
+     *  是否显示timeSpinner
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Boolean}    showSpinner
+    */
+
+
+    Calendar.prototype.showSpinner = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._showSpinner;
+      }
+      me._showSpinner = val;
+      me._mainView.showSpinner(val);
+      /*
+      *   当启用timeSpinner,并且还没有初始化的时候
+      *   初始化timeSpinner
+      */
+
+      if ((me._timeSpinner == null) && val) {
+        return me._initSpinner();
+      }
+    };
+
+    /**
+     *  获取或者设置控件是否可用
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Boolean}   enabled
+     *  @default    true
+     *  @example    &lt;caption>get&lt;/caption>
+     *      //  true
+     *      console.log( ctrl.enabled() );
+     *  @example    &lt;caption>set&lt;/caption>
+     *      //  disable control
+     *      ctrl.enabled( false )
+    */
+
+
+    Calendar.prototype.enabled = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._enabled;
+      }
+      me._enabled = val;
+      me._mainView.enabled(val);
+      me._monthView.enabled(val);
+      return me._updateCssEnabled();
+    };
+
+    Calendar.prototype._toggled = true;
+
+    /**
+     *  显示或者隐藏  年份月份选择  界面
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _toggleViews
+    */
+
+
+    Calendar.prototype._toggleViews = function() {
+      var main, me, month, toggled;
+      me = this;
+      main = me._mainView;
+      month = me._monthView;
+      toggled = me._toggled;
+      if (toggled) {
+        main.visible(false);
+        month.visible(true);
+      } else {
+        main.visible(true);
+        month.visible(false);
+      }
+      return me._toggled = !toggled;
+    };
+
+    /**
+     *  初始化DOM事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _setupEvents
+    */
+
+
+    Calendar.prototype._setupEvents = function(opts) {
+      var $root, mainView, me, monthView;
+      me = this;
+      $root = me.uiElement();
+      /*
+      *   绑定事件处理程序
+      */
+
+      me.onEvent('click', opts['onclick']);
+      $root.on('click', '.eba-calendar-header', function(eventArgs) {
+        return me._toggleViews();
+      });
+      mainView = me._mainView;
+      monthView = me._monthView;
+      /*
+      *
+      */
+
+      mainView.onEvent('click', function(sender, eventArgs) {
+        var val;
+        val = sender.currentDate().clone();
+        return me._setValue(val, true, eventArgs);
+      });
+      /*
+      *
+      */
+
+      monthView.onEvent('apply', function(sender) {
+        var date;
+        date = me.value().clone();
+        date.setFullYear(sender.currentYear());
+        date.setMonth(sender.currentMonth());
+        date.setDate(1);
+        /*
+        *   更新主视图数据
+        */
+
+        mainView.currentDate(date);
+        return me._toggleViews();
+      });
+      return monthView.onEvent('cancel', function(sender) {
+        var date;
+        date = me.value().clone();
+        /*
+        *   回滚month的数据
+        */
+
+        monthView.currentDate(date);
+        return me._toggleViews();
+      });
+    };
+
+    /**
+     *  初始化timeSpinner控件
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _initSpinner
+    */
+
+
+    Calendar.prototype._initSpinner = function() {
+      var $context, $el, $viewRoot, me, ns, spn;
+      me = this;
+      ns = ebaui['web'];
+      $viewRoot = me._mainView.uiElement();
+      $context = $('[data-inner-role="spinner"]', $viewRoot);
+      $el = $('input', $context);
+      spn = new ns.TimeSpinner($el, {
+        'position': '',
+        'width': 120,
+        'value': me.value().clone()
+      });
+      spn.onEvent('change', function(sender, eventArgs) {
+        var calValue, spnValue;
+        spnValue = spn.value();
+        calValue = me.value().clone();
+        calValue.setHours(spnValue.getHours());
+        calValue.setMinutes(spnValue.getMinutes());
+        /*
+        *   update control's vlaue
+        *   include mainView, monthView, timeSpinner
+        */
+
+        return me._setValue(calValue, true, eventArgs);
+      });
+      return me._timeSpinner = spn;
+    };
+
+    /**
+     *  初始化button控件
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _initButtons
+    */
+
+
+    Calendar.prototype._initButtons = function() {
+      var $context, $el, $viewRoot, applyButton, main, me, ns, todayButton;
+      me = this;
+      ns = ebaui['web'];
+      main = me._mainView;
+      $viewRoot = main.uiElement();
+      $context = $('[data-inner-role="buttons"]', $viewRoot);
+      $el = $('[data-inner-role="today"]', $context);
+      todayButton = new ns.Button($el, {
+        text: me._todayButtonText
+      });
+      $el = $('[data-inner-role="apply"]', $context);
+      applyButton = new ns.Button($el, {
+        text: me._applyButtonText
+      });
+      /*
+      *   today按钮点击的时候，mainView只是选中了今天
+      */
+
+      todayButton.onEvent('click', function(button, eventArgs) {
+        main.pickUpToday();
+        return me._setValue(main.currentDate(), true, eventArgs);
+      });
+      /*
+      *   apply按钮点击的时候，选中mainview中选中的日期
+      */
+
+      applyButton.onEvent('click', function(button, eventArgs) {});
+      me._todayButton = todayButton;
+      return me._applyButton = applyButton;
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  ，在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _init
+    */
+
+
+    Calendar.prototype._init = function(opts) {
+      var $root, initVal, mainConfig, me, mo, monthConfig, ns, _ref1, _ref2, _ref3, _ref4;
+      Calendar.__super__._init.call(this, opts);
+      me = this;
+      $root = me.uiElement();
+      /* 
+      *   初始化控件自身的一系列属性  
+      *   默认情况下
+      *   calendar主界面是不会显示底部的按钮和time spinner的
+      */
+
+      me._width = (_ref1 = opts['width']) != null ? _ref1 : 220;
+      me._height = (_ref2 = opts['height']) != null ? _ref2 : 0;
+      me._showSpinner = (_ref3 = opts['showSpinner']) != null ? _ref3 : false;
+      me._showButtons = (_ref4 = opts['showButtons']) != null ? _ref4 : false;
+      /*
+      *   当opts['value'] == null的时候
+      *   new moment( opts['value'] )会返回一个空对象:{}
+      *   这个空对象没有任何属性和方法
+      */
+
+      mo = new moment(opts['value']);
+      initVal = (opts['value'] != null) && mo.isValid() ? mo.toDate() : new Date;
+      ns = ebaui['web'];
+      mainConfig = {
+        currentDate: initVal.clone(),
+        position: '',
+        showSpinner: me._showSpinner,
+        showButtons: me._showButtons
+      };
+      monthConfig = {
+        position: '',
+        currentDate: initVal.clone(),
+        visible: false
+      };
+      me._mainView = new ns.MainView($('[data-inner-role="mainview"]', $root), mainConfig);
+      me._monthView = new ns.MonthView($('[data-inner-role="monthview"]', $root), monthConfig);
+      /* 
+      *   决定是否初始化timeSpinner或者是Buttons
+      */
+
+      if (me._showSpinner) {
+        me._initSpinner(opts);
+      }
+      if (me._showButtons) {
+        me._initButtons(opts);
+      }
+      /* 
+      *   设置控件初始值
+      */
+
+      me._value = initVal;
+      me._currYear = initVal.getFullYear();
+      return me._currMonth = initVal.getMonth();
+    };
+
+    /**
+     *  更新控件的值
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _setValue
+     *  @arg        {String}     val    -   控件的值
+     *  @arg        {Boolean}    updateHtml    -   是否更新控件UI的input标签的值
+     *  @arg        {Boolean}    dispatchEvent    -   是否触发change事件
+     *  @arg        {Object}     eventArgs    -   事件的eventArgs
+    */
+
+
+    Calendar.prototype._setValue = function(val, dispatchEvent, eventArgs) {
+      var me, mo;
+      if (dispatchEvent == null) {
+        dispatchEvent = false;
+      }
+      if (eventArgs == null) {
+        eventArgs = {};
+      }
+      me = this;
+      mo = new moment(val);
+      if (!mo.isValid()) {
+        throw me._formatInvalidException;
+      }
+      /*
+      *   update subcontrol's vlaue
+      *   include mainView, monthView, timeSpinner
+      */
+
+      val = mo.toDate();
+      /* 
+      *   如果控件值如果value没有变化，则不应该更新控件的值；
+      *   否则，更新控件的值
+      */
+
+      if (me._value && me._value.getTime() === val.getTime()) {
+        return;
+      }
+      me._value = val.clone();
+      me._mainView.currentDate(val.clone());
+      me._monthView.currentDate(val.clone());
+      if (me.showSpinner()) {
+        me._timeSpinner.value(val.clone());
+      }
+      if (dispatchEvent === true) {
+        me.triggerEvent('change', eventArgs);
+      }
+      return void 0;
+    };
+
+    /**
+     *  访问和设置calendar的值
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Date}        data
+     *  @example    &lt;caption>get&lt;/caption>
+     *      pair = ctrl.data();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.data( new Date );
+    */
+
+
+    Calendar.prototype.data = function(val) {
+      var me;
+      me = this;
+      if (!val) {
+        return me._value;
+      }
+      return me._setValue(val);
+    };
+
+    /**
+     *  访问和设置calendar的值
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Date}     value
+     *  @example    &lt;caption>get&lt;/caption>
+     *      pair = ctrl.value();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.value( new Date );
+    */
+
+
+    Calendar.prototype.value = function(val) {
+      var me;
+      me = this;
+      if (!val) {
+        return me._value;
+      }
+      return me._setValue(val);
+    };
+
+    Calendar.prototype.reset = function() {
+      var me;
+      Calendar.__super__.reset.call(this);
+      me = this;
+      /*
+      *   我认为以后可以尝试加入一个新特性，就是reset直接充值到初始化状态
+      *   而不是new Date这样
+      *   因为初始的值是有可能其他值
+      */
+
+      return me.value(new Date());
+    };
+
+    return Calendar;
+
+  })(FormField);
+
+  ebaui['web'].registerFormControl('Calendar', Calendar);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

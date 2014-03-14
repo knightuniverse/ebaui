@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: UiLayout.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: UiLayout.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  spacing的配置
+ *  参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+ *  
+ *  HTML结构：
+ *  pane
+ *      ->  spacing
+ *          ->  toggler
+ *  toggler的配置
+ *  关于toggler的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#toggler
+ *
+ *  map to the following config 
+ *
+ *  togglerClass:           "toggler"   // default = 'ui-layout-toggler'
+ *  togglerLength_open:     35          // WIDTH of toggler on north/south edges - HEIGHT on east/west edges
+ *  togglerLength_closed:   35          // "100%" OR -1 = full height
+ *  togglerTip_open:        "Close This Pane"
+ *  togglerTip_closed:      "Open This Pane"
+ *  hideTogglerOnSlide:     true        // hide the toggler when pane is 'slid open'
+ *  togglerAlign_open:      "center"
+ *  togglerAlign_closed:    "center"
+ *      "left", "center", "right", "top", "middle", "bottom"
+ *
+ *  panes的配置
+ *  关于content的更多信息，请参考文档：
+ *      #   http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+ *      #   http://layout.jquery-dev.net/documentation.cfm#Panes
+ *      #   http://layout.jquery-dev.net/documentation.cfm#Callback_Functions
+ *      #   http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+ *
+ *  map to the following config 
+ *  #   default = 'ui-layout-pane'
+ *  paneClass   : "ui-layout-pane"
+ *  paneSelector: ".ui-layout-PANE"
+ *  
+ *  $(document).ready(function() {
+ *     $("body").layout({
+ *        # using custom 'ID' paneSelectors
+ *        north__paneSelector:  "#north"
+ *     ,  west__paneSelector:   "#west"
+ *     ,  center__paneSelector: "#center"
+ *     });   
+ *  });
+ *  content的配置
+ *  关于content的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_contentSelector
+ *
+ *  map to the following config 
+ *
+ *  contentSelector:        ".content"  // inner div to auto-size so only it scrolls, not the entire pane!
+ *  contentIgnoreSelector:  "span"      // 'paneSelector' for content to 'ignore' when measuring room for content
+ *  
+ *  custom buttons的配置
+ *  关于toggler的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_buttonClass
+ *  示例：outerLayout.addToggleBtn( "#tbarToggleNorth", "north" );
+ *
+ *  map to the following config 
+ *
+ *  buttonClass:            "button"    // default = 'ui-layout-button'
+ *  
+ *  特效的配置
+ *  
+ *  map to the following config 
+ *
+ *  fxName:                 "slide"     // none, slide, drop, scale
+ *  fxSpeed_open:           400     normal
+ *  fxSpeed_close:          400     normal
+ *  fxSettings_open:        { easing: "easeInQuint" }
+ *  fxSettings_close:       { easing: "easeOutQuint" }
+ *  
+ *  resizer的配置
+ *  
+ *  map to the following config 
+ *
+ *  resizerClass:           "resizer"   // default = 'ui-layout-resizer'
+ *  resizerTip:             "Resize This Pane"
+*/
+
+
+/**
+layout:{
+    size                  : "auto"
+,   minSize               : 0
+,   maxSize               : 0 
+,   panes : {
+
+        cls      : 'ui-layout-pane',
+        west     : {
+
+            size        : 'auto',
+            initClosed  : false,
+            closable    : true,
+            slidable    : true,
+            resizable   : true,
+            paneSelector: '[data-role="layout-west"]',
+            spacing     :{ open : 5,close : 5 },
+            toggler       : { 
+                cls  : 'ui-layout-toggler',
+                hideOnSlide:     true,
+                open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+            }
+
+        },
+        east     : {
+
+            size        : 'auto',
+            initClosed  : false,
+            closable    : true,
+            slidable    : true,
+            resizable   : true,
+            paneSelector: '[data-role="layout-east"]',
+            spacing     :{ open : 5,close : 5 },
+            toggler       : { 
+                cls  : 'ui-layout-toggler',
+                hideOnSlide:     true,
+                open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+            }
+
+        },
+        north    : {
+
+            size        : 'auto',
+            initClosed    : false,
+            closable      : true,
+            slidable      : true,
+            resizable     : true,
+            paneSelector  : '[data-role="layout-north"]',
+            spacing:{ open : 5,close : 5 },
+            toggler       : { 
+                cls  : 'ui-layout-toggler',
+                hideOnSlide:     true,
+                open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+            }
+
+        },
+        south    : {
+
+            size        : 'auto',
+            initClosed  : false,
+            closable    : true,
+            slidable    : true,
+            resizable   : true,
+            paneSelector: '[data-role="layout-south"]',
+            spacing     :{ open : 5,close : 5 },
+            toggler       : {  
+                cls  : 'ui-layout-toggler',
+                hideOnSlide:     true,
+                open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+            }
+
+        },
+        center   : { 
+            initClosed  : false,
+            closable    : true,
+            slidable    : true,
+            resizable   : true,
+            paneSelector: '[data-role="layout-center"]'
+
+        }
+
+    }
+
+,   content : {
+        // 'paneSelector' for content to 'ignore' when measuring room for content
+        ignoreSelector: 'span',
+        // inner div to auto-size so only it scrolls, not the entire pane!
+        selector      : '[data-role="content"]'
+    }
+
+,   button:{
+        cls : 'ui-layout-button'
+    }
+
+,   fx:{
+    name : 'slide',
+        open : { easing: "easeInQuint", duration : 400 },
+        close: { easing: "easeOutQuint", duration : 400 }
+    }
+
+,   resizer : {
+        cls : 'ui-layout-resizer',
+        tip : 'Resize This Pane'
+    }
+
+,   paneEvents:{
+        onhide_start  :  $.noop,
+        onhide_end    :  $.noop,
+        
+        onshow_start  :  $.noop,
+        onshow_end    :  $.noop,
+        
+        onopen_start  :  $.noop,
+        onopen_end    :  $.noop,
+        
+        onclose_start :  $.noop,
+        onclose_end   :  $.noop,
+        
+        onresize_start:  $.noop,
+        onresize_end  :  $.noop
+    }
+}
+*/
+
+
+/**
+*   @class      UiLayout
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.UiLayout( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).uilayout( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;body data-role="uilayout" &gt;
+*           &lt;div id="" data-role="layout-north" data-options="{}" &gt;&lt;/div&gt;
+*           &lt;div id="" data-role="layout-west" data-options="{}" &gt;&lt;/div&gt;
+*           &lt;div id="" data-role="layout-center" data-options="{}" &gt;&lt;/div&gt;
+*       &lt;/body &gt;
+*/
+
+
+(function() {
+  var UiLayout, ns, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  ns = ebaui['web'];
+
+  UiLayout = (function(_super) {
+    __extends(UiLayout, _super);
+
+    function UiLayout() {
+      _ref = UiLayout.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    /**
+     *  jQuery UI Layout插件实例
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @member     {Object}     _layoutPlugin
+    */
+
+
+    UiLayout.prototype._layoutPlugin = null;
+
+    /**
+     *  配置名映射规则
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @member     {Object}     _mapRules
+    */
+
+
+    UiLayout.prototype._mapRules = {
+      fx: {
+        name: 'fxName',
+        open: 'fxSettings_open',
+        close: 'fxSettings_close'
+      },
+      button: {
+        cls: 'buttonClass'
+      },
+      content: {
+        ignoreSelector: 'contentIgnoreSelector',
+        selector: 'contentSelector'
+      },
+      toggler: {
+        hideOnSlide: 'hideTogglerOnSlide',
+        open: {
+          tip: 'togglerTip_open',
+          length: 'togglerLength_open',
+          align: 'togglerAlign_open'
+        },
+        close: {
+          tip: 'togglerTip_closed',
+          length: 'togglerLength_closed',
+          align: 'togglerAlign_closed'
+        }
+      },
+      spacing: {
+        open: 'spacing_open',
+        close: 'spacing_closed'
+      }
+    };
+
+    /**
+     *  rulenames 指定需要重命名的属性集
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _doRealMap
+     *  @param      {String}    target      -   north/south/west/east/center
+     *  @param      {Array}     rulenames  -    要进行映射的配置节
+     *  @param      {Object}    origin      -   原始配置对象
+     *  @return     {Object}
+    */
+
+
+    UiLayout.prototype._doRealMap = function(target, rulenames, origin) {
+      var dest, hasDefined, i, key, me, name, rule, rules, subrules, val, _i, _len;
+      me = this;
+      dest = {};
+      for (i = _i = 0, _len = rulenames.length; _i &lt; _len; i = ++_i) {
+        name = rulenames[i];
+        rules = me._mapRules[name];
+        /**
+        *   name应该是fx或者toggler等
+        *   判断原配置对象是否有配置对应的值
+        */
+
+        if (origin[name]) {
+          /**
+          *   对配置对象的每个属性进行映射
+          */
+
+          for (rule in rules) {
+            subrules = rules[rule];
+            hasDefined = origin[name][rule] != null;
+            if (!me.isString(subrules) && hasDefined) {
+              /**
+              *  主要这边是有三级的配置对象。
+              *  确实，配置对象的深度过大也是很头疼的问题。
+              *  然后把最深处的配置对象扁平化，成为只包含一级的配置对象
+              *  _mapRules:{
+              *      toggler:{
+              *          hideOnSlide : 'hideTogglerOnSlide',
+              *          open :{ 
+              *              tip: 'togglerTip_open',
+              *              length: 'togglerLength_open',
+              *              align:'togglerAlign_open' 
+              *          }
+              *      }
+              *  }
+              */
+
+              for (key in subrules) {
+                val = subrules[key];
+                dest[val] = origin[name][rule][key];
+              }
+            } else if (hasDefined) {
+              dest[rules[rule]] = origin[name][rule];
+            }
+          }
+          delete origin[name];
+        }
+      }
+      return $.extend(dest, origin);
+    };
+
+    /**
+     *  映射ui layout的整体默认配置
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _mapDefaultSection
+     *  @return     {Object}
+    */
+
+
+    UiLayout.prototype._mapDefaultSection = function(opts) {
+      var config, i, mapedProp, me, name, paneCls, panesOpts, propVal, rule, rulenames, rules, val, _i, _len;
+      me = this;
+      /**
+       *  about the applyDefaultStyles cconfig
+       *  When applyDefaultStyles is enabled, the layout will apply basic styles directly to resizers & buttons. This is intended for quick mock-ups, so that you can 'see' your layout immediately.
+       *  to read more, @see http:#layout.jquery-dev.net/documentation.cfm#Option_applyDefaultStyles
+      */
+
+      config = {
+        name: 'defaults',
+        applyDefaultStyles: false,
+        defaults: {
+          size: "auto",
+          minSize: 50
+        }
+      };
+      /**
+      *   指定需要重命名的属性集
+      */
+
+      rulenames = ['fx', 'button', 'content'];
+      for (i = _i = 0, _len = rulenames.length; _i &lt; _len; i = ++_i) {
+        name = rulenames[i];
+        rules = me._mapRules[name];
+        for (rule in rules) {
+          val = rules[rule];
+          if (opts[name]) {
+            mapedProp = val;
+            propVal = opts[name][rule];
+            config['defaults'][mapedProp] = propVal;
+          }
+        }
+      }
+      panesOpts = opts['panes'];
+      paneCls = panesOpts['cls'];
+      if (panesOpts && paneCls) {
+        config['defaults']['paneClass'] = paneCls;
+      }
+      return config;
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _mapPane
+     *  @return     {Object}
+    */
+
+
+    UiLayout.prototype._mapPanes = function(opts) {
+      var config, item, me, pane, ret, val, _i, _len, _ref1;
+      me = this;
+      ret = {};
+      _ref1 = ['east', 'west', 'north', 'south', 'center'];
+      for (_i = 0, _len = _ref1.length; _i &lt; _len; _i++) {
+        pane = _ref1[_i];
+        config = opts['panes'][pane];
+        if (config) {
+          if (pane === 'center') {
+            ret[pane] = {};
+            for (item in config) {
+              val = config[item];
+              if (item !== 'toggler') {
+                ret[pane][item] = val;
+              }
+            }
+          } else {
+            ret[pane] = me._doRealMap(pane, ['fx', 'toggler', 'spacing'], config);
+          }
+        }
+      }
+      return ret;
+    };
+
+    /**
+     *  把ebaui.web.UiLayout自定义的JS配置类格式，转换成为jqUILayout插件所使用的JS配置格式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _map
+     *  @return     {Object}
+    */
+
+
+    UiLayout.prototype._map = function(opts) {
+      var defaults, me, panes;
+      me = this;
+      defaults = me._mapDefaultSection(opts);
+      panes = me._mapPanes(opts);
+      return $.extend({}, defaults, panes);
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @member     {Object}    _layoutOpts
+    */
+
+
+    UiLayout.prototype._layoutOpts = {
+      size: "auto",
+      minSize: 0,
+      maxSize: 0,
+      panes: {
+        cls: 'ui-layout-pane',
+        west: {
+          size: 'auto',
+          initClosed: false,
+          closable: true,
+          slidable: true,
+          resizable: true,
+          paneSelector: '[data-role="layout-west"]',
+          spacing: {
+            open: 5,
+            close: 5
+          },
+          toggler: {
+            cls: 'ui-layout-toggler',
+            hideOnSlide: true,
+            open: {
+              align: 'center',
+              tip: 'Close This Pane',
+              length: 35
+            },
+            close: {
+              align: 'center',
+              tip: 'Open This Pane',
+              length: 35
+            }
+          }
+        },
+        east: {
+          size: 'auto',
+          initClosed: false,
+          closable: true,
+          slidable: true,
+          resizable: true,
+          paneSelector: '[data-role="layout-east"]',
+          spacing: {
+            open: 5,
+            close: 5
+          },
+          toggler: {
+            cls: 'ui-layout-toggler',
+            hideOnSlide: true,
+            open: {
+              align: 'center',
+              tip: 'Close This Pane',
+              length: 35
+            },
+            close: {
+              align: 'center',
+              tip: 'Open This Pane',
+              length: 35
+            }
+          }
+        },
+        north: {
+          size: 'auto',
+          initClosed: false,
+          closable: true,
+          slidable: true,
+          resizable: true,
+          paneSelector: '[data-role="layout-north"]',
+          spacing: {
+            open: 5,
+            close: 5
+          },
+          toggler: {
+            cls: 'ui-layout-toggler',
+            hideOnSlide: true,
+            open: {
+              align: 'center',
+              tip: 'Close This Pane',
+              length: 35
+            },
+            close: {
+              align: 'center',
+              tip: 'Open This Pane',
+              length: 35
+            }
+          }
+        },
+        south: {
+          size: 'auto',
+          initClosed: false,
+          closable: true,
+          slidable: true,
+          resizable: true,
+          paneSelector: '[data-role="layout-south"]',
+          spacing: {
+            open: 5,
+            close: 5
+          },
+          toggler: {
+            cls: 'ui-layout-toggler',
+            hideOnSlide: true,
+            open: {
+              align: 'center',
+              tip: 'Close This Pane',
+              length: 35
+            },
+            close: {
+              align: 'center',
+              tip: 'Open This Pane',
+              length: 35
+            }
+          }
+        },
+        center: {
+          initClosed: false,
+          closable: true,
+          slidable: true,
+          resizable: true,
+          paneSelector: '[data-role="layout-center"]'
+        }
+      },
+      content: {
+        ignoreSelector: 'span',
+        selector: '[data-role="content"]'
+      },
+      button: {
+        cls: 'ui-layout-button'
+      },
+      fx: {
+        name: 'slide',
+        open: {
+          easing: "easeInQuint",
+          duration: 400
+        },
+        close: {
+          easing: "easeInQuint",
+          duration: 400
+        }
+      },
+      resizer: {
+        cls: 'ui-layout-resizer',
+        tip: 'Resize This Pane'
+      },
+      paneEvents: {
+        onhide_start: $.noop,
+        onhide_end: $.noop,
+        onshow_start: $.noop,
+        onshow_end: $.noop,
+        onopen_start: $.noop,
+        onopen_end: $.noop,
+        onclose_start: $.noop,
+        onclose_end: $.noop,
+        onresize_start: $.noop,
+        onresize_end: $.noop
+      }
+    };
+
+    UiLayout.prototype._getPanesConfig = function(opts) {
+      var $centerPane, $eastPane, $northPane, $root, $southPane, $westPane, centerPaneConf, defualts, eastPaneConf, me, northPaneConf, southPaneConf, westPaneConf;
+      me = this;
+      $root = me._$root;
+      defualts = me._layoutOpts['panes'];
+      $westPane = $('[data-role="layout-west"]', $root);
+      $eastPane = $('[data-role="layout-east"]', $root);
+      $northPane = $('[data-role="layout-north"]', $root);
+      $southPane = $('[data-role="layout-south"]', $root);
+      $centerPane = $('[data-role="layout-center"]', $root);
+      if ($westPane.size() > 0) {
+        westPaneConf = me._parseDataOptions($westPane);
+        $.extend(defualts['west'], westPaneConf);
+      }
+      if ($eastPane.size() > 0) {
+        eastPaneConf = me._parseDataOptions($eastPane);
+        $.extend(defualts['east'], eastPaneConf);
+      }
+      if ($northPane.size() > 0) {
+        northPaneConf = me._parseDataOptions($northPane);
+        $.extend(defualts['north'], northPaneConf);
+      }
+      if ($southPane.size() > 0) {
+        southPaneConf = me._parseDataOptions($southPane);
+        $.extend(defualts['south'], southPaneConf);
+      }
+      if ($centerPane.size() > 0) {
+        centerPaneConf = me._parseDataOptions($centerPane);
+        $.extend(defualts['center'], centerPaneConf);
+      }
+      return defualts;
+    };
+
+    /**
+     *  把HTML占位符转换成为控件自身的HTML结构
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _parseUi
+    */
+
+
+    UiLayout.prototype._parseUi = function(element) {
+      return $(element);
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     _init
+    */
+
+
+    UiLayout.prototype._init = function(opts) {
+      var config, layoutConfig, me, panesConfig;
+      UiLayout.__super__._init.call(this, opts);
+      me = this;
+      me._layoutOpts = $.extend({}, me._layoutOpts);
+      panesConfig = me._getPanesConfig(opts);
+      if (opts['layout'] != null) {
+        config = $.extend(opts['layout']['panes'], panesConfig);
+        layoutConfig = me._map(opts['layout']);
+      } else {
+        config = $.extend(me._layoutOpts['panes'], panesConfig);
+        layoutConfig = me._map(me._layoutOpts);
+      }
+      return me._layoutPlugin = me._$root.layout(layoutConfig);
+    };
+
+    /**
+     *  A hash containing the dimensions of all the elements, including the layout container. Dimensions include borders and padding for: top, bottom, left, right, plus outerWidth, outerHeight, innerWidth, innerHeight.
+     *  &lt;br />获取当前uilayout的状态，包含uilayout容器的innerWidth，paddingLeft
+     *  ，以及所有panes的top， bottom， left， right，outerWidth， outerHeight， innerWidth， innerHeight
+     *  ，参数可选的值有container north east south west center
+     *  ，默认返回uilayout所有的状态
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.UiLayout
+     *  @member         {Object}    state
+    */
+
+
+    UiLayout.prototype.state = function(pane) {
+      var me, plugin;
+      me = this;
+      plugin = me._layoutPlugin;
+      if (plugin) {
+        if (/north|east|south|west|center|container/i.test(pane)) {
+          return plugin.state[pane];
+        } else {
+          return plugin.state;
+        }
+      }
+    };
+
+    /**
+     *  pane objects( panes.north, panes.south, etc ).Each pane-element is in a jQuery wrapper.If a pane does not exist in the layout - for example no south-pane - then panes.south == false - instead of being a jQuery element.
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @member     {Object}     panes
+    */
+
+
+    UiLayout.prototype.panes = function() {
+      return this._layoutPlugin.panes;
+    };
+
+    /**
+     *  get pane object
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     getPane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.getPane = function(pane) {
+      if (/north|east|south|west|center/i.test(pane)) {
+        return this._layoutPlugin.panes[pane];
+      }
+    };
+
+    /**
+     *  显示或者隐藏指定区域
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     togglePane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.togglePane = function(pane) {
+      var me;
+      me = this;
+      if (!/north|east|south|west|center/i.test(pane)) {
+        return;
+      }
+      return me._layoutPlugin.toggle(pane);
+    };
+
+    /**
+     *  展开指定区域
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     openPane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.openPane = function(pane) {
+      var me;
+      me = this;
+      if (!/north|east|south|west|center/i.test(pane)) {
+        return;
+      }
+      return me._layoutPlugin.open(pane);
+    };
+
+    /**
+     *  缩起指定区域
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     closePane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.closePane = function(pane) {
+      var me;
+      me = this;
+      if (!/north|east|south|west|center/i.test(pane)) {
+        return;
+      }
+      return me._layoutPlugin.close(pane);
+    };
+
+    /**
+     *  显示指定区域
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     showPane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.showPane = function(pane) {
+      var me;
+      me = this;
+      if (!/north|east|south|west|center/i.test(pane)) {
+        return;
+      }
+      return me._layoutPlugin.show(pane);
+    };
+
+    /**
+     *  隐藏指定区域
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     hidePane
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.hidePane = function(pane) {
+      var me;
+      me = this;
+      if (!/north|east|south|west|center/i.test(pane)) {
+        return;
+      }
+      return me._layoutPlugin.hide(pane);
+    };
+
+    /**
+     *  对于north 和 south 这两个pane更新其outerHeight
+     *  ，对于east 和 west 则更新outerWidth
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     sizePane
+     *  @param      {String}    pane            -  north/south/west/east/center
+     *  @param      {Number}    sizeInPixels    -  sizeInPixels
+    */
+
+
+    UiLayout.prototype.sizePane = function(pane, sizeInPixels) {
+      var me;
+      me = this;
+      if (/north|east|south|west|center/i.test(pane)) {
+        return me._layoutPlugin.sizePane(pane, sizeInPixels);
+      }
+    };
+
+    /**
+     *  重新调整所有的pane，以便所有的pane能够适应容器元素的大小
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.UiLayout
+     *  @method     resizeAllPanes
+     *  @param      {String}    pane  -  north/south/west/east/center
+    */
+
+
+    UiLayout.prototype.resizeAllPanes = function() {
+      return this._layoutPlugin.resizeAll();
+    };
+
+    return UiLayout;
+
+  })(ns.Control);
+
+  ns.registerControl('UiLayout', UiLayout);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

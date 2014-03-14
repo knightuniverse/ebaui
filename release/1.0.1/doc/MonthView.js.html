@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: MonthView.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: MonthView.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   @private
+*   @class      MonthView
+*   @classdesc  MonthView，Calendar的month视图，用来切换calendar当前的month以及year
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.Control
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*/
+
+
+(function() {
+  var MonthView, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  MonthView = (function(_super) {
+    __extends(MonthView, _super);
+
+    function MonthView() {
+      _ref = MonthView.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    MonthView.prototype._monthsTmpl = '';
+
+    /**
+     *  已经编译好的日历Week文本HTML模板
+     *  ，'日', '一', '二', '三', '四', '五', '六'
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _compiledMonthsTmpl
+    */
+
+
+    MonthView.prototype._compiledMonthsTmpl = $.noop;
+
+    MonthView.prototype._yearsTmpl = '';
+
+    /**
+     *  已经编译好的日历Week文本HTML模板
+     *  ，'日', '一', '二', '三', '四', '五', '六'
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _compiledYearsTmpl
+    */
+
+
+    MonthView.prototype._compiledYearsTmpl = $.noop;
+
+    /**
+     *  月份文本
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @member     {Array}    _months
+    */
+
+
+    MonthView.prototype._months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    /**
+     *  menu界面，点击月份的时候触发
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _select
+     *  @arg        {DOM}       chosen  - 当前点击的dom引用
+     *  @arg        {String}    context - css 选择器
+    */
+
+
+    MonthView.prototype._select = function(chosen, context) {
+      var $chosen, $context, $root, cls, me;
+      me = this;
+      $root = me.uiElement();
+      $chosen = $(chosen);
+      cls = 'eba-calendar-menu-selected';
+      /*
+      *   如果当前点击的dom已经是选中状态，直接返回
+      */
+
+      if ($chosen.hasClass(cls)) {
+        return;
+      }
+      $context = $(context, $root);
+      /*
+      *   menu界面的月份点击的时候触发
+      *   移除上一个选中的项目的选中样式
+      */
+
+      $("." + cls, $context).removeClass(cls);
+      /*
+      *   为当前选中项添加选中样式
+      */
+
+      $chosen.addClass(cls);
+      return void 0;
+    };
+
+    MonthView.prototype._renderMonths = function() {
+      var $root, me, output;
+      me = this;
+      $root = me.uiElement();
+      output = me._compiledMonthsTmpl({
+        currentMonth: me.currentMonth(),
+        months: me._months
+      });
+      return $('.eba-calendar-menu-months', $root).html(output);
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _renderYearRange
+    */
+
+
+    MonthView.prototype._renderYears = function(range) {
+      var $root, currMonth, currYear, me, output, _i, _ref1, _results;
+      me = this;
+      $root = me._$root;
+      currYear = me.currentYear();
+      currMonth = me.currentMonth();
+      if (!range) {
+        range = (function() {
+          _results = [];
+          for (var _i = currYear, _ref1 = currYear + 9; currYear &lt;= _ref1 ? _i &lt;= _ref1 : _i >= _ref1; currYear &lt;= _ref1 ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
+      }
+      output = me._compiledYearsTmpl({
+        value: [currYear, currMonth, 1],
+        years: range
+      });
+      return $('.eba-calendar-menu-years', $root).html(output);
+    };
+
+    /**
+     *  更新UI显示
+     *  @private
+     *  @virtual
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _render
+    */
+
+
+    MonthView.prototype._render = function() {
+      var me;
+      me = this;
+      me._renderMonths();
+      me._renderYears();
+      return me._updateCssVisible();
+    };
+
+    /**
+     *  menu界面，点击上一个十年或者下一个十年的时候触发
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Calendar
+     *  @method     _switchYearRange
+     *  @arg        {Number}       start
+    */
+
+
+    MonthView.prototype._switchYearRange = function(start) {
+      var me, menuYears;
+      me = this;
+      start = parseInt(start);
+      menuYears = me._getMenuYears(start);
+      return me._renderMenu(menuYears, me._currYear, me._currMonth);
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @virtual
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _init
+    */
+
+
+    MonthView.prototype._init = function(opts) {
+      var me;
+      MonthView.__super__._init.call(this, opts);
+      me = this;
+      /* 初始化控件自身的一系列属性*/
+
+      me._currentDate = opts['currentDate'] ? opts['currentDate'] : new Date();
+      /*
+      *   预编译以后要用到的HTML模板
+      */
+
+      me._compiledMonthsTmpl = me.compileTmpl(me._monthsTmpl);
+      me._compiledYearsTmpl = me.compileTmpl(me._yearsTmpl);
+      return me._height = '100%';
+    };
+
+    /**
+     *  初始化DOM事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @method     _setupEvents
+    */
+
+
+    MonthView.prototype._setupEvents = function(opts) {
+      var $root, cancel, me, month, ok, year;
+      me = this;
+      $root = me.uiElement();
+      me.onEvent('apply', opts['onapply']);
+      me.onEvent('cancel', opts['oncancel']);
+      year = '.eba-calendar-menu-year';
+      month = '.eba-calendar-menu-month';
+      ok = '.eba-calendar-okButton';
+      cancel = '.eba-calendar-cancelButton';
+      $root.on('click', '.eba-calendar-menu-prevYear', function(event) {
+        var start;
+        start = parseInt($(this).attr('data-value'));
+        return me._renderYears(start);
+      });
+      $root.on('click', '.eba-calendar-menu-nextYear', function(event) {
+        var start;
+        start = parseInt($(this).attr('data-value'));
+        return me._renderYears(start);
+      });
+      $root.on('click', month, function(event) {
+        return me._select(this, '.eba-calendar-menu-months');
+      });
+      $root.on('click', year, function(event) {
+        return me._select(this, '.eba-calendar-menu-years');
+      });
+      $root.on('click', cancel, function(event) {
+        return me.triggerEvent('cancel', event);
+      });
+      return $root.on('click', ok, function(event) {
+        var $month, $year, cls;
+        cls = '.eba-calendar-menu-selected';
+        /*
+        *   更新值
+        */
+
+        $month = $(".eba-calendar-menu-months ." + cls, $root);
+        $year = $(".eba-calendar-menu-years ." + cls, $root);
+        me._currentYear = parseInt($year.attr('data-value'));
+        me._currentMonth = parseInt($month.attr('data-value'));
+        /*
+        *   触发事件
+        */
+
+        return me.triggerEvent('apply', event);
+      });
+    };
+
+    /**
+     *  当前显示的年份
+     *  @pubic
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @member     {Number}    currentYear
+    */
+
+
+    MonthView.prototype.currentYear = function(val) {
+      var me;
+      me = this;
+      if (val == null) {
+        return me._currentDate.getFullYear();
+      }
+      me._currentDate.setFullYear(val);
+      return me._renderYears();
+    };
+
+    /**
+     *  当前显示的月份
+     *  @pubic
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @member     {Number}    currentMonth
+    */
+
+
+    MonthView.prototype.currentMonth = function(val) {
+      var me;
+      me = this;
+      if (val == null) {
+        return me._currentDate.getMonth();
+      }
+      me._currentDate.setMonth(val);
+      return me._renderMonths();
+    };
+
+    MonthView.prototype._currentDate = null;
+
+    /**
+     *  当前选中日期
+     *  @pubic
+     *  @readonly
+     *  @instance
+     *  @memberof   ebaui.web.MonthView
+     *  @member     {Number}    currentDate
+    */
+
+
+    MonthView.prototype.currentDate = function(val) {
+      var me;
+      me = this;
+      if (!me.isDate(val)) {
+        return me._currentDate;
+      }
+      me._currentDate = val;
+      me._renderMonths();
+      return me._renderYears();
+    };
+
+    return MonthView;
+
+  })(Control);
+
+  ebaui['web'].registerControl('MonthView', MonthView);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>

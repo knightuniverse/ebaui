@@ -34,6 +34,7 @@ var dataSource = [
             valueField : 'cid',
             placeHolder: '请输入...',
             onchange   : onch,
+            validators: ['required'],
             grid:{ 
                 data     : dataSource,
                 colModel : 

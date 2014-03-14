@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.Layout.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.Layout.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  ebaui.uilayout组件
+ *  @file _mapToDefaultSection
+ *  @dependencies
+ *      jquery-ui           http://jqueryui.com/
+ *
+ *          ui.core.js
+ *          ui.draggable.js     – to enable resizing capability
+ *          effects.core        – for open/close animation effects
+ *          effects.slide.js    – for 'slide' effect
+ *          effects.drop.js     – for 'drop' effect
+ *          effects.scale.js    – for 'scale' effect
+ *
+ *      jquery UI Layout    http://layout.jquery-dev.net/index.cfm
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ) {
+
+    ebaui.web.registerControl( 'UiLayout' );
+
+    /** 
+     *  ebaui.web.UiLayout
+     *  ，相应的DEMO请查看/build/demo/layout_index.html这个文件
+     *  ，自动化生成的DOC会有JS异常
+     *  @class      UiLayout 
+     *  @memberof   ebaui.web
+     *  @extends    Control
+     *  @param      {Object}    options     -   控件配置参数
+     *  @param      {Object}    element     -   dom对象
+     *  @example
+     *          &lt;body data-role="uilayout">
+     *              &lt;div data-role="layout-east">&lt;/div>
+     *              &lt;div data-role="layout-west">&lt;/div>
+     *              &lt;div data-role="layout-north">&lt;/div>
+     *              &lt;div data-role="layout-south">&lt;/div>
+     *              &lt;div data-role="layout-center">&lt;/div>
+     *          &lt;/body>
+     */
+    ebaui.control( 'web.UiLayout', {
+
+        /**
+         *  jQuery UI Layout插件实例
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @member     {Object}     _layoutPlugin
+         */
+        _layoutPlugin:null,
+
+        /**
+         *  配置名映射规则
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @member     {Object}     _mapRules
+         */
+        _mapRules:{
+
+            fx:{
+                name : 'fxName',
+                open : 'fxSettings_open',
+                close: 'fxSettings_close'
+            },
+
+            button:{
+                cls : 'buttonClass'
+            },
+
+            content:{
+                ignoreSelector: 'contentIgnoreSelector',
+                selector      : 'contentSelector'
+            },
+
+            toggler:{
+                hideOnSlide : 'hideTogglerOnSlide',
+                open :{ 
+                    tip   : 'togglerTip_open',
+                    length: 'togglerLength_open',
+                    align : 'togglerAlign_open' 
+                },
+                close:{ 
+                    tip   : 'togglerTip_closed',
+                    length: 'togglerLength_closed',
+                    align : 'togglerAlign_closed' 
+                }
+            },
+
+            spacing:{
+                open : 'spacing_open',
+                close: 'spacing_closed'
+            }
+
+        },
+
+        /**
+         *  rulenames 指定需要重命名的属性集
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _doRealMap
+         *  @param      {String}    target      -   north/south/west/east/center
+         *  @param      {Array}     rulenames  -    要进行映射的配置节
+         *  @param      {Object}    origin      -   原始配置对象
+         *  @return     {Object}
+         */
+        _doRealMap : function ( target,rulenames,origin ) {
+
+            var me = this;
+            var config = {};
+            var dest = {};
+
+            for (var i = 0,l = rulenames.length; i &lt; l; i++) {
+                var name = rulenames[i];
+                var rules = me._mapRules[name];
+
+                //  name应该是fx或者toggler等
+                //  判断原配置对象是否有配置对应的值
+                if( origin[name] ){
+
+                    //  对配置对象的每个属性进行映射
+                    for( var rule in rules ){
+
+                        var hasValForRule = ( origin[name][rule] !== null || origin[name][rule] !== undefined );
+                        if( !me.isString( rules[rule] ) && hasValForRule ){
+
+                            /*  
+                             *  主要这边是有三级的配置对象。
+                             *  确实，配置对象的深度过大也是很头疼的问题。
+                             *  然后把最深处的配置对象扁平化，成为只包含一级的配置对象
+                             *  _mapRules:{
+                             *      toggler:{
+                             *          hideOnSlide : 'hideTogglerOnSlide',
+                             *          open :{ 
+                             *              tip: 'togglerTip_open',
+                             *              length: 'togglerLength_open',
+                             *              align:'togglerAlign_open' 
+                             *          }
+                             *      }
+                             *  }
+                             */
+                            var subrules = rules[rule];
+                            for( var key in subrules ){
+                                dest[subrules[key]] = origin[name][rule][key];
+                            }
+
+                        }else if( hasValForRule ){
+                            //  save property and value
+                            dest[rules[rule]] = origin[name][rule];
+                        }
+
+                    }
+
+                    delete origin[name];
+                }
+
+            }
+
+            $.extend( dest,origin );
+
+            config[target] = dest;
+
+            return config;
+        },
+
+        /**
+         *  映射ui layout的整体默认配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToDefaultSection
+         *  @return     {Object}
+         */
+        _mapToDefaultSection:function( settings ){
+
+            /*
+             *  about the applyDefaultStyles cconfig
+             *  When applyDefaultStyles is enabled, the layout will apply basic styles directly to resizers & buttons. This is intended for quick mock-ups, so that you can 'see' your layout immediately.
+             *  to read more, @see http://layout.jquery-dev.net/documentation.cfm#Option_applyDefaultStyles
+             */
+            var config = {
+                name              : 'defaults',
+                applyDefaultStyles: false,
+                defaults: {
+                    size   :  "auto",
+                    minSize:  50
+                }
+            };
+
+            //  指定需要重命名的属性集
+            var rulenames = [
+                'fx',
+                'button',
+                'content'
+            ];
+
+            for (var i = 0,l = rulenames.length; i &lt; l; i++) {
+
+                var name = rulenames[i];
+                var rules = this._mapRules[name];
+
+                for( var rule in rules ){
+
+                    if( settings[name] ){
+                        //  propertye name after mapping
+                        var mapedProp = rules[rule];
+                        //  property value
+                        var propVal   = settings[name][rule];
+                        //  save property and value
+                        config['defaults'][mapedProp] = propVal;
+                    }
+
+                }
+
+            };
+
+            if( settings['panes'] && settings['panes']['cls'] ){
+                config['defaults']['paneClass'] = settings['panes']['cls'];
+            }
+
+            return config;
+        },
+
+        /**
+         *  映射ui layout的主题内容pane的配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToDefaultSection
+         *  @return     {Object}
+         */
+        _mapToCenterSection:function( settings ){
+
+            if( !settings['panes'] || !settings['panes']['center'] ){
+                return {};
+            }
+            
+            var config = { center : {} };
+            var before = settings['panes']['center'];
+            for( var item in before ){
+                if( item != 'toggler' ){
+                    config['center'][item] = before[item];
+                }
+            }
+
+            return config;
+        },
+
+        /**
+         *  映射ui layout的east pane的配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToEastSection
+         *  @return     {Object}
+         */
+        _mapToEastSection:function( settings ){
+            if( !settings['panes'] || !settings['panes']['east'] ){
+                return {};
+            }
+            return this._doRealMap( 'east',['fx','toggler','spacing'],settings['panes']['east'] );
+        },
+
+        /**
+         *  映射ui layout的west pane的配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToWestSection
+         *  @return     {Object}
+         */
+        _mapToWestSection:function( settings ){
+            if( !settings['panes'] || !settings['panes']['west'] ){
+                return {};
+            }
+            return this._doRealMap( 'west',['fx','toggler','spacing'],settings['panes']['west'] );
+        },
+
+        /**
+         *  映射ui layout的north pane的配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToNorthSection
+         *  @return     {Object}
+         */
+        _mapToNorthSection:function( settings ){
+            if( !settings['panes'] || !settings['panes']['north'] ){
+                return {};
+            }
+
+            return this._doRealMap( 'north',['fx','toggler','spacing'],settings['panes']['north'] );
+        },
+
+        /**
+         *  映射ui layout的south pane的配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _mapToSouthSection
+         *  @return     {Object}
+         */
+        _mapToSouthSection:function( settings ){
+            if( !settings['panes'] || !settings['panes']['south'] ){
+                return {};
+            }
+            return this._doRealMap( 'south',['fx','toggler','spacing'],settings['panes']['south'] );
+        },
+
+        /**
+         *  把ebaui.web.UiLayout自定义的JS配置类格式，转换成为jqUILayout插件所使用的JS配置格式
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _map
+         *  @return     {Object}
+         */
+        _map:function( settings ){
+
+            var me = this;
+            var defaults = me._mapToDefaultSection( settings );
+            var north    = me._mapToNorthSection( settings );
+            var south    = me._mapToSouthSection( settings );
+            var west     = me._mapToWestSection( settings );
+            var east     = me._mapToEastSection( settings );
+            var center   = me._mapToCenterSection( settings );
+
+            var uiLayoutConfig = $.extend( {},defaults,north,south,west,east,center );
+
+            return uiLayoutConfig;
+        },
+
+        _getPanesConf : function(){
+
+            var self        = this;
+            var $root       = self._$root;
+            var defualts    = self.options['layout']['panes'];
+            var $westPane   = $( '[data-role="layout-west"]',$root );
+            var $eastPane   = $( '[data-role="layout-east"]',$root );
+            var $northPane  = $( '[data-role="layout-north"]',$root );
+            var $southPane  = $( '[data-role="layout-south"]',$root );
+            var $centerPane = $( '[data-role="layout-center"]',$root );
+
+            if( $westPane.size() > 0 ){
+                var westPaneConf = self._parseDataOptions( $westPane );
+                $.extend(defualts['west'],westPaneConf);
+            }
+
+            if( $eastPane.size() > 0 ){
+                var eastPaneConf = self._parseDataOptions( $eastPane );
+                $.extend(defualts['east'],eastPaneConf);
+            }
+
+            if( $northPane.size() > 0 ){
+                var northPaneConf = self._parseDataOptions( $northPane );
+                $.extend(defualts['north'],northPaneConf);
+            }
+
+            if( $southPane.size() > 0 ){
+                var southPaneConf = self._parseDataOptions( $southPane );
+                $.extend(defualts['south'],southPaneConf);
+            }
+
+            if( $centerPane.size() > 0 ){
+                var centerPaneConf = self._parseDataOptions( $centerPane );
+                $.extend(defualts['center'],centerPaneConf);
+            }
+
+            return defualts;
+        },
+
+        /**
+         *  把HTML占位符转换成为控件自身的HTML结构
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _parseUi
+         */
+        _parseUi : function( element ){ return $( element ); },
+
+        /**
+         *  初始化控件，声明内部变量
+         *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     _initControl
+         */
+        _initControl : function(){
+
+            //  get plugin config then init layout plugin
+            var panesConfig   = this._getPanesConf();
+            var config = $.extend(this.options['layout']['panes'], panesConfig);
+            var layoutConfig = this._map( this.options['layout'] );
+
+            this._layoutPlugin = this._$root.layout( layoutConfig ); 
+
+        },
+
+        /**
+         *  A hash containing the dimensions of all the elements, including the layout container. Dimensions include borders and padding for: top, bottom, left, right, plus outerWidth, outerHeight, innerWidth, innerHeight.
+         *  &lt;br />获取当前uilayout的状态，包含uilayout容器的innerWidth，paddingLeft
+         *  ，以及所有panes的top， bottom， left， right，outerWidth， outerHeight， innerWidth， innerHeight
+         *  ，参数可选的值有container north east south west center
+         *  ，默认返回uilayout所有的状态
+         *  @public
+         *  @instance
+         *  @memberof       ebaui.web.UiLayout
+         *  @member         {Object}    state
+         */
+        state : function( pane ){
+            if( this._layoutPlugin ){
+
+                if( /north|east|south|west|center|container/i.test( pane ) ){
+                    return this._layoutPlugin.state[pane];
+                }else{
+                    return this._layoutPlugin.state;
+                }
+
+            }
+        },
+
+        /**
+         *  pane objects( panes.north, panes.south, etc ).Each pane-element is in a jQuery wrapper.If a pane does not exist in the layout - for example no south-pane - then panes.south == false - instead of being a jQuery element.
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @member     {Object}     panes
+         */
+        panes : function(){
+
+            if( this._layoutPlugin ){
+                return this._layoutPlugin.panes;
+            }
+
+        },
+
+        /**
+         *  get pane object
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     getPane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        getPane : function( pane ){
+
+            if( this._layoutPlugin ){
+                if( /north|east|south|west|center/i.test( pane ) ){
+                    return this._layoutPlugin.panes[pane];
+                }
+            }
+
+        },
+
+        /**
+         *  显示或者隐藏指定区域
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     togglePane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        togglePane:function( pane ){
+
+            var me = this;
+            if( !me.isString( pane ) ){
+                return ;
+            }
+
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.toggle( pane );
+            }
+
+        },
+
+        /**
+         *  展开指定区域
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     openPane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        openPane:function( pane ){
+
+            var me = this;
+            if( !me.isString( pane ) ){
+                return ;
+            }
+
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.open( pane );
+            }
+
+        },
+
+        /**
+         *  缩起指定区域
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     closePane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        closePane:function( pane ){
+
+            var me = this;
+            if( !me.isString( pane ) ){
+                return ;
+            }
+
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.close( pane );
+            }
+        },
+
+        /**
+         *  显示指定区域
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     showPane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        showPane:function( pane ){
+
+            var me = this;
+            if( !me.isString( pane ) ){
+                return ;
+            }
+
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.show( pane );
+            }
+        },
+
+        /**
+         *  隐藏指定区域
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     hidePane
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        hidePane:function( pane ){
+
+            var me = this;
+            if( !me.isString( pane ) ){
+                return ;
+            }
+
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.hide( pane );
+            }
+        },
+
+        /**
+         *  对于north 和 south 这两个pane更新其outerHeight
+         *  ，对于east 和 west 则更新outerWidth
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     sizePane
+         *  @param      {String}    pane            -  north/south/west/east/center
+         *  @param      {Number}    sizeInPixels    -  sizeInPixels
+         */
+        sizePane : function( pane, sizeInPixels ){
+
+            var me = this;
+            if( me._layoutPlugin ){
+
+                if( /north|east|south|west|center/i.test( pane ) ){
+                    return me._layoutPlugin.sizePane( pane,sizeInPixels );
+                }
+
+            }
+
+        },
+
+        /**
+         *  重新调整所有的pane，以便所有的pane能够适应容器元素的大小
+         *  @public
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @method     resizeAllPanes
+         *  @param      {String}    pane  -  north/south/west/east/center
+         */
+        resizeAllPanes:function(){
+            var me = this;
+            if( me._layoutPlugin ){
+                return me._layoutPlugin.resizeAll();
+            }
+        },
+
+        /**
+         *  控件配置
+         *  @private
+         *  @instance
+         *  @memberof   ebaui.web.UiLayout
+         *  @member     {Object}    options
+         */
+        options : {
+
+            //  默认配置
+            layout:{
+
+                    size                  : "auto"
+                ,   minSize               : 0
+                ,   maxSize               : 0
+
+                /*
+                 *  spacing的配置
+                 *  参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+                 *  
+                 *  HTML结构：
+                 *  pane
+                 *      ->  spacing
+                 *          ->  toggler
+                 */
+
+                /*
+                 *  toggler的配置
+                 *  关于toggler的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#toggler
+                 *
+                 *  map to the following config 
+                 *
+                 *  togglerClass:           "toggler"   // default = 'ui-layout-toggler'
+                 *  togglerLength_open:     35          // WIDTH of toggler on north/south edges - HEIGHT on east/west edges
+                 *  togglerLength_closed:   35          // "100%" OR -1 = full height
+                 *  togglerTip_open:        "Close This Pane"
+                 *  togglerTip_closed:      "Open This Pane"
+                 *  hideTogglerOnSlide:     true        // hide the toggler when pane is 'slid open'
+                 *  togglerAlign_open:      "center"
+                 *  togglerAlign_closed:    "center"
+                 *      "left", "center", "right", "top", "middle", "bottom"
+                 */
+
+                /*
+                 *  panes的配置
+                 *  关于content的更多信息，请参考文档：
+                 *      http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+                 *      http://layout.jquery-dev.net/documentation.cfm#Panes
+                 *      http://layout.jquery-dev.net/documentation.cfm#Callback_Functions
+                 *      http://layout.jquery-dev.net/documentation.cfm#Option_paneSelector
+                 *
+                 *  map to the following config 
+                 *
+                 *  paneClass:              "ui-layout-pane"      // default = 'ui-layout-pane'
+                 *  paneSelector: ".ui-layout-PANE"
+                 *  
+                 *  $(document).ready(function() {
+                 *     $("body").layout({
+                 *        // using custom 'ID' paneSelectors
+                 *        north__paneSelector:  "#north"
+                 *     ,  west__paneSelector:   "#west"
+                 *     ,  center__paneSelector: "#center"
+                 *     });   
+                 *  });
+                 */
+                ,   panes : {
+
+                    cls      : 'ui-layout-pane',
+                    west     : {
+
+                        size        : 'auto',
+                        initClosed  : false,
+                        closable    : true,
+                        slidable    : true,
+                        resizable   : true,
+                        paneSelector: '[data-role="layout-west"]',
+                        spacing     :{ open : 5,close : 5 },
+                        toggler       : { 
+                            cls  : 'ui-layout-toggler',
+                            hideOnSlide:     true,
+                            open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                            close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+                        }
+
+                    },
+                    east     : {
+
+                        size        : 'auto',
+                        initClosed  : false,
+                        closable    : true,
+                        slidable    : true,
+                        resizable   : true,
+                        paneSelector: '[data-role="layout-east"]',
+                        spacing     :{ open : 5,close : 5 },
+                        toggler       : { 
+                            cls  : 'ui-layout-toggler',
+                            hideOnSlide:     true,
+                            open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                            close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+                        }
+
+                    },
+                    north    : {
+
+                        size        : 'auto',
+                        initClosed    : false,
+                        closable      : true,
+                        slidable      : true,
+                        resizable     : true,
+                        paneSelector  : '[data-role="layout-north"]',
+                        spacing:{ open : 5,close : 5 },
+                        toggler       : { 
+                            cls  : 'ui-layout-toggler',
+                            hideOnSlide:     true,
+                            open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                            close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+                        }
+
+                    },
+                    south    : {
+
+                        size        : 'auto',
+                        initClosed  : false,
+                        closable    : true,
+                        slidable    : true,
+                        resizable   : true,
+                        paneSelector: '[data-role="layout-south"]',
+                        spacing     :{ open : 5,close : 5 },
+                        toggler       : {  
+                            cls  : 'ui-layout-toggler',
+                            hideOnSlide:     true,
+                            open :{ align:'center',tip: 'Close This Pane',length: 35 }, 
+                            close :{ align:'center',tip: 'Open This Pane',length: 35 } 
+                        }
+
+                    },
+                    center   : { 
+                        initClosed  : false,
+                        closable    : true,
+                        slidable    : true,
+                        resizable   : true,
+                        paneSelector: '[data-role="layout-center"]'
+
+                    }
+
+                }
+
+                /*
+                 *  content的配置
+                 *  关于content的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_contentSelector
+                 *
+                 *  map to the following config 
+                 *
+                 *  contentSelector:        ".content"  // inner div to auto-size so only it scrolls, not the entire pane!
+                 *  contentIgnoreSelector:  "span"      // 'paneSelector' for content to 'ignore' when measuring room for content
+                 *  
+                 */
+                ,   content : {
+                    // 'paneSelector' for content to 'ignore' when measuring room for content
+                    ignoreSelector: 'span',
+                    // inner div to auto-size so only it scrolls, not the entire pane!
+                    selector      : '[data-role="content"]'
+                }
+
+                /*
+                 *  custom buttons的配置
+                 *  关于toggler的更多信息，请参考文档：http://layout.jquery-dev.net/documentation.cfm#Option_buttonClass
+                 *  示例：outerLayout.addToggleBtn( "#tbarToggleNorth", "north" );
+                 *
+                 *  map to the following config 
+                 *
+                 *  buttonClass:            "button"    // default = 'ui-layout-button'
+                 *  
+                 */
+                ,   button:{
+                    cls : 'ui-layout-button'
+                }
+
+                /*
+                 *  特效的配置
+                 *  
+                 *  map to the following config 
+                 *
+                 *  fxName:                 "slide"     // none, slide, drop, scale
+                 *  fxSpeed_open:           400     normal
+                 *  fxSpeed_close:          400     normal
+                 *  fxSettings_open:        { easing: "easeInQuint" }
+                 *  fxSettings_close:       { easing: "easeOutQuint" }
+                 *  
+                 */
+                ,   fx:{
+                    name : 'slide',
+                    open : { easing: "easeInQuint", duration : 400 },
+                    close: { easing: "easeOutQuint", duration : 400 }
+                }
+
+                /*
+                 *  resizer的配置
+                 *  
+                 *  map to the following config 
+                 *
+                 *  resizerClass:           "resizer"   // default = 'ui-layout-resizer'
+                 *  resizerTip:             "Resize This Pane"
+                 */
+                ,   resizer : {
+                    cls : 'ui-layout-resizer',
+                    tip : 'Resize This Pane'
+                }
+
+                ,   paneEvents:{
+
+                    onhide_start  :  $.noop,
+                    onhide_end    :  $.noop,
+                    
+                    onshow_start  :  $.noop,
+                    onshow_end    :  $.noop,
+                    
+                    onopen_start  :  $.noop,
+                    onopen_end    :  $.noop,
+                    
+                    onclose_start :  $.noop,
+                    onclose_end   :  $.noop,
+                    
+                    onresize_start:  $.noop,
+                    onresize_end  :  $.noop
+
+                }
+
+            }
+
+        }
+
+    });
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

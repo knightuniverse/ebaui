@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/ebaui.web/ebaui.web.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: src/ebaui.web/ebaui.web.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ *  ebaui.web
+ *  @file 
+ *  @author Monkey &lt;knightuniverse@qq.com>
+ */
+;;(function( $,ebaui ){
+
+    var namespace = {
+        
+        /** 
+         *  项目引用eba.ui框架的时候，自动算出ebaui.js前面的URL路径
+         *  @public
+         *  @static
+         *  @member     {String}    templates
+         *  @memberof   ebaui.web
+         */
+        urlRoot : '',
+
+        formControls : [],
+
+        controls : [],
+
+        /** 
+         *  HTML模板
+         *  @public
+         *  @static
+         *  @member     {String}    templateString
+         *  @memberof   ebaui.web
+         */
+        templateString : '',
+
+        /** 
+         *  HTML模板的URL地址
+         *  @public
+         *  @static
+         *  @member     {String}    templates
+         *  @memberof   ebaui.web
+         */
+        templateUrl : '',
+
+        /** 
+         *  
+         *  @public
+         *  @static
+         *  @method     _loadRemoteTemplates
+         *  @memberof   ebaui.web
+         *  @param      {Function}  success     - HTML模板加载成功的回调
+         *  @param      {Function}  error       - HTML模板加载失败的回调
+         */
+        _loadRemoteTemplates:function(success,error){
+
+            var me = this;
+            var templatesUrl = me.templateUrl;
+            if( !me.urlRoot ){
+
+                var RE = /(.*)\/(ebaui\.js|ebaui(-\d\.\d\.\d)?\.js|ebaui(-\d\.\d\.\d)?\.min\.js)(.*)$/;
+                var scripts = document.getElementsByTagName('script');
+                for( var i = 0 ,l = scripts.length;i &lt; l;i++ ){
+                    var scriptSrc = scripts[i].src;
+                    if( RE.test( scriptSrc ) ){
+                        var matched = RE.exec( scriptSrc );
+                        var prefix = matched[1];
+                        if( prefix.substring( prefix.length - 1,prefix.length ) != '/' ){
+                            prefix += '/';
+                        }
+                        me.urlRoot = prefix;
+                        break;
+                    }
+                }
+
+            }
+
+            if( !me.templateUrl ){
+                templatesUrl = me.urlRoot + 'ebaui.templates.html';
+            }
+
+            if( templatesUrl ){
+
+                $.ajax({
+                    type    : 'GET',
+                    dataType: 'html',
+                    url     : templatesUrl,
+                    async   : false,
+                    success : function( serverData ){
+                        success( serverData );
+                    }
+                });
+
+            }else{
+
+                ebaui.log( 'loadTemplates error' );
+                if(typeof error === 'function' ){
+                    error();
+                }
+
+            }
+
+        },
+
+        /** 
+         *  
+         *  @public
+         *  @static
+         *  @method     _loadLocalTemplates
+         *  @memberof   ebaui.web
+         *  @param      {Function}  success     - HTML模板加载成功的回调
+         *  @param      {Function}  error       - HTML模板加载失败的回调
+         */
+        _loadLocalTemplates:function(success,error){
+            success( this.templateString );
+        },
+
+        /** 
+         *  加载WEB控件的HTML模板
+         *  @public
+         *  @static
+         *  @method     loadTemplates
+         *  @memberof   ebaui.web
+         *  @param      {Function}  successFn     - HTML模板加载成功的回调
+         *  @param      {Function}  errorFn       - HTML模板加载失败的回调
+         */
+        loadTemplates : function( successFn,errorFn ){
+            var me = this;
+            if( !me.templateString ){
+                me._loadRemoteTemplates( successFn,errorFn );
+            }else{
+                me._loadLocalTemplates( successFn,errorFn );
+            }
+        },
+
+        /** 
+         *  注册成为一个UI控件
+         *  @public
+         *  @static
+         *  @method     registerControl
+         *  @memberof   ebaui.web
+         *  @param      {String}    name        - 控件名
+         */
+        registerControl : function( name ){
+            if( !name ){ return; }
+            this.controls.push( name.toLocaleLowerCase() );
+        },
+
+        /** 
+         *  注册成为一个Form表单UI控件
+         *  @public
+         *  @static
+         *  @method     registerControl
+         *  @memberof   ebaui.web
+         *  @param      {String}    name        - 控件名
+         */
+        registerFormControl:function( name ){
+            if( !name ){ return; }
+            name = name.toLocaleLowerCase();
+            this.controls.push( name );
+            this.formControls.push( name );
+        },
+
+        /** 
+         *  自动初始化所有WEB控件。其实所有的控件最后都有一个对应的jquery插件方法，初始化的时候就是调用这个插件方法去实例化一个控件。
+         *  @public
+         *  @static
+         *  @method     parseControls
+         *  @memberof   ebaui.web
+         */
+        parseControls : function( context ){
+
+            var controls = this.controls;
+            for( var i = 0,l = controls.length; i&lt;l; i++ ){
+
+                var control = controls[i];
+                var jqSelector = '[data-role="' + control + '"]';
+                var $elements = $( jqSelector,context );
+                if( $elements.size() > 0 && $elements[control]){
+                    $elements[control]();
+                }
+
+            }
+
+        },
+
+        /** 
+         *  加载PC端HTML模板信息，并且自动初始化每一个UI控件
+         *  @public
+         *  @static
+         *  @method     parseUi
+         *  @memberof   ebaui.web
+         *  @param      {String}    上下文CSS选择器
+         */
+        parseUi : function( context ){
+
+            var self = this;
+            var controlParser = self.parser;
+
+            context  = context || document;
+
+            self.loadTemplates( function( serverData ){
+
+                var selector = '#ebaui-templates';
+                var $dom = $(selector);
+                if( $dom.size() == 0 ){
+                    $dom = $( '&lt;div id="ebaui-templates" style="display:none;">&lt;/div>' ).appendTo(document.body);
+                }
+
+                $dom.html( serverData );
+                self.parseControls( context );
+
+            } );
+
+        },
+
+        /**
+         *  ebaui前端框架执行的一系列浏览器特性检测以及BUG的结果
+         *  @memberof   ebaui.web
+         *  @member     {Object}    support
+         */
+        support : {},
+
+        /**
+         *  表单控件验证规则的构造器工厂，默认提供required,email,url等验证规则  &lt;br />
+         *  关于如何启用验证规则请参考 {@tutorial form_index}  &lt;br />
+         *  关于拓展当前控件规则请参考 {@tutorial extend_validationRules}  &lt;br />
+         *  @public
+         *  @member     {Object}    validationRules
+         *  @memberof   ebaui.web
+         *  @property   {RequiredValidator}     required        -       required验证规则构造函数
+         *  @property   {EmailValidator}        email           -       email地址验证规则构造函数
+         *  @property   {UrlValidator}          url             -       url地址验证规则构造函数
+         *  @property   {UrlValidator}          captcha         -       认证码验证规则构造函数
+         */
+        validationRules:{}
+    };
+
+    /** 
+     *  PC端浏览器控件所属命名空间
+     *  @namespace  ebaui.web
+     */
+    ebaui['web'] = namespace;
+
+    /** 
+     *  给指定的HTML元素设置遮罩
+     *  @method     mask
+     *  @memberof   ebaui
+     *  @param      {Object}    selector                 -   必选，jquery 选择器
+     *  @param      {String}    [label='']       -   可选，遮罩层的文本信息
+     *  @param      {Number}    [delay=null]             -   可选，在HTML元素打上遮罩之前的延迟时间
+     *  @param      {Object}    [context=null]           -   可选，jquery 选择器上下文
+     */
+    ebaui['mask'] = function( selector, label, delay, context ){
+        label = ( !label ) ? '' : label;
+        return $( selector,context ).mask(label, delay);
+    };
+
+    /** 
+     *  取消指定HTML元素上的遮罩
+     *  @method     unmask
+     *  @memberof   ebaui
+     *  @param      {Object}    selector           -   必选，jquery 选择器
+     *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
+     */
+    ebaui['unmask'] = function( selector, context ){
+        return $( selector,context ).unmask();
+    };
+
+    /** 
+     *  判断指定的HTML元素是否有遮罩
+     *  @method     isMasked
+     *  @memberof   ebaui
+     *  @param      {Object}    selector           -   必选，jquery 选择器
+     *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
+     */
+    ebaui['isMasked'] = function( selector, context ){
+        return $( selector,context ).isMasked();
+    };
+
+    /** 
+     *  alert对话框
+     *  @method     alert
+     *  @memberof   ebaui
+     *  @param      {String}        message                     -   alert的提示消息
+     */
+    ebaui['alert'] = function( msg ){
+        vex.dialog.alert({
+            title  : '提示',
+            iconCls: 'icon-warning-sign',
+            className: 'vex-theme-default',
+            message: msg
+        });
+    };
+
+    /** 
+     *  confirm对话框
+     *  @method     confirm
+     *  @memberof   ebaui
+     *  @param      {Object}        options                     -  配置对象
+     *  @prop       {String}        options.message             -   confirm的提示消息
+     *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
+     *  @example    
+     *      ebaui.confirm({
+     *          message  : 'confirm',
+     *          callback : function( value ){
+     *              //  true or false
+     *              console.log( value );
+     *          }
+     *      });
+     */
+    ebaui['confirm'] = function( opts ){
+        var vexOpts = $.extend({}, {
+            title    : '确认',
+            iconCls  : 'icon-question-sign',
+            className: 'vex-theme-default',
+            buttons  : [vex.dialog.buttons.NO,vex.dialog.buttons.YES]
+        }, opts);
+        vex.dialog.confirm( vexOpts );
+    };
+
+    /** 
+     *  prompt对话框
+     *  @method     prompt
+     *  @memberof   ebaui
+     *  @param      {Object}        options                      -  配置对象
+     *  @prop       {String}        options.message             -   prompt的提示消息
+     *  @prop       {String}        options.placeholder         -   prompt的文本占位符
+     *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
+     *  @example    
+     *      ebaui.prompt({
+     *          message      : 'prompt',
+     *          placeholder  : 'placeholder',
+     *          callback     : function( value ){
+     *              //  the value is what user has typed in the textbox
+     *              console.log( value );
+     *          }
+     *      });
+     */
+    ebaui['prompt'] = function( opts ){
+        opts = $.extend({}, {
+            title    : '提示',
+            className: 'vex-theme-default',
+            buttons  : [vex.dialog.buttons.NO,vex.dialog.buttons.YES]
+        }, opts);
+        vex.dialog.prompt( opts );
+    };
+
+    /** 
+     *  打开一个新的窗口
+     *  @method     win
+     *  @memberof   ebaui
+     *  @param      {Object}        options                   -   配置对象
+     *  @prop       {String}        options.title             -   窗口的标题
+     *  @prop       {String}        options.url               -   窗口的url地址，优先使用
+     *  @prop       {String}        options.iconCls           -   窗口的icon
+     *  @prop       {String}        options.content           -   作为窗口的静态内容，如果url为空，则采用content作为窗口内容
+     *  @prop       {Number}        options.width             -   窗口的宽度
+     *  @prop       {Number}        options.height            -   窗口的高度
+     *  @prop       {Function}      options.beforeclose       -   关闭窗口前的事件处理程序
+     *  @prop       {Function}      options.afterclose        -   关闭窗口后的事件处理程序
+     *  @example    
+     *      ebaui.win({
+     *          url    : 'http://www.baidu.com',
+     *          title  : 'baidu'
+     *      });
+     */
+    ebaui['win'] = function( opts ){
+
+        if( !opts ){ return;}
+        if( !opts['url'] || opts['content'] ){ return; }
+
+        var winContent = '';
+        var isIframe = (opts['url']) ? true : false;
+        if( isIframe ){
+            winContent = '';
+        }else{
+            winContent = $( opts['content'] ).html();
+        }
+
+        var html = '';
+        var wrapper = '&lt;div class="vex-dialog-form" style="height:100%;">&lt;div class="vex-dialog-title">&lt;i class="{0}">&lt;/i>{1}&lt;/div>{2}&lt;div class="vex-close">&lt;/div>&lt;/div>'
+                      .replace('{0}',opts['iconCls'])
+                      .replace('{1}',opts['title']);
+
+        if( isIframe ){
+            html = '&lt;iframe src="{0}" style="width:100%;" frameborder="0" scrolling="no">&lt;/iframe>'.replace('{0}',opts['url']);
+            opts['content'] = wrapper.replace( '{2}',html );
+
+        }else{
+            html = $( opts['content'] ).html();
+            opts['content'] = wrapper.replace( '{2}',html );
+        }
+
+        var defaults = {
+            title               : '',
+            content             : '',
+            width               : 800,
+            height              : 600,
+            className           : 'vex-theme-default',
+            showCloseButton     : true,
+            overlayClosesOnClick: false,
+            
+            beforeclose         : $.noop,
+            afterclose          : $.noop
+        };
+
+        opts = $.extend(defaults,opts);
+
+        var $vexContent = vex.open(opts);
+        var $vex = $vexContent.parent();
+
+        $vexContent.css({
+            'border'          : '1px #eee solid',
+            'width'           : opts['width'],
+            'height'          : opts['height']
+        });
+
+        $vex.css({
+            'padding-top'   : '50px',
+            'padding-bottom': '0'
+        });
+
+        if( isIframe ){
+            titleH = $('.vex-dialog-title',$vexContent).outerHeight();
+            $( 'iframe',$vexContent ).css( 'height',$vexContent.height() - titleH );
+        }
+
+    };
+
+    /** 
+     *  文档请参考 http://api.jquery.com/jQuery.ajax/
+     *  @method     ajax
+     *  @memberof   ebaui
+     */
+    ebaui['ajax'] = jQuery.ajax;
+
+    /** 
+     *  文档请参考 http://api.jquery.com/jQuery.get/
+     *  @method     httpGet
+     *  @memberof   ebaui
+     */
+    ebaui['httpGet'] = jQuery.get;
+
+    /** 
+     *  http://api.jquery.com/jQuery.post/
+     *  @method     httpPost
+     *  @memberof   ebaui
+     */
+    ebaui['httpPost'] = jQuery.post;
+
+})( jQuery,ebaui );</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Control.html">Control</a></li><li><a href="DigitValidator.html">DigitValidator</a></li><li><a href="ebaui.web.Button.html">Button</a></li><li><a href="ebaui.web.ButtonEdit.html">ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html">Calendar</a></li><li><a href="ebaui.web.Captcha.html">Captcha</a></li><li><a href="ebaui.web.Checkbox.html">Checkbox</a></li><li><a href="ebaui.web.CheckboxList.html">CheckboxList</a></li><li><a href="ebaui.web.Combo.html">Combo</a></li><li><a href="ebaui.web.ComboBox.html">ComboBox</a></li><li><a href="ebaui.web.ComboList.html">ComboList</a></li><li><a href="ebaui.web.DataGrid.html">DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html">DateTimePicker</a></li><li><a href="ebaui.web.Dialog.html">Dialog</a></li><li><a href="ebaui.web.FileUploader.html">FileUploader</a></li><li><a href="ebaui.web.Form.html">Form</a></li><li><a href="ebaui.web.FormElement.html">FormElement</a></li><li><a href="ebaui.web.Hidden.html">Hidden</a></li><li><a href="ebaui.web.Label.html">Label</a></li><li><a href="ebaui.web.ListBox.html">ListBox</a></li><li><a href="ebaui.web.MiniGrid.html">MiniGrid</a></li><li><a href="ebaui.web.Panel.html">Panel</a></li><li><a href="ebaui.web.Password.html">Password</a></li><li><a href="ebaui.web.RadioButtonList.html">RadioButtonList</a></li><li><a href="ebaui.web.Spinner.html">Spinner</a></li><li><a href="ebaui.web.Tabs.html">Tabs</a></li><li><a href="ebaui.web.TextArea.html">TextArea</a></li><li><a href="ebaui.web.TextBox.html">TextBox</a></li><li><a href="ebaui.web.TextBoxList.html">TextBoxList</a></li><li><a href="ebaui.web.TimeSpinner.html">TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html">TreeView</a></li><li><a href="ebaui.web.UiLayout.html">UiLayout</a></li><li><a href="EmailValidator.html">EmailValidator</a></li><li><a href="IdentityValidator.html">IdentityValidator</a></li><li><a href="LengthValidator.html">LengthValidator</a></li><li><a href="MobileValidator.html">MobileValidator</a></li><li><a href="OnlyCNValidator.html">OnlyCNValidator</a></li><li><a href="RangeValidator.html">RangeValidator</a></li><li><a href="RemoteValidator.html">RemoteValidator</a></li><li><a href="RequiredValidator.html">RequiredValidator</a></li><li><a href="Tab.html">Tab</a></li><li><a href="TelephoneValidator.html">TelephoneValidator</a></li><li><a href="UrlValidator.html">UrlValidator</a></li><li><a href="ZipValidator.html">ZipValidator</a></li></ul><h3>Events</h3><ul><li><a href="ebaui.web.Button.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Button.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ButtonEdit.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Calendar.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Calendar.html#event:onclick">onclick</a></li><li><a href="ebaui.web.Captcha.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Captcha.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Captcha.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Captcha.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Captcha.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Captcha.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Checkbox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.CheckboxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.Combo.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Combo.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.Combo.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Combo.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Combo.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboBox.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboBox.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.ComboList.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.ComboList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ComboList.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.ComboList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.ComboList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.ComboList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onbtnclick">onbtnclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onchange">onchange</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onclsclick">onclsclick</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onenter">onenter</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.DateTimePicker.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.Dialog.html#event:afterclose">afterclose</a></li><li><a href="ebaui.web.Dialog.html#event:beforeClose">beforeClose</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadcomplete">onuploadcomplete</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploaderror">onuploaderror</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadprogress">onuploadprogress</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadstart">onuploadstart</a></li><li><a href="ebaui.web.FileUploader.html#event:onuploadsucc">onuploadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.ListBox.html#event:onitemclick">onitemclick</a></li><li><a href="ebaui.web.ListBox.html#event:onitemdbclick">onitemdbclick</a></li><li><a href="ebaui.web.ListBox.html#event:onloadcomplete">onloadcomplete</a></li><li><a href="ebaui.web.ListBox.html#event:onloadfail">onloadfail</a></li><li><a href="ebaui.web.ListBox.html#event:onloadsucc">onloadsucc</a></li><li><a href="ebaui.web.ListBox.html#event:onpreload">onpreload</a></li><li><a href="ebaui.web.Password.html#event:onblur">onblur</a></li><li><a href="ebaui.web.Password.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Password.html#event:onenter">onenter</a></li><li><a href="ebaui.web.Password.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.Password.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.Password.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.RadioButtonList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.Spinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.Spinner.html#event:onspinup">onspinup</a></li><li><a href="ebaui.web.TextArea.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextArea.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextArea.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextArea.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextArea.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextArea.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBox.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBox.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBox.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBox.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBox.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBox.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TextBoxList.html#event:onblur">onblur</a></li><li><a href="ebaui.web.TextBoxList.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TextBoxList.html#event:onenter">onenter</a></li><li><a href="ebaui.web.TextBoxList.html#event:onfocus">onfocus</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeydown">onkeydown</a></li><li><a href="ebaui.web.TextBoxList.html#event:onkeyup">onkeyup</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onchange">onchange</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspindown">onspindown</a></li><li><a href="ebaui.web.TimeSpinner.html#event:onspinup">onspinup</a></li></ul><h3>Namespaces</h3><ul><li><a href="ebaui.html">ebaui</a></li><li><a href="ebaui.web.html">web</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-buttonedit_allowInput.html">buttonedit_allowInput</a></li><li><a href="tutorial-buttonedit_index.html">buttonedit_index</a></li><li><a href="tutorial-buttonedit_onbtnclick.html">buttonedit_onbtnclick</a></li><li><a href="tutorial-buttonedit_onclsclick.html">buttonedit_onclsclick</a></li><li><a href="tutorial-button_index.html">button_index</a></li><li><a href="tutorial-calendar_index.html">calendar_index</a></li><li><a href="tutorial-captcha_index.html">captcha_index</a></li><li><a href="tutorial-checkboxlist_index.html">checkboxlist_index</a></li><li><a href="tutorial-checkboxlist_remoteDataSource.html">checkboxlist_remoteDataSource</a></li><li><a href="tutorial-checkbox_index.html">checkbox_index</a></li><li><a href="tutorial-combobox_allowInput.html">combobox_allowInput</a></li><li><a href="tutorial-combobox_index.html">combobox_index</a></li><li><a href="tutorial-combobox_initValue.html">combobox_initValue</a></li><li><a href="tutorial-combobox_multiSelect.html">combobox_multiSelect</a></li><li><a href="tutorial-combobox_remoteDataSource.html">combobox_remoteDataSource</a></li><li><a href="tutorial-combolist_index.html">combolist_index</a></li><li><a href="tutorial-combolist_remoteDataSource.html">combolist_remoteDataSource</a></li><li><a href="tutorial-combolist_setDataSource.html">combolist_setDataSource</a></li><li><a href="tutorial-datetimepicker_index.html">datetimepicker_index</a></li><li><a href="tutorial-dialog_index.html">dialog_index</a></li><li><a href="tutorial-editPwd.html">editPwd</a></li><li><a href="tutorial-extend_validationRules.html">extend_validationRules</a></li><li><a href="tutorial-fileuploader_index.html">fileuploader_index</a></li><li><a href="tutorial-form_data.html">form_data</a></li><li><a href="tutorial-form_index.html">form_index</a></li><li><a href="tutorial-form_submit.html">form_submit</a></li><li><a href="tutorial-gridview_index.html">gridview_index</a></li><li><a href="tutorial-hidden_index.html">hidden_index</a></li><li><a href="tutorial-jstmpl_loading.html">jstmpl_loading</a></li><li><a href="tutorial-label_index.html">label_index</a></li><li><a href="tutorial-label_placeholder.html">label_placeholder</a></li><li><a href="tutorial-layout_index.html">layout_index</a></li><li><a href="tutorial-listbox_addItems.html">listbox_addItems</a></li><li><a href="tutorial-listbox_index.html">listbox_index</a></li><li><a href="tutorial-listbox_moveItems.html">listbox_moveItems</a></li><li><a href="tutorial-listbox_multiselect.html">listbox_multiselect</a></li><li><a href="tutorial-listbox_remoteDataSource.html">listbox_remoteDataSource</a></li><li><a href="tutorial-listbox_removeItems.html">listbox_removeItems</a></li><li><a href="tutorial-listbox_selectItems.html">listbox_selectItems</a></li><li><a href="tutorial-listbox_updateItems.html">listbox_updateItems</a></li><li><a href="tutorial-panel_content.html">panel_content</a></li><li><a href="tutorial-panel_index.html">panel_index</a></li><li><a href="tutorial-password_index.html">password_index</a></li><li><a href="tutorial-radiobuttonlist_index.html">radiobuttonlist_index</a></li><li><a href="tutorial-radiobuttonlist_remoteDataSource.html">radiobuttonlist_remoteDataSource</a></li><li><a href="tutorial-spinner_index.html">spinner_index</a></li><li><a href="tutorial-tab_index.html">tab_index</a></li><li><a href="tutorial-texboxlist_local.html">texboxlist_local</a></li><li><a href="tutorial-texboxlist_remote.html">texboxlist_remote</a></li><li><a href="tutorial-textarea_index.html">textarea_index</a></li><li><a href="tutorial-textboxlist_index.html">textboxlist_index</a></li><li><a href="tutorial-textbox_index.html">textbox_index</a></li><li><a href="tutorial-textbox_onchange.html">textbox_onchange</a></li><li><a href="tutorial-timespinner_circular.html">timespinner_circular</a></li><li><a href="tutorial-timespinner_events.html">timespinner_events</a></li><li><a href="tutorial-timespinner_index.html">timespinner_index</a></li><li><a href="tutorial-timespinner_steps.html">timespinner_steps</a></li><li><a href="tutorial-timespinner_width.html">timespinner_width</a></li><li><a href="tutorial-treeview_index.html">treeview_index</a></li><li><a href="tutorial-underscore_template_test.html">underscore_template_test</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Fri Feb 07 2014 15:53:30 GMT+0800 (CST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

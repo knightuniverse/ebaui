@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>EBAUI - API documentation : Source: ListBox.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link href="styles/bootstrap.css" rel="stylesheet">
+    <link href="styles/docs.css" rel="stylesheet">
+    <link href="styles/bootstrap-custom.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header class="header navbar navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#"><strong>EBAUI</strong> API documentation</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+          <div class="span4">
+              <h2><a href="index.html">Index</a></h2><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Namespaces</li><li><a href="ebaui.html"><i class="icon-code"></i> ebaui</a></li><li><a href="ebaui.web.html"><i class="icon-code"></i> web</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Classes</li><li><a href="ebaui.web.Button.html"><i class="icon-shield" style="color: #0186d1"></i> Button</a></li><li><a href="ebaui.web.ButtonEdit.html"><i class="icon-shield" style="color: #0186d1"></i> ButtonEdit</a></li><li><a href="ebaui.web.Calendar.html"><i class="icon-shield" style="color: #0186d1"></i> Calendar</a></li><li><a href="ebaui.web.Captcha.html"><i class="icon-shield" style="color: #0186d1"></i> Captcha</a></li><li><a href="ebaui.web.CheckBox.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBox</a></li><li><a href="ebaui.web.CheckBoxList.html"><i class="icon-shield" style="color: #0186d1"></i> CheckBoxList</a></li><li><a href="ebaui.web.Combo.html"><i class="icon-shield" style="color: #0186d1"></i> Combo</a></li><li><a href="ebaui.web.ComboBox.html"><i class="icon-shield" style="color: #0186d1"></i> ComboBox</a></li><li><a href="ebaui.web.ComboList.html"><i class="icon-shield" style="color: #0186d1"></i> ComboList</a></li><li><a href="ebaui.web.Control.html"><i class="icon-shield" style="color: #0186d1"></i> Control</a></li><li><a href="ebaui.web.DataGrid.html"><i class="icon-shield" style="color: #0186d1"></i> DataGrid</a></li><li><a href="ebaui.web.DateTimePicker.html"><i class="icon-shield" style="color: #0186d1"></i> DateTimePicker</a></li><li><a href="ebaui.web.DigitValidator.html"><i class="icon-shield" style="color: #0186d1"></i> DigitValidator</a></li><li><a href="ebaui.web.EmailValidator.html"><i class="icon-shield" style="color: #0186d1"></i> EmailValidator</a></li><li><a href="ebaui.web.FileUploader.html"><i class="icon-shield" style="color: #0186d1"></i> FileUploader</a></li><li><a href="ebaui.web.Form.html"><i class="icon-shield" style="color: #0186d1"></i> Form</a></li><li><a href="ebaui.web.FormField.html"><i class="icon-shield" style="color: #0186d1"></i> FormField</a></li><li><a href="ebaui.web.Hidden.html"><i class="icon-shield" style="color: #0186d1"></i> Hidden</a></li><li><a href="ebaui.web.IdentityValidator.html"><i class="icon-shield" style="color: #0186d1"></i> IdentityValidator</a></li><li><a href="ebaui.web.Label.html"><i class="icon-shield" style="color: #0186d1"></i> Label</a></li><li><a href="ebaui.web.LengthValidator.html"><i class="icon-shield" style="color: #0186d1"></i> LengthValidator</a></li><li><a href="ebaui.web.ListBox.html"><i class="icon-shield" style="color: #0186d1"></i> ListBox</a></li><li><a href="ebaui.web.MobileValidator.html"><i class="icon-shield" style="color: #0186d1"></i> MobileValidator</a></li><li><a href="ebaui.web.OnlyCnValidator.html"><i class="icon-shield" style="color: #0186d1"></i> OnlyCnValidator</a></li><li><a href="ebaui.web.Panel.html"><i class="icon-shield" style="color: #0186d1"></i> Panel</a></li><li><a href="ebaui.web.Password.html"><i class="icon-shield" style="color: #0186d1"></i> Password</a></li><li><a href="ebaui.web.RadioList.html"><i class="icon-shield" style="color: #0186d1"></i> RadioList</a></li><li><a href="ebaui.web.RangeValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RangeValidator</a></li><li><a href="ebaui.web.RemoteValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RemoteValidator</a></li><li><a href="ebaui.web.RequiredValidator.html"><i class="icon-shield" style="color: #0186d1"></i> RequiredValidator</a></li><li><a href="ebaui.web.Spinner.html"><i class="icon-shield" style="color: #0186d1"></i> Spinner</a></li><li><a href="ebaui.web.Tab.html"><i class="icon-shield" style="color: #0186d1"></i> Tab</a></li><li><a href="ebaui.web.Tabs.html"><i class="icon-shield" style="color: #0186d1"></i> Tabs</a></li><li><a href="ebaui.web.TelephoneValidator.html"><i class="icon-shield" style="color: #0186d1"></i> TelephoneValidator</a></li><li><a href="ebaui.web.TextArea.html"><i class="icon-shield" style="color: #0186d1"></i> TextArea</a></li><li><a href="ebaui.web.TextBox.html"><i class="icon-shield" style="color: #0186d1"></i> TextBox</a></li><li><a href="ebaui.web.TimeSpinner.html"><i class="icon-shield" style="color: #0186d1"></i> TimeSpinner</a></li><li><a href="ebaui.web.TreeView.html"><i class="icon-shield" style="color: #0186d1"></i> TreeView</a></li><li><a href="ebaui.web.UiLayout.html"><i class="icon-shield" style="color: #0186d1"></i> UiLayout</a></li><li><a href="ebaui.web.UrlValidator.html"><i class="icon-shield" style="color: #0186d1"></i> UrlValidator</a></li><li><a href="ebaui.web.Validator.html"><i class="icon-shield" style="color: #0186d1"></i> Validator</a></li><li><a href="ebaui.web.ZipValidator.html"><i class="icon-shield" style="color: #0186d1"></i> ZipValidator</a></li></ul></div><div class="well well-small"><ul class="nav nav-list"><li class="nav-header">Global</li><li><a href="global.html#items"><i class="icon-globe" style="color: black;"></i> items</a></li><li><a href="global.html#val"><i class="icon-globe" style="color: black;"></i> val</a></li></ul></div>
+          </div>
+
+          <div class="span8">
+              <h1 class="page-header">Source: ListBox.js</h1>
+              
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+*   @class      ListBox
+*   @classdesc
+*   @memberof   ebaui.web
+*   @extends    ebaui.web.FormField
+*   @author     monkey      &lt;knightuniverse@qq.com>
+*   @param      {Object}    element     -   dom对象
+*   @param      {Object}    options     -   控件配置参数
+*   @example
+*       //  初始化方式一
+*       var ns = ebaui.web;
+*       var btn = new ns.ListBox( $( '' ),{ title:'',id:'',name:'' } );
+*       //  初始化方式二
+*       $( '' ).listbox( { title:'',id:'',name:'' } )
+*       //  初始化方式三
+*       &lt;input id="" title="" name="" data-role="listbox" data-options="{}" /&gt;
+*/
+
+
+(function() {
+  var ListBox, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  ListBox = (function(_super) {
+    __extends(ListBox, _super);
+
+    function ListBox() {
+      _ref = ListBox.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
+
+    /**
+     *  listbox列表项目的模板
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {String}    _itemTmpl
+    */
+
+
+    ListBox.prototype._itemTmpl = '';
+
+    /**
+     *  已经编译好的ListBox项HTML模板，后续会重复使用
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _compiledItemTmpl
+    */
+
+
+    ListBox.prototype._compiledItemTmpl = $.noop;
+
+    /**
+     *  显示listbox正在加载的样式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _loadMask
+     *  @param      {Boolean}    loading
+    */
+
+
+    ListBox.prototype._loadMask = function() {
+      var $root, html, me;
+      me = this;
+      $root = me._$root;
+      html = me._compiledItemTmpl({
+        'loading': true
+      });
+      return $('table.eba-listbox-items', $root).html(html);
+    };
+
+    /**
+     *  更新listbox列表项
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _renderData
+     *  @param      {Boolean}    loading
+    */
+
+
+    ListBox.prototype._renderData = function() {
+      var $root, html, me;
+      me = this;
+      $root = me._$root;
+      html = me._compiledItemTmpl({
+        'loading': false,
+        'multi': me.multiSelect(),
+        'textField': me.textField(),
+        'valueField': me.valueField(),
+        'selectedItems': me.selectedItems(),
+        'dataItems': me.items()
+      });
+      return $('table.eba-listbox-items', $root).html(html);
+    };
+
+    /**
+     *  更新UI显示
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _render
+    */
+
+
+    ListBox.prototype._render = function() {
+      var me;
+      me = this;
+      me._loadData();
+      return ListBox.__super__._render.call(this);
+    };
+
+    /**
+     *  初始化DOM事件处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _setupEvents
+    */
+
+
+    ListBox.prototype._setupEvents = function(opts) {
+      var $root, me;
+      me = this;
+      $root = me._$root;
+      /**
+      * 绑定事件处理程序
+      */
+
+      me.onEvent('itemclick', opts['onitemclick']);
+      me.onEvent('loadfail', opts['onloadfail']);
+      me.onEvent('load', opts['onload']);
+      me.onEvent('loadcomplete', opts['onloadcomplete']);
+      return $root.on('click', 'tr.eba-listbox-item', function(eventArgs) {
+        var $target, itemIdx;
+        $target = $(this);
+        itemIdx = parseInt($target.attr('data-index'));
+        /* 
+        * ctrl + click then remove item
+        */
+
+        if (eventArgs.ctrlKey) {
+          me.deselect(itemIdx);
+        } else {
+          me.select(itemIdx);
+        }
+        return me.triggerEvent('itemclick', eventArgs);
+      });
+    };
+
+    /**
+     *  初始化控件，声明内部变量
+     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _init
+    */
+
+
+    ListBox.prototype._init = function(opts) {
+      var me, _ref1, _ref2, _ref3;
+      me = this;
+      /* 
+      *   初始化控件自身的一系列属性
+      */
+
+      me._width = (_ref1 = opts['width']) != null ? _ref1 : 150;
+      me._height = (_ref2 = opts['height']) != null ? _ref2 : 0;
+      me._dataSource = (_ref3 = opts['dataSource']) != null ? _ref3 : [];
+      if (opts['idField'] != null) {
+        me._idField = opts['idField'];
+      }
+      if (opts['textField'] != null) {
+        me._textField = opts['textField'];
+      }
+      if (opts['valueField'] != null) {
+        me._valueField = opts['valueField'];
+      }
+      /* 
+      *   预编译模板
+      */
+
+      return me._compiledItemTmpl = me.compileTmpl(me._itemTmpl);
+    };
+
+    /**
+     *  控件是否可以获取焦点
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Boolean}   focusable
+     *  @example    &lt;caption>get&lt;/caption>
+     *      //  false
+     *      console.log( ctrl.focusable() );
+    */
+
+
+    ListBox.prototype.focusable = function() {
+      return true;
+    };
+
+    /**
+     *  获取文本值
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}    text
+     *  @default    ''
+     *  @example    &lt;caption>get&lt;/caption>
+     *      //  text == ''
+     *      text = buttonedit.text();
+    */
+
+
+    ListBox.prototype.text = function() {
+      var data, field, item, me, toRet;
+      me = this;
+      toRet = [];
+      field = me.textField();
+      data = me.data();
+      toRet = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = data.length; _i &lt; _len; _i++) {
+          item = data[_i];
+          _results.push(item[field]);
+        }
+        return _results;
+      })();
+      return toRet;
+    };
+
+    /**
+     *  获取或者设置表单控件值
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Object|Array}    value
+     *  @default    null
+     *  @example    &lt;caption>get&lt;/caption>
+     *      value = ctrl.value();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.value( [] );
+    */
+
+
+    ListBox.prototype.value = function(val) {
+      var field, items, me, obj, objArray, value, _i, _j, _len, _len1;
+      me = this;
+      /**
+      * get
+      */
+
+      if (!val) {
+        return me._value;
+      }
+      /*
+      unless val
+        field = me.valueField()
+        data  = me.data()
+        toRet = (item[field] for item in data)
+        return toRet
+      */
+
+      /**
+      * set
+      */
+
+      items = me.items();
+      field = me.valueField();
+      if (!me.isArray(val)) {
+        val = [val];
+      }
+      objArray = [];
+      for (_i = 0, _len = items.length; _i &lt; _len; _i++) {
+        obj = items[_i];
+        for (_j = 0, _len1 = val.length; _j &lt; _len1; _j++) {
+          value = val[_j];
+          if (value === obj[field]) {
+            objArray.push(obj);
+          }
+        }
+      }
+      return me.select(objArray);
+      /**
+      val          = [ val ] unless me.isArray( val )
+      selectedVal  = null
+      selectedData = null
+      field        = me.valueField()
+      items        = me.items()
+      multiSelect  = me.multiSelect()
+      
+      if not multiSelect
+        for item,i in items
+          if item[field] == val[0]
+            selectedVal  = items[i]
+            selectedData = item
+            break
+      
+      else
+        selectedVal  = []
+        selectedData = []
+        for item in items
+          for value in val
+            if value == item[field]
+              selectedVal.push( value )
+              selectedData.push( item )
+      
+      me._value = selectedVal
+      me._data  = selectedData
+      
+      me.select( selectedData )
+      */
+
+    };
+
+    /**
+     *  获取或者设置选中的项
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}        data
+     *  @example    &lt;caption>get&lt;/caption>
+     *      pair = ctrl.data();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.data( [] );
+    */
+
+
+    ListBox.prototype.data = function(val) {
+      var me;
+      me = this;
+      /**
+      * get
+      */
+
+      if (!val) {
+        return me.selectedItems();
+      }
+      /**
+      * set
+      */
+
+      return me.select(val);
+      /*
+      val = [val] unless me.isArray( val )
+      me.deselectAll() if val.length is 0
+      
+      selectedVal  = null
+      selectedData = null
+      items = me.items()
+      field = me.valueField()
+      
+      if not me.multiSelect()
+        for item,i in items
+          itemValue = val[0][field]
+          if item[field] == itemValue
+            selectedVal  = itemValue
+            selectedData = items[i]
+            break
+      else
+        selectedVal  = []
+        selectedData = []
+        for item in items
+          for value in val
+            if value[field] == item[field]
+              selectedVal.push( value[field] )
+              selectedData.push( item )
+      
+      me._value = selectedVal
+      me._data  = selectedData
+      
+      me.select( selectedData )
+      */
+
+    };
+
+    /**
+     *  listBox项的集合
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}  _items
+    */
+
+
+    ListBox.prototype._items = [];
+
+    /**
+     *  数据加载开始前的处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ComboBox
+     *  @method     _beforeLoading
+    */
+
+
+    ListBox.prototype._beforeLoading = function() {
+      return this._loadMask();
+    };
+
+    /**
+     *  数据加载结束后的处理程序
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ComboBox
+     *  @method     _finishLoading
+    */
+
+
+    ListBox.prototype._finishLoading = function() {
+      var me;
+      me = this;
+      /* 重置控件的状态*/
+
+      me._currItemIdx = -1;
+      me._selectedItems = [];
+      /* 渲染数据*/
+
+      return me._renderData();
+    };
+
+    /**
+     *  加载listbox的列表数据
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     _loadData
+     *  @param      {Function}  beforeLoad
+     *  @param      {Function}  afterLoad
+    */
+
+
+    ListBox.prototype._loadData = function(beforeFn, afterFn) {
+      var dataSource, me, remoteDate, toServer;
+      me = this;
+      dataSource = me.dataSource();
+      remoteDate = me.isUsingRemoteData(dataSource);
+      if (remoteDate) {
+        me._items = [];
+        me._selectedItems = [];
+        toServer = {};
+        if (me.isFunc(dataSource.data)) {
+          toServer = dataSource.data();
+        } else {
+          $.extend(toServer, dataSource.data);
+        }
+        me._beforeLoading();
+        return $.ajax({
+          url: dataSource.url,
+          data: toServer,
+          dataType: 'json',
+          error: function(eventArgs) {
+            return me.triggerEvent('loadfail', eventArgs);
+          },
+          success: function(serverData) {
+            me._items = serverData;
+            me._finishLoading();
+            return me.triggerEvent('load', serverData);
+          },
+          complete: function(eventArgs) {
+            return me.triggerEvent('loadcomplete', eventArgs);
+          }
+        });
+      } else {
+        me._beforeLoading();
+        me._items = dataSource;
+        return me._finishLoading();
+      }
+    };
+
+    /**
+     *  listBox项的集合
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}  items
+    */
+
+
+    ListBox.prototype.items = function() {
+      return this._items;
+    };
+
+    /**
+     *  选中的项
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}  _selectedItems
+    */
+
+
+    ListBox.prototype._selectedItems = [];
+
+    /**
+     *  获取选中的项
+     *  @public
+     *  @instance
+     *  @readonly
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Array}  selectedItems
+     *  @example    &lt;caption>get&lt;/caption>
+     *      //  [{ text : '' ,value : '' }];
+     *      items = ctrl.selectedItems();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.selectedItems( [] );
+    */
+
+
+    ListBox.prototype.selectedItems = function() {
+      return this._selectedItems;
+    };
+
+    /**
+     *  添加列表项
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     add
+     *  @param      {Object|Array}     items
+     *  @example    
+     *      ctrl.add( [] );
+     *  @tutorial listbox_addItems
+    */
+
+
+    ListBox.prototype.add = function(toAdd) {
+      var me;
+      if (toAdd == null) {
+        return;
+      }
+      me = this;
+      if (!me.isArray(toAdd)) {
+        toAdd = [toAdd];
+      }
+      if (toAdd.length > 0) {
+        me._items = me._items.concat(toAdd);
+        return me._renderData();
+      }
+    };
+
+    /**
+     *  删除列表项
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     remove
+     *  @param      {Object|Array}     items
+     *  @example    
+     *      ctrl.remove( [] );
+     *  @tutorial listbox_removeItems
+    */
+
+
+    ListBox.prototype.remove = function(toRm) {
+      var dataItem, i, item, j, me, valueField, _i, _j, _len, _len1, _ref1;
+      if (toRm == null) {
+        return;
+      }
+      me = this;
+      if (!me.isArray(toRm)) {
+        toRm = [toRm];
+      }
+      if (toRm.length > 0) {
+        valueField = me.valueField();
+        for (i = _i = 0, _len = toRm.length; _i &lt; _len; i = ++_i) {
+          item = toRm[i];
+          _ref1 = me._items;
+          for (j = _j = 0, _len1 = _ref1.length; _j &lt; _len1; j = ++_j) {
+            dataItem = _ref1[j];
+            if (dataItem[valueField] === item[valueField]) {
+              me._items.splice(j, 1);
+              break;
+            }
+          }
+        }
+        return me._renderData();
+      }
+    };
+
+    /**
+     *  更新列表中的项目
+     *  @public 
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     update
+     *  @param      {Object|Array}     items
+     *  @example    
+     *      ctrl.update( [] );
+     *  @tutorial listbox_updateItems
+    */
+
+
+    ListBox.prototype.update = function(toUp) {
+      var dataItem, i, item, j, me, valueField, _i, _j, _len, _len1, _ref1;
+      if (toUp == null) {
+        return;
+      }
+      me = this;
+      if (!me.isArray(toUp)) {
+        toUp = [toUp];
+      }
+      if (toUp.length > 0) {
+        valueField = me.valueField();
+        for (i = _i = 0, _len = toUp.length; _i &lt; _len; i = ++_i) {
+          item = toUp[i];
+          _ref1 = me._items;
+          for (j = _j = 0, _len1 = _ref1.length; _j &lt; _len1; j = ++_j) {
+            dataItem = _ref1[j];
+            if (dataItem[valueField] === item[valueField]) {
+              me._items[j] = item;
+              break;
+            }
+          }
+        }
+        return me._renderData();
+      }
+    };
+
+    /**
+     *  移动列表项
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     move
+     *  @param      {Number}     source
+     *  @param      {Number}     dist
+     *  @example    
+     *      ctrl.move( [] );
+     *  @tutorial listbox_moveItems
+    */
+
+
+    ListBox.prototype.move = function(source, dist) {
+      var items, me, temp;
+      me = this;
+      if (!(me.isNumber(source) && me.isNumber(dist))) {
+        return;
+      }
+      items = me._items;
+      temp = items[source];
+      items[source] = items[dist];
+      items[dist] = temp;
+      return me._renderData();
+    };
+
+    /**
+     *  当前选中项目的index
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     _currItemIdx
+    */
+
+
+    ListBox.prototype._currItemIdx = -1;
+
+    /**
+     *  选中前一个项目
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     select
+     *  @example    
+     *      ctrl.selectPrev();
+    */
+
+
+    ListBox.prototype.selectPrev = function() {
+      var currIdx, dataItems, me;
+      me = this;
+      currIdx = me._currItemIdx;
+      dataItems = me.items();
+      if (!(dataItems && dataItems.length > 0)) {
+        return;
+      }
+      if (currIdx - 1 &lt; 0) {
+        return;
+      }
+      --currIdx;
+      me._currItemIdx = currIdx;
+      me.select(currIdx);
+      return me.highlight(currIdx);
+    };
+
+    /**
+     *  选中前一个项目
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     select
+     *  @example    
+     *      ctrl.selectNext();
+    */
+
+
+    ListBox.prototype.selectNext = function() {
+      var currIdx, dataItems, me;
+      me = this;
+      currIdx = me._currItemIdx;
+      dataItems = me.items();
+      if (!(dataItems && dataItems.length > 0)) {
+        return;
+      }
+      if (currIdx + 1 >= dataItems.length) {
+        return;
+      }
+      ++currIdx;
+      me._currItemIdx = currIdx;
+      me.select(currIdx);
+      return me.highlight(currIdx);
+    };
+
+    /**
+     *  选中项目
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     select
+     *  @param      {Object|Array|Number}     items    -   数据对象，数据对象数组，或者索引index
+     *  @example    
+     *      ctrl.select( [] );
+     *  @tutorial listbox_selectItems
+    */
+
+
+    ListBox.prototype.select = function(items) {
+      /**
+      * 实际上data属性，返回的也是_selectedItems
+      * 所以不要重复已经有的方法
+      * data以及value属性的变更，我想应该是可以整合到select方法来实现的
+      */
+
+      var alreadySelected, dataItems, i, isNum, item, j, me, selectedData, selectedVal, source, valueField, _i, _j, _len, _len1;
+      me = this;
+      if (items == null) {
+        return;
+      }
+      isNum = me.isNumber(items);
+      dataItems = me.items();
+      if (isNum && !(items >= 0 && items &lt; dataItems.length)) {
+        return;
+      }
+      /**
+      *  如果参数是一个index选项，
+      *  并且这个index在合理的范围内
+      */
+
+      if (isNum) {
+        items = [dataItems[items]];
+      }
+      if (!me.isArray(items)) {
+        items = [items];
+      }
+      if (!items.length) {
+        return;
+      }
+      selectedVal = me._value;
+      selectedData = me._selectedItems;
+      valueField = me.valueField();
+      if (me.multiSelect()) {
+        for (i = _i = 0, _len = items.length; _i &lt; _len; i = ++_i) {
+          source = items[i];
+          alreadySelected = false;
+          for (j = _j = 0, _len1 = selectedData.length; _j &lt; _len1; j = ++_j) {
+            item = selectedData[j];
+            if (item[valueField] === source[valueField]) {
+              alreadySelected = true;
+              break;
+            }
+          }
+          if (!alreadySelected) {
+            selectedVal.push(item[valueField]);
+            selectedData.push(source);
+          }
+        }
+      } else {
+        selectedVal = items[0][valueField];
+        selectedData = items[0];
+      }
+      me._value = selectedVal;
+      me._selectedItems = selectedData;
+      return me._renderData();
+    };
+
+    /**
+     *  取消选中项目
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     deselect
+     *  @param      {Object|Array}     items    -   数据对象，数据对象数组
+     *  @example    
+     *      ctrl.deselect( [] );
+     *  @tutorial listbox_selectItems
+    */
+
+
+    ListBox.prototype.deselect = function(items) {
+      var dataItems, i, isNum, j, me, selected, selectedItems, toRm, valueField, _i, _j, _len, _len1;
+      me = this;
+      if (items == null) {
+        return;
+      }
+      isNum = me.isNumber(items);
+      dataItems = me.items();
+      if (isNum && !(items >= 0 && items &lt; dataItems.length)) {
+        return;
+      }
+      /*
+      *  如果参数是一个index选项，
+      *  并且这个index在合理的范围内
+      */
+
+      if (isNum) {
+        items = [dataItems[items]];
+      }
+      if (!me.isArray(items)) {
+        items = [items];
+      }
+      if (!items.length) {
+        return;
+      }
+      selectedItems = me._selectedItems;
+      if (items.length &lt;= 0 || selectedItems.length &lt;= 0) {
+        return;
+      }
+      valueField = me.valueField();
+      for (i = _i = 0, _len = items.length; _i &lt; _len; i = ++_i) {
+        toRm = items[i];
+        for (j = _j = 0, _len1 = selectedItems.length; _j &lt; _len1; j = ++_j) {
+          selected = selectedItems[j];
+          if (selected[valueField] === toRm[valueField]) {
+            selectedItems.splice(j, 1);
+            break;
+          }
+        }
+      }
+      me._currItemIdx = -1;
+      return me._renderData();
+    };
+
+    /**
+     *  取消所有选中项目
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     deselectAll
+    */
+
+
+    ListBox.prototype.deselectAll = function() {
+      var me;
+      me = this;
+      me._currItemIdx = -1;
+      me._selectedItems = [];
+      return me._renderData();
+    };
+
+    /**
+     *  高亮listbox的某条数据，但是不选中
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @method     highlight
+     *  @param      {Number|Object}     target    -   索引值或者数据对象
+     *  @example    
+     *      ctrl.select( [] );
+     *  @tutorial listbox_selectItems
+    */
+
+
+    ListBox.prototype.highlight = function(target) {
+      var $root, field, hoverCls, i, item, itemIndex, jq, me, _i, _len, _ref1;
+      me = this;
+      if (target == null) {
+        return;
+      }
+      itemIndex = -1;
+      if (me.isNumber(target)) {
+        if (target >= me._items.length) {
+          return;
+        }
+        itemIndex = target;
+      } else {
+        field = me.valueField();
+        _ref1 = me._items;
+        for (i = _i = 0, _len = _ref1.length; _i &lt; _len; i = ++_i) {
+          item = _ref1[i];
+          item = me._items[i];
+          if (target[field] && item[field] === target[field]) {
+            itemIndex = i;
+            break;
+          }
+        }
+      }
+      $root = me._$root;
+      hoverCls = 'eba-listbox-item-hover';
+      $('.eba-listbox-item-hover', $root).removeClass(hoverCls);
+      if (itemIndex > -1) {
+        jq = ".eba-listbox-item:eq(" + itemIndex + ")";
+        return $(jq, $root).addClass(hoverCls);
+      }
+    };
+
+    /**
+     *  控件数据源对象的ID字段名
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {String}      idField
+     *  @default    'id'
+     *  @example    &lt;caption>get&lt;/caption>
+     *      idField = ctrl.idField();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.idField( '' );
+    */
+
+
+    ListBox.prototype._idField = 'id';
+
+    ListBox.prototype.idField = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._idField;
+      }
+      return me._idField = val;
+    };
+
+    /**
+     *  控件数据源对象字段中，用于作为控件值的字段名
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {String}      valueField
+     *  @default    'value'
+     *  @example    &lt;caption>get&lt;/caption>
+     *      valueField = ctrl.valueField();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.valueField( '' );
+    */
+
+
+    ListBox.prototype._valueField = 'value';
+
+    ListBox.prototype.valueField = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._valueField;
+      }
+      me._valueField = val;
+      return me._renderData();
+    };
+
+    /**
+     *  控件数据源对象字段中，用于作为控件文本的字段名
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {String}      textField
+     *  @default    'text'
+     *  @example    &lt;caption>get&lt;/caption>
+     *      textField = ctrl.textField();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      ctrl.textField( '' );
+    */
+
+
+    ListBox.prototype._textField = 'text';
+
+    ListBox.prototype.textField = function(val) {
+      var me;
+      me = this;
+      if (!me.isString(val)) {
+        return me._textField;
+      }
+      me._textField = val;
+      return me._renderData();
+    };
+
+    /**
+     *  数据源，可以是URL地址或者是一个javascript数组对象作为数据源
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {String|Array}      dataSource
+     *  @default    []
+     *  @example    &lt;caption>get&lt;/caption>
+     *      src = ctrl.dataSource();
+     *  @example    &lt;caption>set&lt;/caption>
+     *      //  本地数据
+     *      ctrl.dataSource( [] );
+     *
+     *      //  服务端数据
+     *      ctrl.dataSource( {
+     *          url : 'http://xx.xx/xx?xx=xx',
+     *          data : {}
+     *      } );
+     *
+     *      //  服务端数据
+     *      ctrl.dataSource( {
+     *          url : 'http://xx.xx/xx?xx=xx',
+     *          data : function(){ 
+     *              // your logic
+     *              return {};
+     *          }
+     *      } );
+    */
+
+
+    ListBox.prototype._dataSource = {};
+
+    ListBox.prototype.dataSource = function(val) {
+      var me;
+      me = this;
+      if (val == null) {
+        return me._dataSource;
+      }
+      me._dataSource = val;
+      return me._loadData();
+    };
+
+    ListBox.prototype._multiSelect = false;
+
+    /**
+     *  获取或者设置控件是否支持多选
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.ListBox
+     *  @member     {Boolean}    multiSelect
+    */
+
+
+    ListBox.prototype.multiSelect = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._multiSelect;
+      }
+      return me._multiSelect = val;
+    };
+
+    return ListBox;
+
+  })(FormField);
+
+  ebaui['web'].registerFormControl('ListBox', ListBox);
+
+}).call(this);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+          </div>
+      </div>
+
+        <br clear="both">
+
+      <footer>
+        Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Mar 14 2014 10:56:05 GMT+0800 (CST)
+        <br>
+      </footer>
+      <script> prettyPrint(); </script>
+    </div>
+  </body>
+</html>
