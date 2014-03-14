@@ -285,7 +285,8 @@ class CheckBoxList extends FormField
      *  @arg        {Object}     eventArgs    -   事件的eventArgs
     ###
     _setValue:( val, updateHtml = true, dispatchEvent = false, eventArgs = {} ) ->
-        me = this
+        me      = this
+        $root   = me.uiElement()
         ###
         *   如果控件值如果value没有变化，则不应该更新控件的值；
         *   否则，更新控件的值

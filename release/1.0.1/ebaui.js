@@ -9006,7 +9006,7 @@
 
 
     CheckBoxList.prototype._setValue = function(val, updateHtml, dispatchEvent, eventArgs) {
-      var i, item, me, _i, _len;
+      var $root, i, item, me, _i, _len;
       if (updateHtml == null) {
         updateHtml = true;
       }
@@ -9017,6 +9017,7 @@
         eventArgs = {};
       }
       me = this;
+      $root = me.uiElement();
       /*
       *   如果控件值如果value没有变化，则不应该更新控件的值；
       *   否则，更新控件的值
