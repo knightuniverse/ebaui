@@ -227,6 +227,76 @@ class Form extends Control
         )
 
         return undefined
+    
+    ###*
+     *  更新表单的值
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Form
+     *  @method     _setFormValue
+    ###
+    _setFormValue:( formValue )->
+        me = this
+        ###
+        *   set value
+        ###
+        formValue = ebaui.fromJSON( formValue ) if me.isString( formValue )
+        
+        me._eachField( ( field ) ->
+            name = field.name()
+            val  = formValue[name]
+            
+            return unless val?
+            ###
+            *   如果控件是checkobox或者是radiobutton，当值和控件值一致的时候，选中选项
+            ###
+            if field['checked'] and field.value() is val
+                field['checked']( true )
+            else
+                field.value( val )
+        )
+
+        return undefined
+    
+    ###*
+     *  获取表单的值
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Form
+     *  @method     _getFormValue
+    ###
+    _getFormValue:()->
+        me = this
+        formVal = {}
+        me._eachField( ( field ) ->
+            return unless field['value']
+
+            name = field.name()
+            return unless name
+
+            val = field.value()
+            ###
+            *   如果不是checkbox控件
+            ###
+            unless field['checked']
+                ###
+                *   如果控件的值是数组
+                ###
+                if me.isArray( val )
+                    formVal[name] = val.join(',')
+                else
+                    formVal[name] = val
+                return
+
+            ###
+            *   如果是checkbox控件
+            ###
+            if field['checked'] and field['checked']()
+                formVal[name] = val
+                return
+        )
+
+        return formVal
 
     ###*
      *  获取或者设置表单的各个控件的值
@@ -244,55 +314,8 @@ class Form extends Control
     ###
     value:( formValue ) ->
         me = this
-        ###
-        *   get value
-        ###
-        if not formValue
-            formVal = {}
-            me._eachField( ( field ) ->
-
-                return unless field['value']
-
-                name = field.name()
-                return unless name
-
-                val = field.value()
-                ###
-                *   如果不是checkbox控件
-                ###
-                unless field['checked']
-                    ###
-                    *   如果控件的值是数组
-                    ###
-                    if me.isArray( val )
-                        formVal[name] = val.join(',')
-                    else
-                        formVal[name] = val
-                    return
-
-                ###
-                *   如果是checkbox控件
-                ###
-                if field['checked'] and field['checked']()
-                    formVal[name] = val
-                    return
-
-            )
-
-            return formVal
-
-        ###
-        *   set value
-        ###
-        formValue = ebaui.fromJSON( formValue ) if me.isString( formValue )
-
-        me._eachField( ( field ) ->
-            name = field.name()
-            val  = formValue[name]
-            field.value( val ) if val
-        )
-
-        return undefined
+        return me._getFormValue() unless formValue?
+        me._setFormValue( formValue )
 
     _action:''
     ###*

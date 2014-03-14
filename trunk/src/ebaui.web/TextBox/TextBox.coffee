@@ -559,10 +559,10 @@ class TextBox extends FormField
      *  @example    <caption>set</caption>
      *      ctrl.value( 'your text value' );
      ###
-    value: ( val ) -> 
+    value: ( val ) ->
         me = this
-        return me._value unless me.isString( val )
-        me._setValue( val, true )
+        return me._value unless val?
+        me._setValue( val.toString() )
 
     ###*
      *  获取或者设置控件数据
@@ -579,7 +579,7 @@ class TextBox extends FormField
      ###
     data: ( val ) -> 
         me = this
-        return me._value unless me.isString( val )
-        me._setValue( val, true )
+        return me._value unless val?
+        me._setValue( val.toString() )
 
 ebaui['web'].registerFormControl( 'TextBox',TextBox )

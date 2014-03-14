@@ -5452,10 +5452,10 @@
     TextBox.prototype.value = function(val) {
       var me;
       me = this;
-      if (!me.isString(val)) {
+      if (val == null) {
         return me._value;
       }
-      return me._setValue(val, true);
+      return me._setValue(val.toString());
     };
 
     /**
@@ -5476,10 +5476,10 @@
     TextBox.prototype.data = function(val) {
       var me;
       me = this;
-      if (!me.isString(val)) {
+      if (val == null) {
         return me._value;
       }
-      return me._setValue(val, true);
+      return me._setValue(val.toString());
     };
 
     return TextBox;
@@ -16177,6 +16177,95 @@
     };
 
     /**
+     *  更新表单的值
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Form
+     *  @method     _setFormValue
+    */
+
+
+    Form.prototype._setFormValue = function(formValue) {
+      var me;
+      me = this;
+      /*
+      *   set value
+      */
+
+      if (me.isString(formValue)) {
+        formValue = ebaui.fromJSON(formValue);
+      }
+      me._eachField(function(field) {
+        var name, val;
+        name = field.name();
+        val = formValue[name];
+        if (val == null) {
+          return;
+        }
+        /*
+        *   如果控件是checkobox或者是radiobutton，当值和控件值一致的时候，选中选项
+        */
+
+        if (field['checked'] && field.value() === val) {
+          return field['checked'](true);
+        } else {
+          return field.value(val);
+        }
+      });
+      return void 0;
+    };
+
+    /**
+     *  获取表单的值
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Form
+     *  @method     _getFormValue
+    */
+
+
+    Form.prototype._getFormValue = function() {
+      var formVal, me;
+      me = this;
+      formVal = {};
+      me._eachField(function(field) {
+        var name, val;
+        if (!field['value']) {
+          return;
+        }
+        name = field.name();
+        if (!name) {
+          return;
+        }
+        val = field.value();
+        /*
+        *   如果不是checkbox控件
+        */
+
+        if (!field['checked']) {
+          /*
+          *   如果控件的值是数组
+          */
+
+          if (me.isArray(val)) {
+            formVal[name] = val.join(',');
+          } else {
+            formVal[name] = val;
+          }
+          return;
+        }
+        /*
+        *   如果是checkbox控件
+        */
+
+        if (field['checked'] && field['checked']()) {
+          formVal[name] = val;
+        }
+      });
+      return formVal;
+    };
+
+    /**
      *  获取或者设置表单的各个控件的值
      *  @public
      *  @instance
@@ -16193,66 +16282,12 @@
 
 
     Form.prototype.value = function(formValue) {
-      var formVal, me;
+      var me;
       me = this;
-      /*
-      *   get value
-      */
-
-      if (!formValue) {
-        formVal = {};
-        me._eachField(function(field) {
-          var name, val;
-          if (!field['value']) {
-            return;
-          }
-          name = field.name();
-          if (!name) {
-            return;
-          }
-          val = field.value();
-          /*
-          *   如果不是checkbox控件
-          */
-
-          if (!field['checked']) {
-            /*
-            *   如果控件的值是数组
-            */
-
-            if (me.isArray(val)) {
-              formVal[name] = val.join(',');
-            } else {
-              formVal[name] = val;
-            }
-            return;
-          }
-          /*
-          *   如果是checkbox控件
-          */
-
-          if (field['checked'] && field['checked']()) {
-            formVal[name] = val;
-          }
-        });
-        return formVal;
+      if (formValue == null) {
+        return me._getFormValue();
       }
-      /*
-      *   set value
-      */
-
-      if (me.isString(formValue)) {
-        formValue = ebaui.fromJSON(formValue);
-      }
-      me._eachField(function(field) {
-        var name, val;
-        name = field.name();
-        val = formValue[name];
-        if (val) {
-          return field.value(val);
-        }
-      });
-      return void 0;
+      return me._setFormValue(formValue);
     };
 
     Form.prototype._action = '';
