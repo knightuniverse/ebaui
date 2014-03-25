@@ -47,6 +47,7 @@ function openDialog () {
         url         : 'dialog_inner_iframe.html',
         title       : 'inner_iframe',
         showButtons : true,
+        height      : 200,
         apply       : function( sender,eventArgs ){
             var contentWindow = sender.contentWindow()
             if( contentWindow && contentWindow['someMethod'] ){

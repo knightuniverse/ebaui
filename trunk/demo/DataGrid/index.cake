@@ -1,4 +1,4 @@
-<table id="list4" data-role="datagrid" data-options="{ 
+<table id="test_datagrid" data-role="datagrid" data-options="{ 
 
     jqgrid:{
         data : mydata,

@@ -851,7 +851,6 @@ class Control
      *      console.log( ctrl.compileTmpl( '' ) );
     ###
     compileTmpl:( text, data ) ->
-
         render = () ->
         noMatch = /(.)^/
         settings = {
@@ -881,21 +880,19 @@ class Control
         index = 0
         source = "__p+='"
         text.replace(matcher, (match, escape, interpolate, evaluate, offset) ->
-          source += text.slice(index, offset)
-            .replace(escaper, (match) -> '\\' + escapes[match] )
-
-          if escape
-            source += "'+\n((__t=(" + escape + "))==null?'':ebaui.escape(__t))+\n'"
-
-          if interpolate
-            source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"
-
-          if evaluate
-            source += "';\n" + evaluate + "\n__p+='"
-
-          index = offset + match.length
-
-          return match
+            source += text.slice(index, offset).replace(escaper, (match) -> '\\' + escapes[match] )
+            if escape
+                source += "'+\n((__t=(" + escape + "))==null?'':ebaui.escape(__t))+\n'"
+  
+            if interpolate
+                source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"
+  
+            if evaluate
+                source += "';\n" + evaluate + "\n__p+='"
+  
+            index = offset + match.length
+  
+            return match
         )
         source += "';\n"
 
@@ -903,14 +900,14 @@ class Control
         source = 'with(obj||{}){\n' + source + '}\n' unless settings.variable
         
         source = "var __t,__p='',__j=Array.prototype.join," +
-          "print=function(){__p+=__j.call(arguments,'');};\n" +
-          source + "return __p;\n"
+            "print=function(){__p+=__j.call(arguments,'');};\n" +
+            source + "return __p;\n"
 
         try 
-          render = new Function(settings.variable || 'obj', source)
+            render = new Function(settings.variable || 'obj', source)
         catch e
-          e.source = source
-          throw e
+            e.source = source
+            throw e
 
         return render(data) if data
         

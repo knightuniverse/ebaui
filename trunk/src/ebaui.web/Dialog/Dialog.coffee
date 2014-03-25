@@ -32,6 +32,11 @@ vexDialog = vex.dialog
 *   @arg        {Object}            eventArgs
 ###
 class Dialog extends Control
+
+    _updateCssWidth:() ->
+    
+    _updateCssHeight:() ->
+    
     ###*
     *  初始化控件，声明内部变量
     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。

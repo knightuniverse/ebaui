@@ -15324,20 +15324,20 @@ DataGrid = (function(_super) {
 
 
   DataGrid.prototype._extendMe = function(source) {
-    var item, me, property, _results;
+    var key, me, property, _results;
     me = this;
     _results = [];
-    for (item in source) {
-      property = source[item];
+    for (key in source) {
+      property = source[key];
       if (!$.isFunction(property)) {
-        _results.push(me[item] = property);
+        _results.push(me[key] = property);
       } else {
-        _results.push(me[item] = (function(name, value) {
+        _results.push(me[key] = (function(name, value) {
           var fn;
           return fn = function() {
             return value.apply(source, arguments);
           };
-        })(item, property));
+        })(key, property));
       }
     }
     return _results;
@@ -15364,7 +15364,7 @@ DataGrid = (function(_super) {
       }
     */
 
-    var $pager, $root, ctrl, id, index, ins, me, pager, pagerId, _i, _len, _ref1;
+    var $pager, $root, ctrl, grid, id, index, ins, me, pager, pagerBarCtrls, pagerId, _i, _len;
     DataGrid.__super__._init.call(this, opts);
     me = this;
     $root = me.uiElement();
@@ -15375,33 +15375,57 @@ DataGrid = (function(_super) {
     if (opts['jqgrid'] != null) {
       me._jqGridOpts = $.extend({}, me._jqGridOpts, opts['jqgrid']);
     }
+    /*
+    *   change logs:
+    *   
+    *   2014-03-25  侯剑波
+    *       重新排版代码
+    *
+    */
+
     if (pager != null) {
       me._jqGridOpts['pager'] = pagerId;
       $root.after(" <div id=\"" + pagerId + "\"></div> ");
-      me._$root.jqGrid(me._jqGridOpts);
-      if (pager.navGrid) {
-        $('#' + id).jqGrid('navGrid', '#' + pagerId, {
-          edit: true,
-          add: true,
-          del: true
-        });
-      }
-      if (pager.controls != null) {
-        $pager = $("#" + ("" + pagerId + "_left"));
-        _ref1 = pager.controls;
-        for (index = _i = 0, _len = _ref1.length; _i < _len; index = ++_i) {
-          ctrl = _ref1[index];
-          $pager.append("<input id='pager-ctrl-" + index + "' />");
-          ins = new ns[ctrl.role]($('#pager-ctrl-' + index, $pager), ctrl.options);
-        }
-      }
-    } else {
-      me._$root.jqGrid(me._jqGridOpts);
     }
-    return me._extendMe($.jgrid);
+    /*
+    *   jgGrid会自动生成dom id，这个id，默认是以gbox_作前缀
+    */
+
+    grid = me._$root.jqGrid(me._jqGridOpts);
+    me._$root = $("#gbox_" + id);
+    /*
+    *   navGrid
+    */
+
+    if ((pager != null) && pager.navGrid) {
+      $("#" + id).jqGrid('navGrid', "#" + pagerId, {
+        edit: true,
+        add: true,
+        del: true
+      });
+    }
+    /*
+    *   pager bar ui controls
+    */
+
+    pagerBarCtrls = pager.controls;
+    if ((pager != null) && (pagerBarCtrls != null) && pagerBarCtrls.length > 0) {
+      $pager = $("#" + pagerId + "_left");
+      for (index = _i = 0, _len = pagerBarCtrls.length; _i < _len; index = ++_i) {
+        ctrl = pagerBarCtrls[index];
+        $pager.append("<input id='pager-ctrl-" + index + "' />");
+        ins = new ns[ctrl.role]($('#pager-ctrl-' + index, $pager), ctrl.options);
+      }
+    }
+    /*
+    *   使用jqgrid的对象实例，去拓展this对象
+    */
+
+    return me._extendMe(grid);
   };
 
   DataGrid.prototype._jqGridOpts = {
+    idPrefix: '',
     datatype: 'json',
     mtype: 'POST',
     rownumbers: true,
