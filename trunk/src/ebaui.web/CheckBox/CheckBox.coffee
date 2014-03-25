@@ -17,6 +17,43 @@
 ###
 class CheckBox extends FormField
     ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssReadonly
+    ###
+    _updateCssReadonly:() ->
+        me       = this
+        $root    = me.uiElement()
+        disabled = me.readonly() or not me.enabled()
+        $( ":checkbox",$root ).prop( 'disabled', disabled )
+    
+    ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssEnabled
+    ###
+    _updateCssEnabled:() ->
+        me       = this
+        $root    = me.uiElement()
+        disabled = me.readonly() or not me.enabled()
+        $( ":checkbox",$root ).prop( 'disabled',disabled )
+    
+    ###*
+     *  更新CheckBox的选中样式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssChecked
+    ###
+    _updateCssChecked : () ->
+        me = this
+        me._$formInput.prop( 'checked',me.checked() )
+    
+    ###*
      *  更新UI显示
      *  @private
      *  @instance
@@ -28,20 +65,6 @@ class CheckBox extends FormField
         me = this
         me._updateCssChecked()
         me._updateAttrText()
-    
-    ###*
-     *  
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.FormField
-     *  @method     _updateCssReadonly
-    ###
-    _updateCssReadonly:() ->
-        me      = this
-        ro      = me.readonly()
-        $root   = me.uiElement()
-        
-        $( ":checkbox",$root ).prop('disabled', ro)
 
     ###*
      *  初始化DOM事件处理程序
@@ -113,17 +136,6 @@ class CheckBox extends FormField
         me    = this
         $root = me.uiElement()
         $( 'label',$root ).text( me.text() )
-
-    ###*
-     *  更新CheckBox的选中样式
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.CheckBox
-     *  @method     _updateCssChecked
-    ###
-    _updateCssChecked : () ->
-        me = this
-        me._$formInput.prop( 'checked',me.checked() )
         
     _text: ''
     ###*

@@ -8462,6 +8462,55 @@
     }
 
     /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssReadonly
+    */
+
+
+    CheckBox.prototype._updateCssReadonly = function() {
+      var $root, disabled, me;
+      me = this;
+      $root = me.uiElement();
+      disabled = me.readonly() || !me.enabled();
+      return $(":checkbox", $root).prop('disabled', disabled);
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssEnabled
+    */
+
+
+    CheckBox.prototype._updateCssEnabled = function() {
+      var $root, disabled, me;
+      me = this;
+      $root = me.uiElement();
+      disabled = me.readonly() || !me.enabled();
+      return $(":checkbox", $root).prop('disabled', disabled);
+    };
+
+    /**
+     *  更新CheckBox的选中样式
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.CheckBox
+     *  @method     _updateCssChecked
+    */
+
+
+    CheckBox.prototype._updateCssChecked = function() {
+      var me;
+      me = this;
+      return me._$formInput.prop('checked', me.checked());
+    };
+
+    /**
      *  更新UI显示
      *  @private
      *  @instance
@@ -8476,23 +8525,6 @@
       me = this;
       me._updateCssChecked();
       return me._updateAttrText();
-    };
-
-    /**
-     *  
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.FormField
-     *  @method     _updateCssReadonly
-    */
-
-
-    CheckBox.prototype._updateCssReadonly = function() {
-      var $root, me, ro;
-      me = this;
-      ro = me.readonly();
-      $root = me.uiElement();
-      return $(":checkbox", $root).prop('disabled', ro);
     };
 
     /**
@@ -8577,21 +8609,6 @@
       me = this;
       $root = me.uiElement();
       return $('label', $root).text(me.text());
-    };
-
-    /**
-     *  更新CheckBox的选中样式
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.CheckBox
-     *  @method     _updateCssChecked
-    */
-
-
-    CheckBox.prototype._updateCssChecked = function() {
-      var me;
-      me = this;
-      return me._$formInput.prop('checked', me.checked());
     };
 
     CheckBox.prototype._text = '';
@@ -8822,11 +8839,26 @@
 
 
     CheckBoxList.prototype._updateCssReadonly = function() {
-      var $root, me, ro;
+      var $root, me;
       me = this;
-      ro = me.readonly();
       $root = me.uiElement();
-      return $(":checkbox", $root).prop('disabled', ro);
+      return $(":checkbox", $root).prop('disabled', me.readonly());
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FormField
+     *  @method     _updateCssEnabled
+    */
+
+
+    CheckBoxList.prototype._updateCssEnabled = function() {
+      var $root, me;
+      me = this;
+      $root = me.uiElement();
+      return $(":checkbox", $root).prop('disabled', !me.enabled());
     };
 
     /**
