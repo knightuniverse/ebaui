@@ -42,7 +42,8 @@ function showValue (argument) {
 };
 </pre>
 <div data-role="panel" data-options="{ top:0 }">
-    <input id="checkboxlist1" data-role="checkboxlist" data-options="{ dataSource : cbxItems,onchange:onch }" />
+    <input id="checkboxlist1" data-role="checkboxlist" data-options="{
+        dataSource : cbxItems,readonly:true,onchange:onch }" />
 </div>
 
 <div data-role="panel" data-options="{ top:100 }">

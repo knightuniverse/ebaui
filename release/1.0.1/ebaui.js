@@ -8479,6 +8479,23 @@
     };
 
     /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FormField
+     *  @method     _updateCssReadonly
+    */
+
+
+    CheckBox.prototype._updateCssReadonly = function() {
+      var $root, me, ro;
+      me = this;
+      ro = me.readonly();
+      $root = me.uiElement();
+      return $(":checkbox", $root).prop('disabled', ro);
+    };
+
+    /**
      *  初始化DOM事件处理程序
      *  @private
      *  @instance
@@ -8796,6 +8813,23 @@
     CheckBoxList.prototype._compiledItemTmpl = $.noop;
 
     /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FormField
+     *  @method     _updateCssReadonly
+    */
+
+
+    CheckBoxList.prototype._updateCssReadonly = function() {
+      var $root, me, ro;
+      me = this;
+      ro = me.readonly();
+      $root = me.uiElement();
+      return $(":checkbox", $root).prop('disabled', ro);
+    };
+
+    /**
      *  显示checkbox列表
      *  @private
      *  @instance
@@ -8817,7 +8851,8 @@
         'controlID': me.controlID(),
         'textField': me.textField(),
         'valueField': me.valueField(),
-        'dataItems': dataItems
+        'dataItems': dataItems,
+        'disabled': me.readonly() || !me.enabled()
       });
       return $('tr', $root).html(html);
     };

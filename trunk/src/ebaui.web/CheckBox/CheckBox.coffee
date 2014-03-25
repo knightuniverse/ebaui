@@ -28,6 +28,20 @@ class CheckBox extends FormField
         me = this
         me._updateCssChecked()
         me._updateAttrText()
+    
+    ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FormField
+     *  @method     _updateCssReadonly
+    ###
+    _updateCssReadonly:() ->
+        me      = this
+        ro      = me.readonly()
+        $root   = me.uiElement()
+        
+        $( ":checkbox",$root ).prop('disabled', ro)
 
     ###*
      *  初始化DOM事件处理程序

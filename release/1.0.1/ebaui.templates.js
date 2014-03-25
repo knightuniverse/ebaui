@@ -57,7 +57,7 @@
 
   cblRootTmpl = "<div data-role=\"checkboxlist\" data-ns=\"web.form\" class=\"eba-checkboxlist\">\n    <table class=\"eba-checkboxlist-table\" cellpadding=\"0\" cellspacing=\"1\">\n      <tbody>\n        <tr></tr>\n      </tbody>\n    </table>\n</div>";
 
-  cblItemTmpl = "<%\nfor (var i = 0,l = dataItems.length; i < l; i++) {\n    var item = dataItems[i];\n    var val = item[valueField];\n    var txt = item[textField];\n    var chk = item[\"checked\"];\n    var inputID = controlID + val;\n%>\n<td class=\"eba-checkboxlist-td\">\n    <div class=\"eba-checkboxlist-item\">\n      <input \n        id=\"<%=inputID %>\"\n        type=\"checkbox\" \n        <%=chk ? 'checked=\"checked\"' : '' %> \n        value=\"<%=val%>\" \n        data-text=\"<%=txt%>\" />\n        \n      <label for=\"<%= inputID %>\"><%=txt%></label>\n    </div>\n</td>\n<%}%>";
+  cblItemTmpl = "<%\nfor (var i = 0,l = dataItems.length; i < l; i++) {\n    var item = dataItems[i];\n    var val = item[valueField];\n    var txt = item[textField];\n    var chk = item[\"checked\"];\n    var inputID = controlID + val;\n%>\n<td class=\"eba-checkboxlist-td\">\n    <div class=\"eba-checkboxlist-item\">\n      <input \n        id=\"<%=inputID %>\"\n        type=\"checkbox\" \n        <%=chk ? 'checked=\"checked\"' : '' %> \n        value=\"<%=val%>\" \n        data-text=\"<%=txt%>\" <%= disabled ? 'disabled=\"disabled\"' : ''%> />\n        \n      <label for=\"<%= inputID %>\"><%=txt%></label>\n    </div>\n</td>\n<%}%>";
 
   webui.injectTmpl('CheckBoxList', '_rootTmpl', cblRootTmpl);
 

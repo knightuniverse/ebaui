@@ -33,6 +33,20 @@ class CheckBoxList extends FormField
      *  @method     _compiledItemTmpl
     ###
     _compiledItemTmpl: $.noop
+    
+    ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.FormField
+     *  @method     _updateCssReadonly
+    ###
+    _updateCssReadonly:() ->
+        me      = this
+        ro      = me.readonly()
+        $root   = me.uiElement()
+        
+        $( ":checkbox",$root ).prop('disabled', ro)
 
     ###*
      *  显示checkbox列表
@@ -53,6 +67,7 @@ class CheckBoxList extends FormField
             'textField' : me.textField()
             'valueField': me.valueField()
             'dataItems' : dataItems
+            'disabled'  : me.readonly() or not me.enabled()
         )
 
         $( 'tr',$root ).html( html )
@@ -143,7 +158,7 @@ class CheckBoxList extends FormField
     ###
     _render: () ->
         super()
-
+        
         me = this
         ### load data then render CheckBoxList ###
         me._loadData( $.noop,() ->
@@ -162,7 +177,6 @@ class CheckBoxList extends FormField
                         dataItem['checked'] = ( dataItem[valueField] is value )
 
             me._renderItems()
-
         )
 
         return undefined

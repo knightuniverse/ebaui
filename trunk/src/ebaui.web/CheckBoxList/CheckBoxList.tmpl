@@ -25,7 +25,7 @@ for (var i = 0,l = dataItems.length; i < l; i++) {
         type="checkbox" 
         <%=chk ? 'checked="checked"' : '' %> 
         value="<%=val%>" 
-        data-text="<%=txt%>" />
+        data-text="<%=txt%>" <%= disabled ? 'disabled=\"disabled\"' : ''%> />
         
       <label for="<%= inputID %>"><%=txt%></label>
     </div>
