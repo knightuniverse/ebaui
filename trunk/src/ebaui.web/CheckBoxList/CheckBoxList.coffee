@@ -42,9 +42,10 @@ class CheckBoxList extends FormField
      *  @method     _updateCssReadonly
     ###
     _updateCssReadonly:() ->
-        me      = this
-        $root   = me.uiElement()
-        $( ":checkbox",$root ).prop('disabled', me.readonly())
+        me       = this
+        $root    = me.uiElement()
+        disabled = me.readonly() or not me.enabled()
+        $( ":checkbox",$root ).prop('disabled', disabled)
     
     ###*
      *  
@@ -54,9 +55,10 @@ class CheckBoxList extends FormField
      *  @method     _updateCssEnabled
     ###
     _updateCssEnabled:() ->
-        me      = this
-        $root   = me.uiElement()
-        $( ":checkbox",$root ).prop('disabled',not me.enabled())
+        me       = this
+        $root    = me.uiElement()
+        disabled = me.readonly() or not me.enabled()
+        $( ":checkbox",$root ).prop('disabled',disabled)
 
     ###*
      *  显示checkbox列表

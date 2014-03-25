@@ -8839,10 +8839,11 @@
 
 
     CheckBoxList.prototype._updateCssReadonly = function() {
-      var $root, me;
+      var $root, disabled, me;
       me = this;
       $root = me.uiElement();
-      return $(":checkbox", $root).prop('disabled', me.readonly());
+      disabled = me.readonly() || !me.enabled();
+      return $(":checkbox", $root).prop('disabled', disabled);
     };
 
     /**
@@ -8855,10 +8856,11 @@
 
 
     CheckBoxList.prototype._updateCssEnabled = function() {
-      var $root, me;
+      var $root, disabled, me;
       me = this;
       $root = me.uiElement();
-      return $(":checkbox", $root).prop('disabled', !me.enabled());
+      disabled = me.readonly() || !me.enabled();
+      return $(":checkbox", $root).prop('disabled', disabled);
     };
 
     /**
