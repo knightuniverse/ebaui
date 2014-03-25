@@ -9234,6 +9234,38 @@
       });
     };
 
+    /**
+     *  全选
+     *  @public
+     *  @instance
+     *  @method     checkAll
+     *  @memberof   ebaui.web.CheckBoxList
+    */
+
+
+    CheckBoxList.prototype.checkAll = function() {
+      var $root, me;
+      me = this;
+      $root = me.uiElement();
+      return $(":checkbox", $root).prop('checked', true);
+    };
+
+    /**
+     *  取消全选
+     *  @public
+     *  @instance
+     *  @method     uncheckAll
+     *  @memberof   ebaui.web.CheckBoxList
+    */
+
+
+    CheckBoxList.prototype.uncheckAll = function() {
+      var $root, me;
+      me = this;
+      $root = me.uiElement();
+      return $(":checkbox", $root).prop('checked', false);
+    };
+
     return CheckBoxList;
 
   })(FormField);
@@ -13511,6 +13543,10 @@
       _ref34 = Dialog.__super__.constructor.apply(this, arguments);
       return _ref34;
     }
+
+    Dialog.prototype._updateCssWidth = function() {};
+
+    Dialog.prototype._updateCssHeight = function() {};
 
     /**
     *  初始化控件，声明内部变量

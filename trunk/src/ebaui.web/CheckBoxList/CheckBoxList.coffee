@@ -383,5 +383,29 @@ class CheckBoxList extends FormField
 
         me._dataSource = val
         me._loadData($.noop,() -> me._renderItems() )
+        
+    ###*
+     *  全选
+     *  @public
+     *  @instance
+     *  @method     checkAll
+     *  @memberof   ebaui.web.CheckBoxList
+    ###
+    checkAll:() ->
+        me      = this
+        $root   = me.uiElement()
+        $( ":checkbox",$root ).prop('checked', true)
+    
+    ###*
+     *  取消全选
+     *  @public
+     *  @instance
+     *  @method     uncheckAll
+     *  @memberof   ebaui.web.CheckBoxList
+    ###
+    uncheckAll:() ->
+        me      = this
+        $root   = me.uiElement()
+        $( ":checkbox",$root ).prop('checked', false)
 
 ebaui['web'].registerFormControl( 'CheckBoxList',CheckBoxList )

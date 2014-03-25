@@ -15355,13 +15355,13 @@ DataGrid = (function(_super) {
 
   DataGrid.prototype._init = function(opts) {
     /*
-      opts = {
-          jqgrid : {  }
-          pager  : {
-              enabled : true
-              controls:[ { role: 'Button',options:{ id:'',name:'',value:'' } } ]
-          }
-      }
+        opts = {
+              jqgrid : {  }
+              pager  : {
+                  enabled : true
+                  controls:[ { role: 'Button',options:{ id:'',name:'',value:'' } } ]
+              }
+        }
     */
 
     var $pager, $root, ctrl, grid, id, index, ins, me, pager, pagerBarCtrls, pagerId, _i, _len;
