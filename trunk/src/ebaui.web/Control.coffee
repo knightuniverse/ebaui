@@ -313,7 +313,6 @@ class Control
      *  @param      {Object}    element HTML占位符
      ###
     _parseUi:( element ) ->
-
         ###
             创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
             _parseDataOptions
@@ -325,6 +324,7 @@ class Control
 
             self._$root.data( 'model',self );
         ###
+        return null unless element?
 
         me = this
         return if me._rootTmpl.length is 0
@@ -783,11 +783,13 @@ class Control
      *  @arg        {String}        event
      *  @arg        {Function}      [fn]
      *  @example    
-     *      ctrl.onEvent()
+     *      ctrl.offEvent()
      ###
     offEvent:( event,fn ) -> 
         me = this
-        return unless me.isString( event ) and event.length > 0
+        unless event
+            me._eventHandlers = {}
+            return undefined
 
         handlers = me._eventHandlers[event]
         return unless handlers and handlers.length > 0
@@ -823,10 +825,8 @@ class Control
         handlers   = me._eventHandlers[event]
         return if not handlers or handlers.length is 0
 
-        for func, i in handlers
-            func( me,args )
-
-        return
+        for func, i in handlers then func( me,args )
+        return undefined
 
     keys:( obj ) ->
 
@@ -923,10 +923,10 @@ class Control
 
     ###*
      *  forEach
-     *  @public
+     *  @private
      *  @instance
      *  @memberof   ebaui.web.Control
-     *  @method     isNull
+     *  @method     each
      *  @arg        obj
      *  @arg        iterator
      *  @arg        context

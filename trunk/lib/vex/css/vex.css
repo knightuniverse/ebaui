@@ -246,11 +246,13 @@
 
 /* line 30, ../sass/vex.sass */
 .vex-overlay {
+  /*
   animation: vex-fadein 0.5s;
   -webkit-animation: vex-fadein 0.5s;
   -moz-animation: vex-fadein 0.5s;
   -ms-animation: vex-fadein 0.5s;
   -o-animation: vex-fadein 0.5s;
+  */
   -webkit-backface-visibility: hidden;
   position: fixed;
   background: rgba(0, 0, 0, 0.4);
@@ -261,31 +263,37 @@
 }
 /* line 39, ../sass/vex.sass */
 .vex.vex-closing .vex-overlay {
+  /*
   animation: vex-fadeout 0.5s;
   -webkit-animation: vex-fadeout 0.5s;
   -moz-animation: vex-fadeout 0.5s;
   -ms-animation: vex-fadeout 0.5s;
   -o-animation: vex-fadeout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 
 /* line 42, ../sass/vex.sass */
 .vex-content {
+  /*
   animation: vex-fadein 0.5s;
   -webkit-animation: vex-fadein 0.5s;
   -moz-animation: vex-fadein 0.5s;
   -ms-animation: vex-fadein 0.5s;
   -o-animation: vex-fadein 0.5s;
   -webkit-backface-visibility: hidden;
+  */
   background: white;
 }
 /* line 46, ../sass/vex.sass */
 .vex.vex-closing .vex-content {
+  /*
   animation: vex-fadeout 0.5s;
   -webkit-animation: vex-fadeout 0.5s;
   -moz-animation: vex-fadeout 0.5s;
   -ms-animation: vex-fadeout 0.5s;
   -o-animation: vex-fadeout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 
@@ -308,11 +316,13 @@
 
 /* line 60, ../sass/vex.sass */
 .vex-loading-spinner {
+  /*
   animation: vex-rotation 0.7s linear infinite;
   -webkit-animation: vex-rotation 0.7s linear infinite;
   -moz-animation: vex-rotation 0.7s linear infinite;
   -ms-animation: vex-rotation 0.7s linear infinite;
   -o-animation: vex-rotation 0.7s linear infinite;
+  */
   -webkit-backface-visibility: hidden;
   -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);

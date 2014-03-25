@@ -87,14 +87,30 @@ class Panel extends Control
         *   by defaults, 
         *   panel's position css property will be 'relative' 
         ###
-        me._buttons  = opts['buttons'] ? []
-        me._iconCls  = opts['iconCls'] ? ''
-        me._position = opts['position'] ? 'relative'
-        me._state    = opts['state'] ? ''
+        me._buttons     = opts['buttons'] ? []
+        me._iconCls     = opts['iconCls'] ? ''
+        me._position    = opts['position'] ? 'relative'
+        me._state       = opts['state'] ? ''
+        me._hasBorder   = opts['hasBorder'] if opts['hasBorder']?
 
     _setupEvents: ( opts )->
         me = this
         me._$root.on( 'click',( eventArgs ) -> eventArgs.stopPropagation() )
+        
+    ###*
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @method     _updateCssBorder
+     ###
+    _updateCssBorder:() ->
+        me      = this
+        $root   = me.uiElement()
+        if me.hasBorder()
+            $root.css( 'border',null )
+        else
+            $root.css( 'border','none' )
 
     ###*
      *  
@@ -152,11 +168,13 @@ class Panel extends Control
         $header = $( '.panel-head',$root )
         title   = me.title()
         iconCls = me.iconCls()
-
+        
+        ###
         if showHeader
             $root.addClass( 'panel' )
         else
             $root.removeClass( 'panel' )
+        ###
 
         ###
         *   第一次_updateCssHeader的时候
@@ -208,7 +226,6 @@ class Panel extends Control
      ###
     _updateCssStates:() ->
         me       = this
-        
         ###
         *   如果panel没有显示header的话，我觉得还是不要放上这个state好了
         ###
@@ -233,6 +250,10 @@ class Panel extends Control
         me    = this
         $root = me.uiElement()
         ###
+        *   
+        ###
+        $root.addClass( 'panel' )
+        ###
         *   first step
         *   wrap panel content with """ <div class="panel-body"></div> """
         ###
@@ -244,6 +265,7 @@ class Panel extends Control
         *   judge if it's necessary to show panel header
         ###
         me._updateCssHeader()
+        me._updateCssBorder()
         ###
         *   调用父类的_render方法
         ###
@@ -377,6 +399,29 @@ class Panel extends Control
 
         me._buttons = val
         me._updateCssButtons()
+        
+    ###*
+     *  获取或者设置是否显示边框
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {Boolean}   hasBorder
+     *  @default    false
+     *  @example    <caption>get</caption>
+     *      //  hasBorder == true
+     *      hasBorder = ctrl.hasBorder();
+     *  @example    <caption>set</caption>
+     *      ctrl.hasBorder( true );
+     *      ctrl.hasBorder( false );
+    ###
+    _hasBorder: false
+    hasBorder: (val) ->
+        me = this
+        return me._hasBorder unless me.isBoolean(val)
+    
+        me._hasBorder = val
+        me._updateCssBorder()
+        # todo 更新样式控件的样式
 
     _iconCls: ''
     ###*

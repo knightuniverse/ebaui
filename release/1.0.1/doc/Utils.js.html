@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>EBAUI - API documentation : Source: DigitValidator.js</title>
+    <title>EBAUI - API documentation : Source: Utils.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -32,68 +32,91 @@
           </div>
 
           <div class="span8">
-              <h1 class="page-header">Source: DigitValidator.js</h1>
+              <h1 class="page-header">Source: Utils.js</h1>
               
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
-*   @class      DigitValidator
-*   @classdesc
-*   @memberof   ebaui.web
-*   @extends    ebaui.web.Validator
-*   @author     monkey      &lt;knightuniverse@qq.com>
-*   @example
-*      &lt;input data-role="textbox" data-options="{ validators:['digit'] }"/&gt;
+            <pre class="prettyprint source"><code>var ns;
+
+ns = ebaui;
+
+/**
+ *  �ĵ����ο� http://api.jquery.com/jQuery.ajax/
+ *  @static
+ *  @method     ajax
+ *  @memberof   ebaui
 */
 
-var DigitValidator, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-DigitValidator = (function(_super) {
-  __extends(DigitValidator, _super);
+ns['ajax'] = jQuery.ajax;
 
-  function DigitValidator() {
-    _ref = DigitValidator.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  DigitValidator.prototype.name = 'digit';
-
-  /**
-   *  错误提示信息
-   *  @public
-   *  @instance
-   *  @default    'Please only enter digit characters.'
-   *  @member     {String}    message
-   *  @memberof   DigitValidator
-  */
+/**
+ *  �ĵ����ο� http://api.jquery.com/jQuery.get/
+ *  @static
+ *  @method     httpGet
+ *  @memberof   ebaui
+*/
 
 
-  DigitValidator.prototype.message = 'Please only enter digit characters.';
+ns['httpGet'] = jQuery.get;
 
-  /**
-   *  执行验证
-   *  @public
-   *  @instance
-   *  @method     validate
-   *  @param      {Object}    value      -      要进行验证的值
-   *  @memberof   ebaui.web.DigitValidator
-  */
+/**
+ *  http://api.jquery.com/jQuery.post/
+ *  @static
+ *  @method     httpPost
+ *  @memberof   ebaui
+*/
 
 
-  DigitValidator.prototype.validate = function(value) {
-    return /\d+/.test(value);
-  };
+ns['httpPost'] = jQuery.post;
 
-  return DigitValidator;
+/**
+ *  ��ָ����HTMLԪ����������
+ *  @static
+ *  @method     mask
+ *  @memberof   ebaui
+ *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+ *  @param      {String}    [label='']         -   ��ѡ�����ֲ����ı���Ϣ
+ *  @param      {Number}    [delay=null]       -   ��ѡ����HTMLԪ�ش�������֮ǰ���ӳ�ʱ��
+ *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+*/
 
-})(Validator);
 
-ebaui['web'].registerValidator('digit', DigitValidator);
+ns['mask'] = function(selector, label, delay, context) {
+  label = !label ? '' : label;
+  return $(selector, context).mask(label, delay);
+};
+
+/**
+ *  ȡ��ָ��HTMLԪ���ϵ�����
+ *  @static
+ *  @method     unmask
+ *  @memberof   ebaui
+ *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+ *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+*/
+
+
+ns['unmask'] = function(selector, context) {
+  return $(selector, context).unmask();
+};
+
+/**
+ *  �ж�ָ����HTMLԪ���Ƿ�������
+ *  @static
+ *  @method     isMasked
+ *  @memberof   ebaui
+ *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+ *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+*/
+
+
+ns['isMasked'] = function(selector, context) {
+  return $(selector, context).isMasked();
+};
 </code></pre>
         </article>
     </section>

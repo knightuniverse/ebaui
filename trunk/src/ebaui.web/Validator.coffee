@@ -10,7 +10,7 @@ class Validator
      ###
     constructor:( params,msg ) ->
         me            = this
-        me.message    = msg ? ''
+        me.message    = msg if msg?
         me.parameters = params ? []
 
     ###*

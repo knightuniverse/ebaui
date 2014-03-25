@@ -239,7 +239,7 @@ class Tabs extends Control
      *  @public
      *  @instance
      *  @memberof       ebaui.web.Tabs
-     *  @method         closeAllTab
+     *  @method         closeOtherTabs
      *  @param          {Number|String|Function}        but
      *  @example
      *      ctrl.closeOtherTabs(0);
@@ -342,6 +342,52 @@ class Tabs extends Control
         tabIndex = me.indexOf( tab )
         return if tabIndex is -1
         me.currentTab( tabIndex )
+        
+    ###*
+     *  获取当前tabs控件包含的tab数量
+     *  @public
+     *  @instance
+     *  @memberof       eabui.web.Tab
+     *  @member         {Number}    count
+     *  @example
+     *      var count = tabs.count()
+    ###
+    count :() -> this._tabs.length
+        
+    ###*
+     *  遍历所有tab选项卡，并且执行指定的函数
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         eachTab
+     *  @param          {Function}        fn
+     *  @example
+     *      var tabs = ebaui.get( '#manu' );
+     *      tabs.eachTab( function( tab ){
+     *          //  获取contentWindow，如果获取失败，则返回Null
+     *          var win = tab.contentWindow()
+     *          if( win ){
+     *              //  执行函数
+     *              win.someMethod();
+     *          }
+     *          
+     *      } );
+    ###
+    eachTab:( fn ) ->
+        me = this
+        return unless me.isFunc( fn )
+        
+        tabs = me._tabs
+        return unless tabs.length > 0
+        ###
+        *   遍历所有的tabs
+        ###
+        for tab, index in tabs
+            try
+                fn( tab )
+            catch e
+                
+        return undefined
 
     ###*
      *  刷新tab页面的内容

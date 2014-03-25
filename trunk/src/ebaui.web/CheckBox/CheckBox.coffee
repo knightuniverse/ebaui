@@ -85,7 +85,7 @@ class CheckBox extends FormField
         me._text       = opts['text'] ? false
         me._checked    = opts['checked'] ? false
         me._valueField = opts['valueField'] ? 'value'
-        me._value    = opts['value'] ? true
+        me._value      = opts['value'] ? true
         me._textField  = opts['textField'] ? 'text'
 
     ###*
@@ -109,8 +109,8 @@ class CheckBox extends FormField
     ###
     _updateCssChecked : () ->
         me = this
-        me._$formInput.get(0).checked = me.checked()
-
+        me._$formInput.prop( 'checked',me.checked() )
+        
     _text: ''
     ###*
      *  获取或者设置CheckBox控件的文本

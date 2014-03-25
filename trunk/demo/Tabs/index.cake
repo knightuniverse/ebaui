@@ -32,6 +32,17 @@
 function addTab(){
   var tabs = ebaui.get('#tab1');
   tabs.addTab( { url : 'http://www.qq.com/',title:'qq' } );
+  tabs.addTab( { url : 'tab_iframe.html',title:'tab_iframe' } );
+};
+
+function eachTab(){
+
+    var tabs = ebaui.get('#tab1');
+    tabs.eachTab( function( tab ){
+        var win = tab.contentWindow();
+        if( win ){ win.someMethod(); }
+    });
+    
 };
 
 function ontabload(){

@@ -15268,184 +15268,180 @@ $.extend($.ui.multiselect, {
 *       &lt;table id="" title="" name="" data-role="datagrid" data-options="{}" &gt;&lt;/table&gt;
 */
 
+var DataGrid, ns, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-(function() {
-  var DataGrid, ns, _ref,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+ns = ebaui['web'];
 
-  ns = ebaui['web'];
+DataGrid = (function(_super) {
+  __extends(DataGrid, _super);
 
-  DataGrid = (function(_super) {
-    __extends(DataGrid, _super);
+  function DataGrid() {
+    _ref = DataGrid.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
 
-    function DataGrid() {
-      _ref = DataGrid.__super__.constructor.apply(this, arguments);
-      return _ref;
-    }
-
-    /**
-     *  把HTML占位符转换成为控件自身的HTML结构
-     *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
-     *  @private
-     *  @virtual
-     *  @instance
-     *  @memberof   ebaui.web.TreeView
-     *  @method     _parseUi
-     *  @param      {Object}    element HTML占位符
-    */
+  /**
+   *  把HTML占位符转换成为控件自身的HTML结构
+   *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
+   *  @private
+   *  @virtual
+   *  @instance
+   *  @memberof   ebaui.web.TreeView
+   *  @method     _parseUi
+   *  @param      {Object}    element HTML占位符
+  */
 
 
-    DataGrid.prototype._parseUi = function(element) {
-      return $(element);
-    };
+  DataGrid.prototype._parseUi = function(element) {
+    return $(element);
+  };
 
-    /**
-     *  更新UI显示
-     *  @private
-     *  @instance
-     *  @memberof       ebaui.web.TreeView
-     *  @method         _render
-    */
-
-
-    DataGrid.prototype._render = function() {
-      var me;
-      me = this;
-      me._updateCssVisible();
-      return me._updateAttrTitle();
-    };
-
-    /**
-     *  拓展自身的方法或者属性
-     *  @private
-     *  @instance
-     *  @memberof       ebaui.web.TreeView
-     *  @method         _extendMe
-    */
+  /**
+   *  更新UI显示
+   *  @private
+   *  @instance
+   *  @memberof       ebaui.web.TreeView
+   *  @method         _render
+  */
 
 
-    DataGrid.prototype._extendMe = function(source) {
-      var item, me, property, _results;
-      me = this;
-      _results = [];
-      for (item in source) {
-        property = source[item];
-        if (!$.isFunction(property)) {
-          _results.push(me[item] = property);
-        } else {
-          _results.push(me[item] = (function(name, value) {
-            var fn;
-            return fn = function() {
-              return value.apply(source, arguments);
-            };
-          })(item, property));
-        }
-      }
-      return _results;
-    };
+  DataGrid.prototype._render = function() {
+    var me;
+    me = this;
+    me._updateCssVisible();
+    return me._updateAttrTitle();
+  };
 
-    /**
-     *  初始化控件，声明内部变量
-     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
-     *  @private
-     *  @instance
-     *  @memberof ebaui.web.DataGrid
-     *  @method _initControl
-    */
+  /**
+   *  拓展自身的方法或者属性
+   *  @private
+   *  @instance
+   *  @memberof       ebaui.web.TreeView
+   *  @method         _extendMe
+  */
 
 
-    DataGrid.prototype._init = function(opts) {
-      /*
-        opts = {
-            jqgrid : {  }
-            pager  : {
-                enabled : true
-                controls:[ { role: 'Button',options:{ id:'',name:'',value:'' } } ]
-            }
-        }
-      */
-
-      var $pager, $root, ctrl, id, index, ins, me, pager, pagerId, _i, _len, _ref1;
-      DataGrid.__super__._init.call(this, opts);
-      me = this;
-      $root = me.uiElement();
-      ns = ebaui['web'];
-      id = me.id();
-      pager = opts.pager;
-      pagerId = "datagrid-pager-" + id;
-      if (opts['jqgrid'] != null) {
-        me._jqGridOpts = $.extend({}, me._jqGridOpts, opts['jqgrid']);
-      }
-      if (pager != null) {
-        me._jqGridOpts['pager'] = pagerId;
-        $root.after(" <div id=\"" + pagerId + "\"></div> ");
-        me._$root.jqGrid(me._jqGridOpts);
-        if (pager.navGrid) {
-          $('#' + id).jqGrid('navGrid', '#' + pagerId, {
-            edit: true,
-            add: true,
-            del: true
-          });
-        }
-        if (pager.controls != null) {
-          $pager = $("#" + ("" + pagerId + "_left"));
-          _ref1 = pager.controls;
-          for (index = _i = 0, _len = _ref1.length; _i < _len; index = ++_i) {
-            ctrl = _ref1[index];
-            $pager.append("<input id='pager-ctrl-" + index + "' />");
-            ins = new ns[ctrl.role]($('#pager-ctrl-' + index, $pager), ctrl.options);
-          }
-        }
+  DataGrid.prototype._extendMe = function(source) {
+    var item, me, property, _results;
+    me = this;
+    _results = [];
+    for (item in source) {
+      property = source[item];
+      if (!$.isFunction(property)) {
+        _results.push(me[item] = property);
       } else {
-        me._$root.jqGrid(me._jqGridOpts);
+        _results.push(me[item] = (function(name, value) {
+          var fn;
+          return fn = function() {
+            return value.apply(source, arguments);
+          };
+        })(item, property));
       }
-      return me._extendMe($.jgrid);
-    };
+    }
+    return _results;
+  };
 
-    DataGrid.prototype._jqGridOpts = {
-      datatype: 'json',
-      mtype: 'POST',
-      rownumbers: true,
-      rowNum: 20,
-      rowList: [5, 10, 20, 30],
-      viewrecords: true,
-      multiselect: false,
-      multiboxonly: true,
-      loadComplete: function(xhr) {
-        var result;
-        result = $(this).getUserDataItem('result');
-        if (result !== 1 && $(this).getGridParam('datatype') !== 'local') {
-          return alert('加载失败[' + $(this).getUserDataItem('msg') + ']');
-        }
-      },
-      loadError: function(xhr, status, error) {
-        return alert('获取错误[' + status + ']' + error);
+  /**
+   *  初始化控件，声明内部变量
+   *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+   *  @private
+   *  @instance
+   *  @memberof ebaui.web.DataGrid
+   *  @method _initControl
+  */
+
+
+  DataGrid.prototype._init = function(opts) {
+    /*
+      opts = {
+          jqgrid : {  }
+          pager  : {
+              enabled : true
+              controls:[ { role: 'Button',options:{ id:'',name:'',value:'' } } ]
+          }
       }
-    };
-
-    /**
-     *  默认的jqGrid配置
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.DataGrid
-     *  @member     {Object}    jqgridOptions
     */
 
-
-    DataGrid.prototype.jqGridOptions = function(val) {
-      var me;
-      me = this;
-      if (val == null) {
-        return me._jqGridOpts;
+    var $pager, $root, ctrl, id, index, ins, me, pager, pagerId, _i, _len, _ref1;
+    DataGrid.__super__._init.call(this, opts);
+    me = this;
+    $root = me.uiElement();
+    ns = ebaui['web'];
+    id = me.id();
+    pager = opts.pager;
+    pagerId = "datagrid-pager-" + id;
+    if (opts['jqgrid'] != null) {
+      me._jqGridOpts = $.extend({}, me._jqGridOpts, opts['jqgrid']);
+    }
+    if (pager != null) {
+      me._jqGridOpts['pager'] = pagerId;
+      $root.after(" <div id=\"" + pagerId + "\"></div> ");
+      me._$root.jqGrid(me._jqGridOpts);
+      if (pager.navGrid) {
+        $('#' + id).jqGrid('navGrid', '#' + pagerId, {
+          edit: true,
+          add: true,
+          del: true
+        });
       }
-      return $.extend(me._jqGridOpts, val);
-    };
+      if (pager.controls != null) {
+        $pager = $("#" + ("" + pagerId + "_left"));
+        _ref1 = pager.controls;
+        for (index = _i = 0, _len = _ref1.length; _i < _len; index = ++_i) {
+          ctrl = _ref1[index];
+          $pager.append("<input id='pager-ctrl-" + index + "' />");
+          ins = new ns[ctrl.role]($('#pager-ctrl-' + index, $pager), ctrl.options);
+        }
+      }
+    } else {
+      me._$root.jqGrid(me._jqGridOpts);
+    }
+    return me._extendMe($.jgrid);
+  };
 
-    return DataGrid;
+  DataGrid.prototype._jqGridOpts = {
+    datatype: 'json',
+    mtype: 'POST',
+    rownumbers: true,
+    rowNum: 20,
+    rowList: [5, 10, 20, 30],
+    viewrecords: true,
+    multiselect: false,
+    multiboxonly: true,
+    loadComplete: function(xhr) {
+      var result;
+      result = $(this).getUserDataItem('result');
+      if (result !== 1 && $(this).getGridParam('datatype') !== 'local') {
+        return alert('加载失败[' + $(this).getUserDataItem('msg') + ']');
+      }
+    },
+    loadError: function(xhr, status, error) {
+      return alert('获取错误[' + status + ']' + error);
+    }
+  };
 
-  })(ns.Control);
+  /**
+   *  默认的jqGrid配置
+   *  @private
+   *  @instance
+   *  @memberof   ebaui.web.DataGrid
+   *  @member     {Object}    jqgridOptions
+  */
 
-  ns.registerControl('DataGrid', DataGrid);
 
-}).call(this);
+  DataGrid.prototype.jqGridOptions = function(val) {
+    var me;
+    me = this;
+    if (val == null) {
+      return me._jqGridOpts;
+    }
+    return $.extend(me._jqGridOpts, val);
+  };
+
+  return DataGrid;
+
+})(ns.Control);
+
+ns.registerControl('DataGrid', DataGrid);

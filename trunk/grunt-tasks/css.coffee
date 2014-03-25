@@ -13,7 +13,7 @@ module.exports = ( grunt ) ->
         'lib/vex/css/vex.css',
         'lib/vex/css/vex-theme-default.css'
     ]
-
+    
     all = lib.concat( ui )
     
     task = grunt.config('concat') || {}

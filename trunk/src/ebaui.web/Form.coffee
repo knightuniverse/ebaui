@@ -36,18 +36,57 @@ class Form extends Control
      *  @member {Boolean}   _isValid
     ###
     _isValid  : true
+    
+    _readonly : null
+    ###*
+     *  表单是否通过验证
+     *  @public
+     *  @instance
+     *  @default    null
+     *  @memberof   ebaui.web.Form
+     *  @member     {Boolean}   readonly
+     *  @example    <caption>get</caption>
+     *      var form        = ebaui.get('#formId');
+     *      var isReadonly  = form.readonly();
+     *  @example    <caption>set</caption>
+     *      var form = ebaui.get('#formId');
+     *      form.readonly( true );
+    ###
+    readonly : ( val ) ->
+        me = this
+        return me._readonly unless me.isBoolean( val )
+    
+        me._readonly = val
+        me.eachField( ( field ) ->
+            field['readonly']( val ) if field['readonly']
+        )
+        return undefined
 
     ###*
      *  遍历form控件内所有的表单控件
-     *  @private
+     *  @public
      *  @instance
      *  @memberof   ebaui.web.Form
-     *  @method     _eachField
+     *  @method     eachField
      *  @param      {Function}  iterator - 迭代器
+     *  @example
+     *      var form = ebaui.get('#formId');
+     *      //  表单控件筛选条件
+     *      var fitCondition = function( field ){
+     *          //  some conditions to filter out form fields
+     *      }; 
+     *      form.eachField( function( field ){
+     *          if( fitCondition( field ) ){
+     *              //  设置表单控件的属性
+     *              field.enabled( false );
+     *              //  some other code
+     *          }
+     *      } );
     ###
-    _eachField:(iterator) ->
+    eachField:(iterator) ->
         fields = this.fields()
         for field in fields then iterator( field )
+        return undefined
 
     ###*
      *  更新UI显示
@@ -61,6 +100,11 @@ class Form extends Control
         id = me.id()
         me._$root.attr('id', id) unless me.isEmpty( id )
         me._updateCssVisible()
+        
+        if me._readonly isnt null
+            me.eachField( ( field ) ->
+                field['readonly']( me._readonly ) if field['readonly']
+            )
 
     ###*
      *  把HTML占位符转换成为控件自身的HTML结构
@@ -162,6 +206,10 @@ class Form extends Control
         )
 
         me._fields = formFields
+        ###
+        *   初始化表单，是否整个表单都是readonly的
+        ###
+        me._readonly = opts['readonly'] ? null
 
     _fields:[]
     ###*
@@ -209,7 +257,7 @@ class Form extends Control
         if not data
             #  get data
             formData = {}
-            me._eachField( ( field ) ->
+            me.eachField( ( field ) ->
                 return unless field['data']
                 name           = field.name()
                 data           = field.data()
@@ -220,7 +268,7 @@ class Form extends Control
 
         #  set data
         formData = if me.isString( data ) then ebaui.fromJSON( data ) else data
-        me._eachField( ( field ) ->
+        me.eachField( ( field ) ->
             name      = field.name()
             fieldData = formData[name]
             field.data( fieldData ) if fieldData
@@ -242,7 +290,7 @@ class Form extends Control
         ###
         formValue = ebaui.fromJSON( formValue ) if me.isString( formValue )
         
-        me._eachField( ( field ) ->
+        me.eachField( ( field ) ->
             name = field.name()
             val  = formValue[name]
             
@@ -252,7 +300,7 @@ class Form extends Control
             ###
             if field['checked'] and field.value() is val
                 field['checked']( true )
-            else
+            else unless field['checked']
                 field.value( val )
         )
 
@@ -268,7 +316,7 @@ class Form extends Control
     _getFormValue:()->
         me = this
         formVal = {}
-        me._eachField( ( field ) ->
+        me.eachField( ( field ) ->
             return unless field['value']
 
             name = field.name()
@@ -439,7 +487,7 @@ class Form extends Control
      *      form.reset();
     ###
     reset: () ->
-        this._eachField( ( field ) -> field.reset() if field['reset'] )
+        this.eachField( ( field ) -> field.reset() if field['reset'] )
 
     ###*
      *  提交表单

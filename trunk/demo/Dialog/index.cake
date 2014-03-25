@@ -1,3 +1,17 @@
+<input data-role="button" title="button" data-options="{ text : 'alert',width:100,onclick : showAlertDialog }" />
+
+<br /><br />
+
+<input data-role="button" title="button" data-options="{ text : 'confirm',width:100,onclick : showConfirmDialog }" />
+
+<br /><br />
+
+<input data-role="button" title="button" data-options="{ text : 'prompt',width:100,onclick : showPromptDialog }" />
+
+<br /><br />
+
+<input data-role="button" title="button" data-options="{ text : 'open dialog',width:100,onclick : openDialog }" />
+
 <script type="text/javascript">
 
 function showAlertDialog () {
@@ -29,8 +43,17 @@ function showPromptDialog(){
 };
 
 function openDialog () {
-//    ebaui.win( { url:'dialog_index_ifm.html',title:'baidu' } )
-ebaui.win( { url:'http://www.baidu.com',title:'baidu' } )
+    ebaui.win( {
+        url         : 'dialog_inner_iframe.html',
+        title       : 'inner_iframe',
+        showButtons : true,
+        apply       : function( sender,eventArgs ){
+            var contentWindow = sender.contentWindow()
+            if( contentWindow && contentWindow['someMethod'] ){
+                contentWindow['someMethod']();
+            }
+        }
+    } )
 }
 
 function onbefore(){
@@ -52,17 +75,3 @@ function vali(){
 };
 
 </script>
-
-<input data-role="button" title="button" data-options="{ text : 'alert',width:100,onclick : showAlertDialog }" />
-
-<br /><br />
-
-<input data-role="button" title="button" data-options="{ text : 'confirm',width:100,onclick : showConfirmDialog }" />
-
-<br /><br />
-
-<input data-role="button" title="button" data-options="{ text : 'prompt',width:100,onclick : showPromptDialog }" />
-
-<br /><br />
-
-<input data-role="button" title="button" data-options="{ text : 'open dialog',width:100,onclick : openDialog }" />

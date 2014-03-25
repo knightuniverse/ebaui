@@ -1,15 +1,30 @@
+/*
+*  native对象拓展
+*  String.prototype.trim()
+*      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+*/
+
+
 (function() {
-  var ArrayProto, Button, ButtonEdit, Calendar, Captcha, CheckBox, CheckBoxList, Combo, ComboBox, ComboList, Control, DateTimePicker, DigitValidator, EmailValidator, FileUploader, Form, FormField, Hidden, IdentityValidator, Label, LengthValidator, ListBox, MainView, MiniGrid, MobileValidator, MonthView, ObjectProto, OnlyCnValidator, Panel, Password, RadioList, RangeValidator, RemoteValidator, RequiredValidator, Spinner, StringProto, Tab, Tabs, TelephoneValidator, TextArea, TextBox, TimeSpinner, UrlValidator, Validator, ZipValidator, ebaui, keyboard, nativeForEach, ns, slice, toString, uuid, vexDialog, web, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref31, _ref32, _ref33, _ref34, _ref35, _ref36, _ref37, _ref38, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
+  var ArrayProto, Button, ButtonEdit, Calendar, Captcha, CheckBox, CheckBoxList, Combo, ComboBox, ComboList, Control, DateTimePicker, Dialog, DigitValidator, EmailValidator, FileUploader, Form, FormField, Hidden, IdentityValidator, Label, LengthValidator, ListBox, MainView, MiniGrid, MobileValidator, MonthView, ObjectProto, OnlyCnValidator, Panel, Password, RadioList, RangeValidator, RemoteValidator, RequiredValidator, Spinner, StringProto, Tab, Tabs, TelephoneValidator, TextArea, TextBox, TimeSpinner, UrlValidator, Validator, ZipValidator, ebaui, keyboard, nativeForEach, ns, slice, toString, uuid, vexDialog, web, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23, _ref24, _ref25, _ref26, _ref27, _ref28, _ref29, _ref3, _ref30, _ref31, _ref32, _ref33, _ref34, _ref35, _ref36, _ref37, _ref38, _ref39, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+  StringProto = String.prototype;
+
+  if (StringProto.trim == null) {
+    StringProto.trim = function() {
+      return this.replace(/^\s+|\s+$/gm, '');
+    };
+  }
+
   uuid = 0;
 
   /**
-   *   ebaui 全局命名空间
-   *   @namespace  ebaui
-   *   @author Monkey <knightuniverse@qq.com>
+  *   ebaui 全局命名空间
+  *   @namespace  ebaui
+  *   @author Monkey <knightuniverse@qq.com>
   */
 
 
@@ -58,7 +73,7 @@
     */
 
     guid: function() {
-      return 'eba-ui-' + (++uuid);
+      return "eba-ui-" + (++uuid);
     },
     /**
      *  根据控件ID获取控件对象
@@ -105,22 +120,7 @@
   window['ebaui'] = ebaui;
 
   /**
-   *  native对象拓展
-   *  String.prototype.trim()
-   *      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
-  */
-
-
-  StringProto = String.prototype;
-
-  if (StringProto.trim == null) {
-    StringProto.trim = function() {
-      return this.replace(/^\s+|\s+$/gm, '');
-    };
-  }
-
-  /**
-   *   native class extension
+  *   native class extension
   */
 
 
@@ -131,8 +131,8 @@
   };
 
   /**
-   *  @namespace  ebaui.web
-   *  @author     Monkey <knightuniverse@qq.com>
+  *  @namespace  ebaui.web
+  *  @author     Monkey <knightuniverse@qq.com>
   */
 
 
@@ -444,6 +444,8 @@
 
   /**
   *   keyboard
+  *   @static
+  *   @memberof   ebaui.web
   */
 
 
@@ -887,6 +889,9 @@
       */
 
       var $el, $html, me;
+      if (element == null) {
+        return null;
+      }
       me = this;
       if (me._rootTmpl.length === 0) {
         return;
@@ -1450,15 +1455,16 @@
      *  @arg        {String}        event
      *  @arg        {Function}      [fn]
      *  @example    
-     *      ctrl.onEvent()
+     *      ctrl.offEvent()
     */
 
 
     Control.prototype.offEvent = function(event, fn) {
       var handlers, i, item, me, _i, _len;
       me = this;
-      if (!(me.isString(event) && event.length > 0)) {
-        return;
+      if (!event) {
+        me._eventHandlers = {};
+        return void 0;
       }
       handlers = me._eventHandlers[event];
       if (!(handlers && handlers.length > 0)) {
@@ -1512,6 +1518,7 @@
         func = handlers[i];
         func(me, args);
       }
+      return void 0;
     };
 
     Control.prototype.keys = function(obj) {
@@ -1604,10 +1611,10 @@
 
     /**
      *  forEach
-     *  @public
+     *  @private
      *  @instance
      *  @memberof   ebaui.web.Control
-     *  @method     isNull
+     *  @method     each
      *  @arg        obj
      *  @arg        iterator
      *  @arg        context
@@ -1896,7 +1903,9 @@
     function Validator(params, msg) {
       var me;
       me = this;
-      me.message = msg != null ? msg : '';
+      if (msg != null) {
+        me.message = msg;
+      }
       me.parameters = params != null ? params : [];
     }
 
@@ -2136,13 +2145,13 @@
 
 
     FormField.prototype._doRenderStyleTip = function(rootCls, tips) {
-      var $border, $icon, $root, html, iconCls, item, me, status, statusCls;
+      var $border, $icon, $root, iconCls, item, me, status, statusCls;
       me = this;
       tips = tips != null ? tips : '';
       $root = me.uiElement();
       iconCls = me._statusIcon[rootCls];
       $border = $('[class*="border"]', $root);
-      $icon = $border.next('i[class^="icon"]');
+      $icon = $root.find('i[class^="icon"]');
       status = me._validationStatus;
       statusCls = me._statusCls;
       for (item in status) {
@@ -2152,8 +2161,7 @@
         $root.addClass(rootCls);
       }
       if ($icon.size() === 0) {
-        html = '<i class="{0}" title="{1}"></i>'.replace('{0}', iconCls).replace('{1}', tips);
-        $border.after(html);
+        $root.append("<i class='" + iconCls + "' title='" + tips + "'></i>");
       } else {
         $icon.attr({
           'class': iconCls,
@@ -2327,11 +2335,13 @@
 
     FormField.prototype.tips = function(status, tips) {
       var me;
+      if (tips == null) {
+        tips = '';
+      }
       me = this;
       if (!me.isNumber(status)) {
         return me._currentStatus;
       }
-      tips = tips != null ? tips : '';
       if ((__indexOf.call([0, 1, 2, 3, 4, 5], status) >= 0)) {
         me._currentStatus = status;
         me._renderStyleTips(status, tips);
@@ -2367,6 +2377,9 @@
 
 
     FormField.prototype.success = function(tips) {
+      if (tips == null) {
+        tips = '';
+      }
       return this.tips(this._validationStatus.success, tips);
     };
 
@@ -2383,6 +2396,9 @@
 
 
     FormField.prototype.info = function(tips) {
+      if (tips == null) {
+        tips = '';
+      }
       return this.tips(this._validationStatus.info, tips);
     };
 
@@ -2399,6 +2415,9 @@
 
 
     FormField.prototype.warning = function(tips) {
+      if (tips == null) {
+        tips = '';
+      }
       return this.tips(this._validationStatus.warning, tips);
     };
 
@@ -2415,6 +2434,9 @@
 
 
     FormField.prototype.error = function(tips) {
+      if (tips == null) {
+        tips = '';
+      }
       return this.tips(this._validationStatus.error, tips);
     };
 
@@ -2431,6 +2453,9 @@
 
 
     FormField.prototype.busy = function(tips) {
+      if (tips == null) {
+        tips = '';
+      }
       return this.tips(this._validationStatus.busy, tips);
     };
 
@@ -2468,29 +2493,23 @@
      *  获取控件验证完成之后产生的错误信息字符串
      *  @private
      *  @instance
-     *  @readonly
      *  @memberof   ebaui.web.FormField
-     *  @default    ''
-     *  @member     {String}    _getErrorMessage
-     *  @example    <caption>get</caption>
-     *      tips = ctrl._getErrorMessage();
+     *  @method     _join
+     *  @arg        {Object}    error   -   错误hash表
+     *  @returns    {String}
+     *  @example    
+     *      tips = ctrl._join( {} );
     */
 
 
-    FormField.prototype._getErrorMessage = function() {
-      var i, key, keys, max, me, tips, _i, _len;
-      me = this;
-      tips = '';
-      keys = me.keys(me._error);
-      max = keys.length - 1;
-      for (i = _i = 0, _len = keys.length; _i < _len; i = ++_i) {
-        key = keys[i];
-        tips += me._error[key];
-        if (i < max) {
-          tips += '\n';
-        }
+    FormField.prototype._join = function(error) {
+      var key, msg, value;
+      msg = [];
+      for (key in error) {
+        value = error[key];
+        msg.push(value);
       }
-      return tips;
+      return msg.join("<br />");
     };
 
     FormField.prototype._validateOnChange = false;
@@ -2780,7 +2799,7 @@
       if (isValid) {
         me.success('');
       } else {
-        me.error(me._getErrorMessage());
+        me.error(me._join(errorMsg));
       }
       return isValid;
     };
@@ -3773,7 +3792,10 @@
       me._buttons = (_ref13 = opts['buttons']) != null ? _ref13 : [];
       me._iconCls = (_ref14 = opts['iconCls']) != null ? _ref14 : '';
       me._position = (_ref15 = opts['position']) != null ? _ref15 : 'relative';
-      return me._state = (_ref16 = opts['state']) != null ? _ref16 : '';
+      me._state = (_ref16 = opts['state']) != null ? _ref16 : '';
+      if (opts['hasBorder'] != null) {
+        return me._hasBorder = opts['hasBorder'];
+      }
     };
 
     Panel.prototype._setupEvents = function(opts) {
@@ -3782,6 +3804,26 @@
       return me._$root.on('click', function(eventArgs) {
         return eventArgs.stopPropagation();
       });
+    };
+
+    /**
+     *  
+     *  @private
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @method     _updateCssBorder
+    */
+
+
+    Panel.prototype._updateCssBorder = function() {
+      var $root, me;
+      me = this;
+      $root = me.uiElement();
+      if (me.hasBorder()) {
+        return $root.css('border', null);
+      } else {
+        return $root.css('border', 'none');
+      }
     };
 
     /**
@@ -3861,11 +3903,13 @@
       $header = $('.panel-head', $root);
       title = me.title();
       iconCls = me.iconCls();
-      if (showHeader) {
-        $root.addClass('panel');
-      } else {
-        $root.removeClass('panel');
-      }
+      /*
+      if showHeader
+          $root.addClass( 'panel' )
+      else
+          $root.removeClass( 'panel' )
+      */
+
       /*
       *   第一次_updateCssHeader的时候
       *   刚好没有满足出现header的条件，并且header并没有生成
@@ -3961,6 +4005,11 @@
       me = this;
       $root = me.uiElement();
       /*
+      *
+      */
+
+      $root.addClass('panel');
+      /*
       *   first step
       *   wrap panel content with """ <div class="panel-body"></div> """
       */
@@ -3973,6 +4022,7 @@
       */
 
       me._updateCssHeader();
+      me._updateCssBorder();
       /*
       *   调用父类的_render方法
       */
@@ -4142,6 +4192,34 @@
       }
       me._buttons = val;
       return me._updateCssButtons();
+    };
+
+    /**
+     *  获取或者设置是否显示边框
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Panel
+     *  @member     {Boolean}   hasBorder
+     *  @default    false
+     *  @example    <caption>get</caption>
+     *      //  hasBorder == true
+     *      hasBorder = ctrl.hasBorder();
+     *  @example    <caption>set</caption>
+     *      ctrl.hasBorder( true );
+     *      ctrl.hasBorder( false );
+    */
+
+
+    Panel.prototype._hasBorder = false;
+
+    Panel.prototype.hasBorder = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._hasBorder;
+      }
+      me._hasBorder = val;
+      return me._updateCssBorder();
     };
 
     Panel.prototype._iconCls = '';
@@ -4842,6 +4920,17 @@
       me.onEvent('focus', opts['onfocus']);
       me.onEvent('blur', opts['onblur']);
       me.onEvent('change', opts['onchange']);
+      /*
+      *   在IE9等不兼容placeholder的浏览器上
+      *   点击placeholder的时候
+      *   input应该是要正确的获取焦点
+      */
+
+      $root.on('click', placeholder, function(eventArgs) {
+        me._focused = true;
+        me._updateCssFocused();
+        return $input.focus();
+      });
       $root.on('keydown', formInput, function(eventArgs) {
         var code;
         if (!me.enabled()) {
@@ -8485,7 +8574,7 @@
     CheckBox.prototype._updateCssChecked = function() {
       var me;
       me = this;
-      return me._$formInput.get(0).checked = me.checked();
+      return me._$formInput.prop('checked', me.checked());
     };
 
     CheckBox.prototype._text = '';
@@ -13382,78 +13471,460 @@
   vexDialog = vex.dialog;
 
   /**
-   *  文档请参考 http://api.jquery.com/jQuery.ajax/
-   *  @static
-   *  @method     ajax
-   *  @memberof   ebaui
+  *   @class      Dialog
+  *   @memberof   ebaui.web
+  *   @author     monkey          <knightuniverse@qq.com>
+  *   @param      {Object}        element     -   dom对象
+  *   @param      {Object}        options     -   控件配置参数
+  *   @prop       {String}        options.title             -   窗口的标题
+  *   @prop       {String}        options.url               -   窗口的url地址，优先使用
+  *   @prop       {String}        options.iconCls           -   窗口的icon
+  *   @prop       {String}        options.content           -   作为窗口的静态内容，如果url为空，则采用content作为窗口内容
+  *   @prop       {Number}        options.width             -   窗口的宽度
+  *   @prop       {Number}        options.height            -   窗口的高度
+  *   @prop       {Function}      options.beforeclose       -   关闭窗口前的事件处理程序
+  *   @prop       {Function}      options.afterclose        -   关闭窗口后的事件处理程序
+  *   @prop       {Boolean}       options.showButtons       -   是否显示按钮
   */
 
-
-  ns['ajax'] = jQuery.ajax;
 
   /**
-   *  文档请参考 http://api.jquery.com/jQuery.get/
-   *  @static
-   *  @method     httpGet
-   *  @memberof   ebaui
+  *   apply button按下后出发该事件
+  *   @event      ebaui.web.Dialog#apply
+  *   @arg        {ebaui.web.Dialog}  sender
+  *   @arg        {Object}            eventArgs
   */
 
-
-  ns['httpGet'] = jQuery.get;
 
   /**
-   *  http://api.jquery.com/jQuery.post/
-   *  @static
-   *  @method     httpPost
-   *  @memberof   ebaui
+  *   cancel button按下后出发该事件
+  *   @event      ebaui.web.Dialog#cancel
+  *   @arg        {ebaui.web.Dialog}  sender
+  *   @arg        {Object}            eventArgs
   */
 
 
-  ns['httpPost'] = jQuery.post;
+  Dialog = (function(_super) {
+    __extends(Dialog, _super);
+
+    function Dialog() {
+      _ref34 = Dialog.__super__.constructor.apply(this, arguments);
+      return _ref34;
+    }
+
+    /**
+    *  初始化控件，声明内部变量
+    *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+    *  @private
+    *  @instance
+    *  @memberof   ebaui.web.Dialog
+    *  @method     _init
+    */
+
+
+    Dialog.prototype._init = function(opts) {
+      var me;
+      Dialog.__super__._init.call(this, opts);
+      me = this;
+      ns = ebaui.web;
+      me._id = me._controlID;
+      me._vexOptions = $.extend({}, ns.Dialog.defaults, opts);
+      me._vexOptions['id'] = me._controlID;
+      /*
+      *   设置contentType
+      */
+
+      me._contentType = opts['url'] ? 'iframe' : 'html';
+      return me.open();
+    };
+
+    /**
+    *   初始化DOM事件处理程序
+    *   @private
+    *   @instance
+    *   @memberof   ebaui.web.Dialog
+    *   @method     _setupEvents
+    *   @param      {Object}        options     -   控件配置参数
+    */
+
+
+    Dialog.prototype._setupEvents = function(opts) {
+      var $root, me;
+      me = this;
+      $root = me._$root;
+      if (!$root) {
+        return;
+      }
+      me.onEvent('apply', opts['apply']);
+      me.onEvent('cancel', opts['cancel']);
+      /*
+      *   setup event handles
+      */
+
+      $root.on('click', 'input.vex-dialog-button-primary', function(eventArgs) {
+        return me.triggerEvent('apply', eventArgs);
+      });
+      return $root.on('click', 'input.vex-dialog-button-secondary', function(eventArgs) {
+        me.triggerEvent('cancel', eventArgs);
+        return me.close();
+      });
+    };
+
+    /**
+    *  
+    *  @private
+    *  @instance
+    *  @memberof   ebaui.web.Dialog
+    *  @method     _compiledRootTmpl
+    *  @arg        {Object}    options
+    */
+
+
+    Dialog.prototype._compiledRootTmpl = function(opts) {
+      /*
+      *   vex dialog的content的outter html
+      */
+
+      var wrapper;
+      wrapper = "<div class=\"vex-dialog-form\" style=\"height:100%;\">\n    <div class=\"vex-dialog-title\">\n        <i class=\"" + opts['iconCls'] + "\"></i>" + opts['title'] + "\n    </div>\n    <div class=\"vex-c\"></div>\n    <div class=\"vex-b\"></div>\n</div>";
+      return wrapper;
+    };
+
+    /**
+    *  
+    *  @private
+    *  @instance
+    *  @memberof   ebaui.web.Dialog
+    *  @method     _compiledBtnTmpl
+    *  @arg        {Array}    buttons
+    */
+
+
+    Dialog.prototype._compiledBtnTmpl = function(buttons) {
+      var button, html, index, max, _i, _len, _ref35, _ref36;
+      if (!((buttons != null) && buttons.length > 0)) {
+        return '';
+      }
+      /*
+      *   $( '.vex-dialog-buttons' ).outerHeight == 40
+      */
+
+      html = "<div class=\"vex-dialog-buttons\" style=\"border:none;background: none;\">";
+      max = buttons.length - 1;
+      for (index = _i = 0, _len = buttons.length; _i < _len; index = ++_i) {
+        button = buttons[index];
+        html += "<input class=\"" + button.className + "\n          vex-dialog-button\n          " + ((_ref35 = index === 0) != null ? _ref35 : {
+          'vex-first ': ''
+        }) + "\n          " + ((_ref36 = index === max) != null ? _ref36 : {
+          'vex-last ': ''
+        }) + "\"\n          type=\"" + button.type + "\" value=\"" + button.text + "\" />";
+      }
+      html += "</div>";
+      return html;
+    };
+
+    Dialog.prototype._contentType = null;
+
+    /**
+    *  获取dialog的内容类型
+    *  @public
+    *  @readonly
+    *  @instance
+    *  @member     {String}    contentType
+    *  @memberof       eabui.web.Dialog
+    *  @example    <caption>get</caption>
+    *      console.log( ctrl.contentType() );
+    */
+
+
+    Dialog.prototype.contentType = function() {
+      return this._contentType;
+    };
+
+    Dialog.prototype._contentLoaded = false;
+
+    /**
+    *  判断tab的内容是否已经加载完成
+    *  @public
+    *  @instance
+    *  @member         {Boolean}    contentLoaded
+    *  @memberof       eabui.web.Dialog
+    *  @example        <caption>get</caption>
+    *      var loaded = tab.contentLoaded()
+    */
+
+
+    Dialog.prototype.contentLoaded = function() {
+      return this._contentLoaded;
+    };
+
+    /**
+    *  如果dialog内是一个iframe窗口，返回iframe窗口的window对象；否则，返回null
+    *  @public
+    *  @instance
+    *  @member         {Object}    contentWindow
+    *  @returns        contentWindows或者null
+    *  @example        <caption>get</caption>
+    *      var contentWindow = tab.contentWindow()
+    */
+
+
+    Dialog.prototype.contentWindow = function() {
+      var $ifm, e, me, win;
+      me = this;
+      if (!me.contentLoaded()) {
+        return null;
+      }
+      $ifm = $('iframe', me._$root);
+      if ($ifm.size() === 0) {
+        return null;
+      }
+      win = null;
+      try {
+        win = $ifm.get(0).contentWindow;
+      } catch (_error) {
+        e = _error;
+      }
+      return win;
+    };
+
+    /**
+    *  打开dialog
+    *  @public
+    *  @instance
+    *  @method         open
+    *  @memberof       ebaui.web.Dialog
+    */
+
+
+    Dialog.prototype.open = function() {
+      var $vex, $vexContent, btnsHtml, contentHtml, id, iframe, me, opts, showBtns, wrapper;
+      me = this;
+      id = me.id();
+      opts = me._vexOptions;
+      showBtns = opts.showButtons;
+      iframe = me.contentType() === 'iframe';
+      /*
+      *   vex dialog的content的outter html
+      */
+
+      wrapper = me._compiledRootTmpl(opts);
+      /*
+      *   设置默认的win窗口content配置
+      */
+
+      if (!opts['content']) {
+        opts['content'] = wrapper;
+      }
+      if (iframe) {
+        contentHtml = "<iframe src=\"" + opts['url'] + "\" style=\"width:100%;\" frameborder=\"0\" scrolling=\"auto\"></iframe>";
+      } else {
+        contentHtml = $(opts['content']).html();
+      }
+      /*
+      *   win窗口底部的buttons按钮的html
+      */
+
+      btnsHtml = showBtns ? me._compiledBtnTmpl(opts.buttons) : '';
+      $vexContent = vex.open(opts);
+      $vex = $vexContent.parent();
+      /*
+      *   设置$root属性
+      */
+
+      me._$root = $vex;
+      /*
+      *   窗口默认居中
+      */
+
+      $vex.css({
+        'padding-top': '50px',
+        'padding-bottom': '0'
+      });
+      $vexContent.css({
+        'left': $(window).width() * 0.5 - opts['width'] * 0.5,
+        'position': 'absolute',
+        'border': '1px #eee solid',
+        'width': opts['width'],
+        'height': opts['height']
+      });
+      /*
+      *   支持窗口的拖放功能
+      */
+
+      $("#" + id).draggable({
+        cursor: "move",
+        distance: 10,
+        containment: 'window',
+        iframeFix: true,
+        start: function() {
+          return $(this).hide();
+        },
+        helper: function() {
+          return '<div style="width:' + opts['width'] + 'px;height:' + opts['height'] + 'px;z-index:' + 1001 + ';background:black;opacity:0.4;"></div>';
+        },
+        stop: function(event, ui) {
+          var $this;
+          $this = $(this);
+          $this.css({
+            'top': ui.position.top,
+            'left': ui.position.left
+          });
+          return $this.show();
+        }
+      });
+      /*
+      * 优化性能
+      * 首先先打开dialog
+      * 然后在更新dialog content（ content有可能就是一个iframe ）
+      */
+
+      return setTimeout(function() {
+        /*
+        *   注入iframe的html
+        */
+
+        var $ifm, ifmHeight, titleH;
+        $('div.vex-c', $vex).replaceWith(contentHtml);
+        /*
+        *   注入win窗口底部的buttons的html
+        */
+
+        $('div.vex-b', $vex).replaceWith(btnsHtml);
+        if (iframe) {
+          titleH = $('.vex-dialog-title', $vexContent).outerHeight();
+          /*
+          *   resize iframe height
+          */
+
+          ifmHeight = $vexContent.height() - titleH;
+          /*
+          *   如果win窗口还要显示底部的Buttons，那么还是要剪掉Buttons的高度的
+          */
+
+          if (opts.showButtons) {
+            ifmHeight = ifmHeight - 40;
+          }
+          $ifm = $('iframe', $vexContent);
+          return $ifm.css('height', ifmHeight).on('load', function(eventArgs) {
+            return me._contentLoaded = true;
+          });
+        }
+      }, 500);
+    };
+
+    /**
+    *  关闭dialog
+    *  @public
+    *  @instance
+    *  @method         close
+    *  @memberof       ebaui.web.Dialog
+    */
+
+
+    Dialog.prototype.close = function() {
+      var me;
+      me = this;
+      /*
+      *   remove all event handles
+      */
+
+      me._$root.off();
+      /*
+      *   because you are close the window
+      */
+
+      me._contentLoaded = false;
+      /*
+      *   close dialog
+      */
+
+      return vex.close(me.id());
+    };
+
+    return Dialog;
+
+  })(Control);
 
   /**
-   *  给指定的HTML元素设置遮罩
-   *  @static
-   *  @method     mask
-   *  @memberof   ebaui
-   *  @param      {Object}    selector           -   必选，jquery 选择器
-   *  @param      {String}    [label='']         -   可选，遮罩层的文本信息
-   *  @param      {Number}    [delay=null]       -   可选，在HTML元素打上遮罩之前的延迟时间
-   *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
+  *   Dialog的默认配置
+  *   @static
+  *   @memberof   ebaui.web.Dialog
   */
 
 
-  ns['mask'] = function(selector, label, delay, context) {
-    label = !label ? '' : label;
-    return $(selector, context).mask(label, delay);
+  Dialog.defaults = {
+    title: '',
+    content: '',
+    width: 800,
+    height: 600,
+    className: 'vex-theme-default',
+    showCloseButton: true,
+    overlayClosesOnClick: false,
+    id: 'dialog-win-draggable',
+    beforeclose: $.noop,
+    afterclose: $.noop,
+    apply: $.noop,
+    cancel: $.noop,
+    showButtons: false,
+    buttons: [
+      {
+        text: 'Cancel',
+        type: 'button',
+        className: 'vex-dialog-button-secondary'
+      }, {
+        text: 'OK',
+        type: 'submit',
+        className: 'vex-dialog-button-primary'
+      }
+    ]
+  };
+
+  ebaui['web']['Dialog'] = Dialog;
+
+  /**
+  *  打开一个新的窗口
+  *  @static
+  *  @method     win
+  *  @memberof   ebaui
+  *  @returns    {String}        窗口ID
+  *  @param      {Object}        options                   -   配置对象
+  *  @prop       {String}        options.title             -   窗口的标题
+  *  @prop       {String}        options.url               -   窗口的url地址，优先使用
+  *  @prop       {String}        options.iconCls           -   窗口的icon
+  *  @prop       {String}        options.content           -   作为窗口的静态内容，如果url为空，则采用content作为窗口内容
+  *  @prop       {Number}        options.width             -   窗口的宽度
+  *  @prop       {Number}        options.height            -   窗口的高度
+  *  @prop       {Function}      options.beforeclose       -   关闭窗口前的事件处理程序
+  *  @prop       {Function}      options.afterclose        -   关闭窗口后的事件处理程序
+  *  @prop       {Boolean}       options.showButtons       -   是否显示按钮
+  *  @example
+  *      ebaui.win({
+  *          url    : 'http://www.baidu.com',
+  *          title  : 'baidu',
+  *          width  : 400
+  *          height : 300
+  *      });
+  */
+
+
+  ns['win'] = function(opts) {
+    return new Dialog(null, opts);
   };
 
   /**
-   *  取消指定HTML元素上的遮罩
-   *  @static
-   *  @method     unmask
-   *  @memberof   ebaui
-   *  @param      {Object}    selector           -   必选，jquery 选择器
-   *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
+  *  关闭窗口
+  *  @static
+  *  @method     closeWin
+  *  @memberof   ebaui
+  *  @param      {String}    id  -   窗口ID
+  *  @example
+  *      ebaui.closeWin();
   */
 
 
-  ns['unmask'] = function(selector, context) {
-    return $(selector, context).unmask();
-  };
-
-  /**
-   *  判断指定的HTML元素是否有遮罩
-   *  @static
-   *  @method     isMasked
-   *  @memberof   ebaui
-   *  @param      {Object}    selector           -   必选，jquery 选择器
-   *  @param      {Object}    [context=null]     -   可选，jquery 选择器上下文
-  */
-
-
-  ns['isMasked'] = function(selector, context) {
-    return $(selector, context).isMasked();
+  ns['closeWin'] = function(id) {
+    return vex.close(id);
   };
 
   /**
@@ -13477,21 +13948,21 @@
   };
 
   /**
-   *  confirm对话框
-   *  @static
-   *  @method     confirm
-   *  @memberof   ebaui
-   *  @param      {Object}        options                     -  配置对象
-   *  @prop       {String}        options.message             -   confirm的提示消息
-   *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
-   *  @example    
-   *      ebaui.confirm({
-   *          message  : 'confirm',
-   *          callback : function( value ){
-   *              //  true or false
-   *              console.log( value );
-   *          }
-   *      });
+  *  confirm对话框
+  *  @static
+  *  @method     confirm
+  *  @memberof   ebaui
+  *  @param      {Object}        options                     -  配置对象
+  *  @prop       {String}        options.message             -   confirm的提示消息
+  *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
+  *  @example    
+  *      ebaui.confirm({
+  *          message  : 'confirm',
+  *          callback : function( value ){
+  *              //  true or false
+  *              console.log( value );
+  *          }
+  *      });
   */
 
 
@@ -13507,23 +13978,23 @@
   };
 
   /**
-   *  prompt对话框
-   *  @static
-   *  @method     prompt
-   *  @memberof   ebaui
-   *  @param      {Object}        options                      -  配置对象
-   *  @prop       {String}        options.message             -   prompt的提示消息
-   *  @prop       {String}        options.placeholder         -   prompt的文本占位符
-   *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
-   *  @example
-   *      ebaui.prompt({
-   *          message      : 'prompt',
-   *          placeholder  : 'placeholder',
-   *          callback     : function( value ){
-   *              //  the value is what user has typed in the textbox
-   *              console.log( value );
-   *          }
-   *      });
+  *  prompt对话框
+  *  @static
+  *  @method     prompt
+  *  @memberof   ebaui
+  *  @param      {Object}        options                      -  配置对象
+  *  @prop       {String}        options.message             -   prompt的提示消息
+  *  @prop       {String}        options.placeholder         -   prompt的文本占位符
+  *  @prop       {Function}      options.callback            -   点击确定或者取消按钮的回调函数
+  *  @example
+  *      ebaui.prompt({
+  *          message      : 'prompt',
+  *          placeholder  : 'placeholder',
+  *          callback     : function( value ){
+  *              //  the value is what user has typed in the textbox
+  *              console.log( value );
+  *          }
+  *      });
   */
 
 
@@ -13534,106 +14005,6 @@
       buttons: [vexDialog.buttons.NO, vexDialog.buttons.YES]
     }, opts);
     return vexDialog.prompt(opts);
-  };
-
-  /**
-   *  打开一个新的窗口
-   *  @static
-   *  @method     win
-   *  @memberof   ebaui
-   *  @param      {Object}        options                   -   配置对象
-   *  @prop       {String}        options.title             -   窗口的标题
-   *  @prop       {String}        options.url               -   窗口的url地址，优先使用
-   *  @prop       {String}        options.iconCls           -   窗口的icon
-   *  @prop       {String}        options.content           -   作为窗口的静态内容，如果url为空，则采用content作为窗口内容
-   *  @prop       {Number}        options.width             -   窗口的宽度
-   *  @prop       {Number}        options.height            -   窗口的高度
-   *  @prop       {Function}      options.beforeclose       -   关闭窗口前的事件处理程序
-   *  @prop       {Function}      options.afterclose        -   关闭窗口后的事件处理程序
-   *  @example
-   *      ebaui.win({
-   *          url    : 'http://www.baidu.com',
-   *          title  : 'baidu',
-   *          width  : 400
-   *          height : 300
-   *      });
-  */
-
-
-  ns['win'] = function(opts) {
-    var $vex, $vexContent, defaults, html, iframe, wrapper;
-    if (!opts) {
-      return;
-    }
-    if (!opts['url'] || opts['content']) {
-      return;
-    }
-    iframe = opts['url'] ? true : false;
-    if (iframe) {
-      html = "<iframe src=\"" + opts['url'] + "\" style=\"width:100%;\" frameborder=\"0\" scrolling=\"auto\"></iframe>";
-    } else {
-      html = $(opts['content']).html();
-    }
-    wrapper = "<div class=\"vex-dialog-form\" style=\"height:100%;\">\n    <div class=\"vex-dialog-title\">\n        <i class=\"" + opts['iconCls'] + "\"></i>" + opts['title'] + "\n    </div>\n    <div class=\"vex-c\"></div>\n    <div class=\"vex-close\"></div>\n</div>";
-    defaults = {
-      title: '',
-      content: wrapper,
-      width: 800,
-      height: 600,
-      className: 'vex-theme-default',
-      showCloseButton: true,
-      overlayClosesOnClick: false,
-      id: 'dialog-win-draggable',
-      beforeclose: $.noop,
-      afterclose: $.noop
-    };
-    opts = $.extend(defaults, opts);
-    $vexContent = vex.open(opts);
-    $vex = $vexContent.parent();
-    $vex.css({
-      'padding-top': '50px',
-      'padding-bottom': '0'
-    });
-    $vexContent.css({
-      'left': $(window).width() * 0.5 - opts['width'] * 0.5,
-      'position': 'absolute',
-      'border': '1px #eee solid',
-      'width': opts['width'],
-      'height': opts['height']
-    });
-    $("#" + defaults.id).draggable({
-      cursor: "move",
-      distance: 10,
-      containment: 'window',
-      iframeFix: true,
-      start: function() {
-        return $(this).hide();
-      },
-      helper: function() {
-        return '<div style="width:' + opts['width'] + 'px;height:' + opts['height'] + 'px;z-index:' + 1001 + ';background:black;opacity:0.4;"></div>';
-      },
-      stop: function(event, ui) {
-        $(this).css({
-          'top': ui.position.top,
-          'left': ui.position.left
-        });
-        return $(this).show();
-      }
-    });
-    /**
-    * 优化性能
-    * 首先先打开dialog
-    * 然后在更新dialog content（ content有可能就是一个iframe ）
-    */
-
-    return setTimeout(function() {
-      var titleH;
-      $('div.vex-c', $vex).replaceWith(html);
-      if (iframe) {
-        titleH = $('.vex-dialog-title', $vexContent).outerHeight();
-        return $('iframe', $vexContent).css('height', $vexContent.height() - titleH);
-      }
-    }, 100);
   };
 
   /**
@@ -13672,8 +14043,8 @@
     __extends(ComboBox, _super);
 
     function ComboBox() {
-      _ref34 = ComboBox.__super__.constructor.apply(this, arguments);
-      return _ref34;
+      _ref35 = ComboBox.__super__.constructor.apply(this, arguments);
+      return _ref35;
     }
 
     /**
@@ -13769,7 +14140,7 @@
 
 
     ComboBox.prototype._loadData = function(txt, initRender) {
-      var dataItems, dataSource, filterField, i, include, isRemoteSource, item, me, postData, remote, updateInitVal, _i, _len, _ref35;
+      var dataItems, dataSource, filterField, i, include, isRemoteSource, item, me, postData, remote, updateInitVal, _i, _len, _ref36;
       if (initRender == null) {
         initRender = false;
       }
@@ -13781,7 +14152,7 @@
 
       me = this;
       dataSource = me.dataSource();
-      postData = (_ref35 = dataSource.data) != null ? _ref35 : {};
+      postData = (_ref36 = dataSource.data) != null ? _ref36 : {};
       include = me.filter();
       filterField = me.filterField();
       isRemoteSource = me.isUsingRemoteData(dataSource);
@@ -14043,7 +14414,7 @@
 
 
     ComboBox.prototype._init = function(opts) {
-      var $root, me, _ref35, _ref36, _ref37, _ref38;
+      var $root, me, _ref36, _ref37, _ref38, _ref39;
       ComboBox.__super__._init.call(this, opts);
       me = this;
       $root = me._$root;
@@ -14053,10 +14424,10 @@
        *  该参数默认等同于textField参数
       */
 
-      me._dataSource = (_ref35 = opts['dataSource']) != null ? _ref35 : [];
-      me._idField = (_ref36 = opts['idField']) != null ? _ref36 : 'id';
-      me._textField = (_ref37 = opts['textField']) != null ? _ref37 : 'text';
-      me._valueField = (_ref38 = opts['valueField']) != null ? _ref38 : 'value';
+      me._dataSource = (_ref36 = opts['dataSource']) != null ? _ref36 : [];
+      me._idField = (_ref37 = opts['idField']) != null ? _ref37 : 'id';
+      me._textField = (_ref38 = opts['textField']) != null ? _ref38 : 'text';
+      me._valueField = (_ref39 = opts['valueField']) != null ? _ref39 : 'value';
       me._filterField = opts['filterField'] != null ? opts['filterField'] : me._textField;
       $root.addClass('eba-combobox eba-popupedit');
       /*
@@ -14406,8 +14777,8 @@
     __extends(ComboList, _super);
 
     function ComboList() {
-      _ref35 = ComboList.__super__.constructor.apply(this, arguments);
-      return _ref35;
+      _ref36 = ComboList.__super__.constructor.apply(this, arguments);
+      return _ref36;
     }
 
     /**
@@ -14605,7 +14976,7 @@
 
 
     ComboList.prototype._init = function(opts) {
-      var $root, defaultConfig, me, _ref36, _ref37, _ref38;
+      var $root, defaultConfig, me, _ref37, _ref38, _ref39;
       ComboList.__super__._init.call(this, opts);
       me = this;
       $root = me._$root;
@@ -14615,9 +14986,9 @@
        *  该参数默认等同于textField参数
       */
 
-      me._idField = (_ref36 = opts['idField']) != null ? _ref36 : 'id';
-      me._textField = (_ref37 = opts['textField']) != null ? _ref37 : 'text';
-      me._valueField = (_ref38 = opts['valueField']) != null ? _ref38 : 'value';
+      me._idField = (_ref37 = opts['idField']) != null ? _ref37 : 'id';
+      me._textField = (_ref38 = opts['textField']) != null ? _ref38 : 'text';
+      me._valueField = (_ref39 = opts['valueField']) != null ? _ref39 : 'value';
       defaultConfig = {
         autowidth: true,
         width: 400,
@@ -14934,8 +15305,8 @@
     __extends(Tab, _super);
 
     function Tab() {
-      _ref36 = Tab.__super__.constructor.apply(this, arguments);
-      return _ref36;
+      _ref37 = Tab.__super__.constructor.apply(this, arguments);
+      return _ref37;
     }
 
     Tab.prototype._headerTmpl = '';
@@ -15021,6 +15392,23 @@
       return $('.eba-tab-text', me._$header).text(me.title());
     };
 
+    Tab.prototype._contentLoaded = false;
+
+    /**
+     *  判断tab的内容是否已经加载完成
+     *  @public
+     *  @instance
+     *  @memberof       eabui.web.Tab
+     *  @member         {Boolean}    contentLoaded
+     *  @example
+     *      var loaded = tab.contentLoaded()
+    */
+
+
+    Tab.prototype.contentLoaded = function() {
+      return this._contentLoaded;
+    };
+
     /**
      *  tab的header dom对象
      *  @private
@@ -15045,6 +15433,36 @@
 
     Tab.prototype.contentDom = function() {
       return this._$content;
+    };
+
+    /**
+     *  获取tab的内部的完成加载的iframe的contentWindow属性。
+     *  如果iframe还没有完成加载或者因为跨域等问题获取失败，返回null
+     *  @public
+     *  @instance
+     *  @member         {Object}    contentWindow
+     *  @memberof       eabui.web.Tab
+     *  @returns        contentWindows或者null
+    */
+
+
+    Tab.prototype.contentWindow = function() {
+      var $ifm, e, me, win;
+      me = this;
+      if (!me.contentLoaded()) {
+        return null;
+      }
+      $ifm = $('iframe', me._$content);
+      if ($ifm.size() === 0) {
+        return null;
+      }
+      win = null;
+      try {
+        win = $ifm.get(0).contentWindow;
+      } catch (_error) {
+        e = _error;
+      }
+      return win;
     };
 
     Tab.prototype._title = '';
@@ -15243,17 +15661,17 @@
 
 
     Tab.prototype._init = function(opts) {
-      var html, me, _ref37, _ref38, _ref39, _ref40, _ref41;
+      var html, me, _ref38, _ref39, _ref40, _ref41, _ref42;
       me = this;
       /* 
       *   初始化控件自身的一系列属性
       */
 
-      me._iconCls = (_ref37 = opts['iconCls']) != null ? _ref37 : '';
-      me._url = (_ref38 = opts['url']) != null ? _ref38 : '';
-      me._title = (_ref39 = opts['title']) != null ? _ref39 : me._url;
-      me._closable = (_ref40 = opts['closable']) != null ? _ref40 : true;
-      me._isActived = (_ref41 = opts['isActived']) != null ? _ref41 : false;
+      me._iconCls = (_ref38 = opts['iconCls']) != null ? _ref38 : '';
+      me._url = (_ref39 = opts['url']) != null ? _ref39 : '';
+      me._title = (_ref40 = opts['title']) != null ? _ref40 : me._url;
+      me._closable = (_ref41 = opts['closable']) != null ? _ref41 : true;
+      me._isActived = (_ref42 = opts['isActived']) != null ? _ref42 : false;
       /* 
       *   render header
       */
@@ -15315,7 +15733,16 @@
       */
 
       return $('iframe', $content).on('load', function(eventArgs) {
+        /*
+        *   设置变量，指示tab的content已经完成加载了
+        */
+
         var contentDoc, error;
+        me._contentLoaded = true;
+        /*
+        *   设置tab里iframe的document的click，使click事件能一级一级往上冒泡到最外层的document上
+        */
+
         try {
           contentDoc = this.contentDocument || this.contentWindow.document;
           if (contentDoc) {
@@ -15376,8 +15803,8 @@
     __extends(Tabs, _super);
 
     function Tabs() {
-      _ref37 = Tabs.__super__.constructor.apply(this, arguments);
-      return _ref37;
+      _ref38 = Tabs.__super__.constructor.apply(this, arguments);
+      return _ref38;
     }
 
     /**
@@ -15433,7 +15860,7 @@
 
 
     Tabs.prototype._init = function(opts) {
-      var $region, isValid, me, tab, _ref38;
+      var $region, isValid, me, tab, _ref39;
       Tabs.__super__._init.call(this, opts);
       me = this;
       /**
@@ -15464,7 +15891,7 @@
       tab = me._home;
       isValid = tab && tab['url'] ? true : false;
       if (isValid) {
-        tab['title'] = (_ref38 = tab['title']) != null ? _ref38 : tab['url'];
+        tab['title'] = (_ref39 = tab['title']) != null ? _ref39 : tab['url'];
         return me.addTab(tab);
       }
     };
@@ -15647,7 +16074,7 @@
      *  @public
      *  @instance
      *  @memberof       ebaui.web.Tabs
-     *  @method         closeAllTab
+     *  @method         closeOtherTabs
      *  @param          {Number|String|Function}        but
      *  @example
      *      ctrl.closeOtherTabs(0);
@@ -15778,6 +16205,67 @@
     };
 
     /**
+     *  获取当前tabs控件包含的tab数量
+     *  @public
+     *  @instance
+     *  @memberof       eabui.web.Tab
+     *  @member         {Number}    count
+     *  @example
+     *      var count = tabs.count()
+    */
+
+
+    Tabs.prototype.count = function() {
+      return this._tabs.length;
+    };
+
+    /**
+     *  遍历所有tab选项卡，并且执行指定的函数
+     *  @public
+     *  @instance
+     *  @memberof       ebaui.web.Tabs
+     *  @method         eachTab
+     *  @param          {Function}        fn
+     *  @example
+     *      var tabs = ebaui.get( '#manu' );
+     *      tabs.eachTab( function( tab ){
+     *          //  获取contentWindow，如果获取失败，则返回Null
+     *          var win = tab.contentWindow()
+     *          if( win ){
+     *              //  执行函数
+     *              win.someMethod();
+     *          }
+     *          
+     *      } );
+    */
+
+
+    Tabs.prototype.eachTab = function(fn) {
+      var e, index, me, tab, tabs, _i, _len;
+      me = this;
+      if (!me.isFunc(fn)) {
+        return;
+      }
+      tabs = me._tabs;
+      if (!(tabs.length > 0)) {
+        return;
+      }
+      /*
+      *   遍历所有的tabs
+      */
+
+      for (index = _i = 0, _len = tabs.length; _i < _len; index = ++_i) {
+        tab = tabs[index];
+        try {
+          fn(tab);
+        } catch (_error) {
+          e = _error;
+        }
+      }
+      return void 0;
+    };
+
+    /**
      *  刷新tab页面的内容
      *  ，tab参数如果是一个int对象,那么直接将参数作为索引查找tab
      *  ，tab参数如果是一个string对象，那么默认按照tab的url属性进行查找
@@ -15880,6 +16368,83 @@
 
   ebaui['web'].registerControl('Tabs', Tabs);
 
+  ns = ebaui;
+
+  /**
+   *  �ĵ����ο� http://api.jquery.com/jQuery.ajax/
+   *  @static
+   *  @method     ajax
+   *  @memberof   ebaui
+  */
+
+
+  ns['ajax'] = jQuery.ajax;
+
+  /**
+   *  �ĵ����ο� http://api.jquery.com/jQuery.get/
+   *  @static
+   *  @method     httpGet
+   *  @memberof   ebaui
+  */
+
+
+  ns['httpGet'] = jQuery.get;
+
+  /**
+   *  http://api.jquery.com/jQuery.post/
+   *  @static
+   *  @method     httpPost
+   *  @memberof   ebaui
+  */
+
+
+  ns['httpPost'] = jQuery.post;
+
+  /**
+   *  ��ָ����HTMLԪ����������
+   *  @static
+   *  @method     mask
+   *  @memberof   ebaui
+   *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+   *  @param      {String}    [label='']         -   ��ѡ�����ֲ����ı���Ϣ
+   *  @param      {Number}    [delay=null]       -   ��ѡ����HTMLԪ�ش�������֮ǰ���ӳ�ʱ��
+   *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+  */
+
+
+  ns['mask'] = function(selector, label, delay, context) {
+    label = !label ? '' : label;
+    return $(selector, context).mask(label, delay);
+  };
+
+  /**
+   *  ȡ��ָ��HTMLԪ���ϵ�����
+   *  @static
+   *  @method     unmask
+   *  @memberof   ebaui
+   *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+   *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+  */
+
+
+  ns['unmask'] = function(selector, context) {
+    return $(selector, context).unmask();
+  };
+
+  /**
+   *  �ж�ָ����HTMLԪ���Ƿ�������
+   *  @static
+   *  @method     isMasked
+   *  @memberof   ebaui
+   *  @param      {Object}    selector           -   ��ѡ��jquery ѡ����
+   *  @param      {Object}    [context=null]     -   ��ѡ��jquery ѡ����������
+  */
+
+
+  ns['isMasked'] = function(selector, context) {
+    return $(selector, context).isMasked();
+  };
+
   /**
   *   @class      Form
   *   @classdesc
@@ -15895,8 +16460,8 @@
     __extends(Form, _super);
 
     function Form() {
-      _ref38 = Form.__super__.constructor.apply(this, arguments);
-      return _ref38;
+      _ref39 = Form.__super__.constructor.apply(this, arguments);
+      return _ref39;
     }
 
     /**
@@ -15936,25 +16501,70 @@
 
     Form.prototype._isValid = true;
 
+    Form.prototype._readonly = null;
+
     /**
-     *  遍历form控件内所有的表单控件
-     *  @private
+     *  表单是否通过验证
+     *  @public
      *  @instance
+     *  @default    null
      *  @memberof   ebaui.web.Form
-     *  @method     _eachField
-     *  @param      {Function}  iterator - 迭代器
+     *  @member     {Boolean}   readonly
+     *  @example    <caption>get</caption>
+     *      var form        = ebaui.get('#formId');
+     *      var isReadonly  = form.readonly();
+     *  @example    <caption>set</caption>
+     *      var form = ebaui.get('#formId');
+     *      form.readonly( true );
     */
 
 
-    Form.prototype._eachField = function(iterator) {
-      var field, fields, _i, _len, _results;
+    Form.prototype.readonly = function(val) {
+      var me;
+      me = this;
+      if (!me.isBoolean(val)) {
+        return me._readonly;
+      }
+      me._readonly = val;
+      me.eachField(function(field) {
+        if (field['readonly']) {
+          return field['readonly'](val);
+        }
+      });
+      return void 0;
+    };
+
+    /**
+     *  遍历form控件内所有的表单控件
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.Form
+     *  @method     eachField
+     *  @param      {Function}  iterator - 迭代器
+     *  @example
+     *      var form = ebaui.get('#formId');
+     *      //  表单控件筛选条件
+     *      var fitCondition = function( field ){
+     *          //  some conditions to filter out form fields
+     *      }; 
+     *      form.eachField( function( field ){
+     *          if( fitCondition( field ) ){
+     *              //  设置表单控件的属性
+     *              field.enabled( false );
+     *              //  some other code
+     *          }
+     *      } );
+    */
+
+
+    Form.prototype.eachField = function(iterator) {
+      var field, fields, _i, _len;
       fields = this.fields();
-      _results = [];
       for (_i = 0, _len = fields.length; _i < _len; _i++) {
         field = fields[_i];
-        _results.push(iterator(field));
+        iterator(field);
       }
-      return _results;
+      return void 0;
     };
 
     /**
@@ -15973,7 +16583,14 @@
       if (!me.isEmpty(id)) {
         me._$root.attr('id', id);
       }
-      return me._updateCssVisible();
+      me._updateCssVisible();
+      if (me._readonly !== null) {
+        return me.eachField(function(field) {
+          if (field['readonly']) {
+            return field['readonly'](me._readonly);
+          }
+        });
+      }
     };
 
     /**
@@ -16004,7 +16621,7 @@
       */
 
       return $root.on('keyup', function(event) {
-        var $target, ctrl, enter, i, index, item, itemIsFocusable, nextCtrl, _i, _ref39, _ref40;
+        var $target, ctrl, enter, i, index, item, itemIsFocusable, nextCtrl, _i, _ref40, _ref41;
         $target = $(event.target).parents(JQSelector, $root).eq(0);
         index = $doms.index($target);
         enter = event.which === 13;
@@ -16024,7 +16641,7 @@
             nextCtrl = item;
           }
         } else {
-          for (i = _i = _ref39 = index + 1, _ref40 = len - 1; _ref39 <= _ref40 ? _i <= _ref40 : _i >= _ref40; i = _ref39 <= _ref40 ? ++_i : --_i) {
+          for (i = _i = _ref40 = index + 1, _ref41 = len - 1; _ref40 <= _ref41 ? _i <= _ref41 : _i >= _ref41; i = _ref40 <= _ref41 ? ++_i : --_i) {
             item = ebaui.get($doms.eq(i));
             itemIsFocusable = item && item.focusable && item.focusable();
             if (itemIsFocusable) {
@@ -16051,16 +16668,16 @@
 
 
     Form.prototype._init = function(opts) {
-      var $doms, $root, JQSelector, controls, formFields, len, me, _ref39, _ref40, _ref41;
+      var $doms, $root, JQSelector, controls, formFields, len, me, _ref40, _ref41, _ref42, _ref43;
       Form.__super__._init.call(this, opts);
       me = this;
       /* 
       *   初始化控件自身的一系列属性
       */
 
-      me._action = (_ref39 = opts['action']) != null ? _ref39 : '';
-      me._method = (_ref40 = opts['method']) != null ? _ref40 : 'GET';
-      me._acceptCharset = (_ref41 = opts['acceptCharset']) != null ? _ref41 : '';
+      me._action = (_ref40 = opts['action']) != null ? _ref40 : '';
+      me._method = (_ref41 = opts['method']) != null ? _ref41 : 'GET';
+      me._acceptCharset = (_ref42 = opts['acceptCharset']) != null ? _ref42 : '';
       if (opts['enctype']) {
         me._enctype = opts['enctype'];
       }
@@ -16093,7 +16710,12 @@
 
         }
       });
-      return me._fields = formFields;
+      me._fields = formFields;
+      /*
+      *   初始化表单，是否整个表单都是readonly的
+      */
+
+      return me._readonly = (_ref43 = opts['readonly']) != null ? _ref43 : null;
     };
 
     Form.prototype._fields = [];
@@ -16153,7 +16775,7 @@
       me = this;
       if (!data) {
         formData = {};
-        me._eachField(function(field) {
+        me.eachField(function(field) {
           var name;
           if (!field['data']) {
             return;
@@ -16165,7 +16787,7 @@
         return formData;
       }
       formData = me.isString(data) ? ebaui.fromJSON(data) : data;
-      me._eachField(function(field) {
+      me.eachField(function(field) {
         var fieldData, name;
         name = field.name();
         fieldData = formData[name];
@@ -16195,7 +16817,7 @@
       if (me.isString(formValue)) {
         formValue = ebaui.fromJSON(formValue);
       }
-      me._eachField(function(field) {
+      me.eachField(function(field) {
         var name, val;
         name = field.name();
         val = formValue[name];
@@ -16208,7 +16830,7 @@
 
         if (field['checked'] && field.value() === val) {
           return field['checked'](true);
-        } else {
+        } else if (!field['checked']) {
           return field.value(val);
         }
       });
@@ -16228,7 +16850,7 @@
       var formVal, me;
       me = this;
       formVal = {};
-      me._eachField(function(field) {
+      me.eachField(function(field) {
         var name, val;
         if (!field['value']) {
           return;
@@ -16448,7 +17070,7 @@
 
 
     Form.prototype.reset = function() {
-      return this._eachField(function(field) {
+      return this.eachField(function(field) {
         if (field['reset']) {
           return field.reset();
         }

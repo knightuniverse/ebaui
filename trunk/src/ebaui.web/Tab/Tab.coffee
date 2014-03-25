@@ -8,6 +8,7 @@
 *   @param      {Object}    options     -   控件配置参数
 ###
 class Tab extends Control
+    
     _headerTmpl: ''
     ###*
      *  dom对象引用
@@ -69,6 +70,18 @@ class Tab extends Control
     _updateAttrTitle:() ->
         me = this
         $('.eba-tab-text',me._$header).text( me.title() )
+        
+    _contentLoaded : false
+    ###*
+     *  判断tab的内容是否已经加载完成
+     *  @public
+     *  @instance
+     *  @memberof       eabui.web.Tab
+     *  @member         {Boolean}    contentLoaded
+     *  @example
+     *      var loaded = tab.contentLoaded()
+    ###
+    contentLoaded  : () -> this._contentLoaded
 
     ###*
      *  tab的header dom对象
@@ -87,6 +100,29 @@ class Tab extends Control
      *  @member         {Object}    contentDom
     ###
     contentDom: () -> this._$content
+    
+    ###*
+     *  获取tab的内部的完成加载的iframe的contentWindow属性。
+     *  如果iframe还没有完成加载或者因为跨域等问题获取失败，返回null
+     *  @public
+     *  @instance
+     *  @member         {Object}    contentWindow
+     *  @memberof       eabui.web.Tab
+     *  @returns        contentWindows或者null
+    ###
+    contentWindow:() ->
+        me   = this
+        return null unless me.contentLoaded()
+    
+        $ifm = $( 'iframe', me._$content )
+        return null if $ifm.size() is 0
+        
+        win = null
+        try
+            win = $ifm.get(0).contentWindow
+        catch e
+        
+        return win
 
     _title:''
     ###*
@@ -300,6 +336,14 @@ class Tab extends Control
         *   触发iframe的load事件
         ###
         $( 'iframe',$content ).on('load',( eventArgs ) ->
+            ###
+            *   设置变量，指示tab的content已经完成加载了
+            ###
+            me._contentLoaded = true
+            
+            ###
+            *   设置tab里iframe的document的click，使click事件能一级一级往上冒泡到最外层的document上
+            ###
             try
                 contentDoc = this.contentDocument || this.contentWindow.document
                 if contentDoc

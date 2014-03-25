@@ -167,7 +167,8 @@ class FormField extends Control
         $root     = me.uiElement()
         iconCls   = me._statusIcon[rootCls]
         $border   = $( '[class*="border"]',$root )
-        $icon     = $border.next('i[class^="icon"]')
+        #$icon     = $border.next('i[class^="icon"]')
+        $icon     = $root.find('i[class^="icon"]')
         
         #  remove old validation class
         status    = me._validationStatus
@@ -180,8 +181,8 @@ class FormField extends Control
             $root.addClass( rootCls )
 
         if $icon.size() is 0
-            html = '<i class="{0}" title="{1}"></i>'.replace('{0}',iconCls).replace('{1}',tips)
-            $border.after( html )
+            #$border.after( """<i class='#{iconCls}' title='#{tips}'></i>""" )
+            $root.append( """<i class='#{iconCls}' title='#{tips}'></i>""" )
         else
             $icon.attr(
                 'class' : iconCls
@@ -314,12 +315,11 @@ class FormField extends Control
      *      states = ebaui.web.validationStates;
      *      ctrl.tips( states.none )
      ###
-    tips:(status,tips) ->
+    tips:(status,tips = '') ->
         me = this;
         unless me.isNumber( status )
             return me._currentStatus
-
-        tips = tips ? ''
+        
         if( status in [0..5] )
             me._currentStatus = status
             me._renderStyleTips( status,tips )
@@ -347,7 +347,7 @@ class FormField extends Control
      *  @example
      *      ctrl.success( 'info' )
      ###
-    success:( tips ) -> @tips( @_validationStatus.success,tips )
+    success:( tips = '' ) -> @tips( @_validationStatus.success,tips )
 
     ###*
      *  设置控件提醒状态以及提醒信息
@@ -359,7 +359,7 @@ class FormField extends Control
      *  @example
      *      ctrl.info('info' )
      ###
-    info:( tips ) -> @tips( @_validationStatus.info,tips )
+    info:( tips = '' ) -> @tips( @_validationStatus.info,tips )
 
     ###*
      *  设置控件警告状态以及警告信息
@@ -371,7 +371,7 @@ class FormField extends Control
      *  @example
      *      ctrl.warning( 'info' )
      ###
-    warning: ( tips ) -> @tips( @_validationStatus.warning,tips )
+    warning: ( tips = '' ) -> @tips( @_validationStatus.warning,tips )
 
     ###*
      *  设置控件验证错误状态以及错误信息
@@ -383,7 +383,7 @@ class FormField extends Control
      *  @example
      *      ctrl.error( 'info' )
      ###
-    error:( tips ) -> @tips( @_validationStatus.error,tips )
+    error:( tips = '' ) -> @tips( @_validationStatus.error,tips )
 
     ###*
      *  设置当前控件的状态为忙碌，在控件后面添加一个菊花转
@@ -395,7 +395,7 @@ class FormField extends Control
      *  @example
      *      ctrl.busy( 'i am busy now' )
      ###
-    busy:( tips ) -> @tips( @_validationStatus.busy,tips )
+    busy:( tips = '' ) -> @tips( @_validationStatus.busy,tips )
 
     ###*
      *  errorMessage是一个验证失败的信息集合，这个对象的每一个属性对应一个validator，属性值则是validator验证失败时的提示信息
@@ -418,31 +418,22 @@ class FormField extends Control
      *      var error = ctrl.errorTips()
      ###
     errorTips:() -> @._error
-
+    
     ###*
      *  获取控件验证完成之后产生的错误信息字符串
      *  @private
      *  @instance
-     *  @readonly
      *  @memberof   ebaui.web.FormField
-     *  @default    ''
-     *  @member     {String}    _getErrorMessage
-     *  @example    <caption>get</caption>
-     *      tips = ctrl._getErrorMessage();
+     *  @method     _join
+     *  @arg        {Object}    error   -   错误hash表
+     *  @returns    {String}
+     *  @example    
+     *      tips = ctrl._join( {} );
      ###
-    _getErrorMessage: () ->
-        # gen error tips
-        me   = this
-        tips = ''
-        keys = me.keys( me._error )
-        max  = keys.length - 1
-
-        for key, i in keys
-            tips += me._error[key]
-            if i < max
-                tips += '\n'
-
-        return tips
+    _join:( error ) ->
+        msg = []
+        for key,value of error then msg.push( value )
+        return msg.join("<br />")
 
     _validateOnChange : false
     ###*
@@ -632,7 +623,6 @@ class FormField extends Control
      *  @returns    {Boolean}
      ###
     validate : () ->
-
         me         = this
         validators = me.validators()
         return true if validators.length is 0
@@ -655,5 +645,9 @@ class FormField extends Control
         ### 控件所有验证规则的验证结果 ###
         me._isValid = isValid
         ### 更新控件的错误提示样式 ###
-        if isValid then me.success( '' ) else me.error( me._getErrorMessage() )
+        if isValid
+            me.success( '' )
+        else
+            me.error( me._join( errorMsg ) )
+            
         return isValid

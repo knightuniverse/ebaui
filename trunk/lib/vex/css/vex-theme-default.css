@@ -340,20 +340,24 @@
 }
 /* line 17, ../sass/vex-theme-default.sass */
 .vex.vex-theme-default.vex-closing .vex-content {
+  /*
   animation: vex-flyout 0.5s;
   -webkit-animation: vex-flyout 0.5s;
   -moz-animation: vex-flyout 0.5s;
   -ms-animation: vex-flyout 0.5s;
   -o-animation: vex-flyout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 /* line 20, ../sass/vex-theme-default.sass */
 .vex.vex-theme-default .vex-content {
+  /*
   animation: vex-flyin 0.5s;
   -webkit-animation: vex-flyin 0.5s;
   -moz-animation: vex-flyin 0.5s;
   -ms-animation: vex-flyin 0.5s;
   -o-animation: vex-flyin 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 /* line 23, ../sass/vex-theme-default.sass */

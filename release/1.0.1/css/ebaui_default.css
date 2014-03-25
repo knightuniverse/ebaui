@@ -287,11 +287,13 @@
 
 /* line 30, ../sass/vex.sass */
 .vex-overlay {
+  /*
   animation: vex-fadein 0.5s;
   -webkit-animation: vex-fadein 0.5s;
   -moz-animation: vex-fadein 0.5s;
   -ms-animation: vex-fadein 0.5s;
   -o-animation: vex-fadein 0.5s;
+  */
   -webkit-backface-visibility: hidden;
   position: fixed;
   background: rgba(0, 0, 0, 0.4);
@@ -302,31 +304,37 @@
 }
 /* line 39, ../sass/vex.sass */
 .vex.vex-closing .vex-overlay {
+  /*
   animation: vex-fadeout 0.5s;
   -webkit-animation: vex-fadeout 0.5s;
   -moz-animation: vex-fadeout 0.5s;
   -ms-animation: vex-fadeout 0.5s;
   -o-animation: vex-fadeout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 
 /* line 42, ../sass/vex.sass */
 .vex-content {
+  /*
   animation: vex-fadein 0.5s;
   -webkit-animation: vex-fadein 0.5s;
   -moz-animation: vex-fadein 0.5s;
   -ms-animation: vex-fadein 0.5s;
   -o-animation: vex-fadein 0.5s;
   -webkit-backface-visibility: hidden;
+  */
   background: white;
 }
 /* line 46, ../sass/vex.sass */
 .vex.vex-closing .vex-content {
+  /*
   animation: vex-fadeout 0.5s;
   -webkit-animation: vex-fadeout 0.5s;
   -moz-animation: vex-fadeout 0.5s;
   -ms-animation: vex-fadeout 0.5s;
   -o-animation: vex-fadeout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 
@@ -349,11 +357,13 @@
 
 /* line 60, ../sass/vex.sass */
 .vex-loading-spinner {
+  /*
   animation: vex-rotation 0.7s linear infinite;
   -webkit-animation: vex-rotation 0.7s linear infinite;
   -moz-animation: vex-rotation 0.7s linear infinite;
   -ms-animation: vex-rotation 0.7s linear infinite;
   -o-animation: vex-rotation 0.7s linear infinite;
+  */
   -webkit-backface-visibility: hidden;
   -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
@@ -717,20 +727,24 @@ body.vex-open {
 }
 /* line 17, ../sass/vex-theme-default.sass */
 .vex.vex-theme-default.vex-closing .vex-content {
+  /*
   animation: vex-flyout 0.5s;
   -webkit-animation: vex-flyout 0.5s;
   -moz-animation: vex-flyout 0.5s;
   -ms-animation: vex-flyout 0.5s;
   -o-animation: vex-flyout 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 /* line 20, ../sass/vex-theme-default.sass */
 .vex.vex-theme-default .vex-content {
+  /*
   animation: vex-flyin 0.5s;
   -webkit-animation: vex-flyin 0.5s;
   -moz-animation: vex-flyin 0.5s;
   -ms-animation: vex-flyin 0.5s;
   -o-animation: vex-flyin 0.5s;
+  */
   -webkit-backface-visibility: hidden;
 }
 /* line 23, ../sass/vex-theme-default.sass */
@@ -3756,6 +3770,7 @@ a{
         _position: absolute;
         _left: 2px;
         _top: 0px;
+        overflow: auto;
 }
 .eba-textbox-icon {
         padding-left: 22px;
@@ -4404,7 +4419,7 @@ a:hover.eba-calendar-menu-year {
     color: #666;
 }
 /********************************************************************************************************/
-/*panel*/
+/*layout*/
 .eba-layout-container {
         zoom: 1;
         overflow: hidden;
@@ -5940,8 +5955,46 @@ body .eba-tree-showArrows .eba-tree-indent, body .eba-tree-showArrows .eba-tree-
 .eba-checkboxlist,.eba-radiobuttonlist{
     overflow:hidden;
     font-size:12px;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding:0 5px;
 }
-
+.eba-checkboxlist i,.eba-radiobuttonlist i{
+        display: none;
+}
+.eba-checkboxlist.eba-error,
+.eba-checkboxlist.eba-success{
+}
+.eba-checkboxlist.eba-error i,
+.eba-checkboxlist.eba-success i{
+        display: block;
+        position: absolute;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+    cursor: default;
+    margin-top: 2px;
+    right: 1px;
+    top: 0;
+    font-size: 18px;
+}
+.eba-checkboxlist.eba-error{
+        border: 1px dotted #CC6666;
+}
+.eba-checkboxlist.eba-success{
+        border: 1px dotted #339966;
+}
+.eba-checkboxlist.eba-error i{
+    color: #CC6666;
+}
+.eba-checkboxlist.eba-success i{
+    color: #339966;
+}
+.eba-checkboxlist-table{
+        margin-right: 20px;
+}
 .eba-checkboxlist-item,.eba-radiobuttonlist-item
 {
     display:inline-block;
@@ -5984,7 +6037,6 @@ body .eba-tree-showArrows .eba-tree-indent, body .eba-tree-showArrows .eba-tree-
 
 .panel {
     border: 1px solid #BBB;
-        background-color: #fafafa;
 }
 .panel-head {
     background-color: #E7EBEF;
@@ -6131,4 +6183,3 @@ body .eba-tree-showArrows .eba-tree-indent, body .eba-tree-showArrows .eba-tree-
 .panel-inverse .panel-head .action a:hover{
     color: #222222;
 }
-

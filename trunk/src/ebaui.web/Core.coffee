@@ -1,10 +1,17 @@
+###
+*  native对象拓展
+*  String.prototype.trim()
+*      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+###
+StringProto      = String.prototype
+StringProto.trim ?= () -> this.replace(/^\s+|\s+$/gm, '')
 
 uuid  = 0
 ###*
- *   ebaui 全局命名空间
- *   @namespace  ebaui
- *   @author Monkey <knightuniverse@qq.com>
- ###
+*   ebaui 全局命名空间
+*   @namespace  ebaui
+*   @author Monkey <knightuniverse@qq.com>
+###
 ebaui = 
     escape: ( str ) -> 
         re = /[&<>"']/g
@@ -16,7 +23,6 @@ ebaui =
             "'": '&#x27;'
 
         return ('' + str).replace(re, ( match ) -> map[match]) if str?
-
         return ''
 
     unescape: ( str ) ->
@@ -29,8 +35,8 @@ ebaui =
             '&#x27;': "'"
 
         return ('' + str).replace(re,( match ) -> map[match]) if str?
-
         return ''
+    
     ###*
      *  生成guid
      *  @public
@@ -39,8 +45,7 @@ ebaui =
      *  @memberof   ebaui
      *  @return     {String}    guid
      ###
-    guid:() ->
-        'eba-ui-' + ( ++uuid )
+    guid:() -> "eba-ui-#{++uuid}"
 
     ###*
      *  根据控件ID获取控件对象
@@ -77,11 +82,3 @@ ebaui =
     parseUi:( context ) -> this.web.parseUi( context )
 
 window['ebaui'] = ebaui
-
-###*
- *  native对象拓展
- *  String.prototype.trim()
- *      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
- ###
-StringProto     = String.prototype
-StringProto.trim ?= () -> this.replace(/^\s+|\s+$/gm, '')

@@ -65,6 +65,17 @@ class TextBox extends FormField
         me.onEvent( 'focus'     ,opts['onfocus'] )
         me.onEvent( 'blur'      ,opts['onblur'] )
         me.onEvent( 'change'    ,opts['onchange'] )
+        
+        ###
+        *   在IE9等不兼容placeholder的浏览器上
+        *   点击placeholder的时候
+        *   input应该是要正确的获取焦点
+        ###
+        $root.on( 'click',placeholder,( eventArgs ) ->
+            me._focused = true
+            me._updateCssFocused()
+            $input.focus()
+        )
 
         $root.on( 'keydown',formInput,( eventArgs ) -> 
 

@@ -3504,242 +3504,238 @@
 *       &lt;input id="" title="" name="" data-role="checkbox" data-options="{}" /&gt;
 */
 
+var TreeView, ns, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-(function() {
-  var TreeView, ns, _ref,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+ns = ebaui['web'];
 
-  ns = ebaui['web'];
+TreeView = (function(_super) {
+  __extends(TreeView, _super);
 
-  TreeView = (function(_super) {
-    __extends(TreeView, _super);
+  function TreeView() {
+    _ref = TreeView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
 
-    function TreeView() {
-      _ref = TreeView.__super__.constructor.apply(this, arguments);
-      return _ref;
+  /**
+   *  把HTML占位符转换成为控件自身的HTML结构
+   *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
+   *  @private
+   *  @virtual
+   *  @instance
+   *  @memberof   ebaui.web.TreeView
+   *  @method     _parseUi
+   *  @param      {Object}    element HTML占位符
+  */
+
+
+  TreeView.prototype._parseUi = function(element) {
+    /**
+        创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
+        _parseDataOptions
+        _parseAttrOptions
+        _parseUi
+        _initControl
+        _setupEvents
+        _render
+    
+        self._$root.data( 'model',self );
+    */
+
+    var $html, e, me;
+    try {
+      me = this;
+      $html = $('<ul class="ztree"></ul>');
+      $(element).replaceWith($html);
+      /*
+      *  如果是Form表单控件，一般会有name属性
+      *  反之没有
+      */
+
+      $html.attr({
+        'data-parsed': 'true'
+      });
+    } catch (_error) {
+      e = _error;
+      console.log(e);
     }
+    return $html;
+  };
 
+  /**
+   *  更新UI显示
+   *  @private
+   *  @instance
+   *  @memberof       ebaui.web.TreeView
+   *  @method         _render
+  */
+
+
+  TreeView.prototype._render = function() {
     /**
-     *  把HTML占位符转换成为控件自身的HTML结构
-     *  ，在这一个过程中，会使用style="width:XXpx;height:XXpx;"的初始化控件本身的width以及height属性
-     *  @private
-     *  @virtual
-     *  @instance
-     *  @memberof   ebaui.web.TreeView
-     *  @method     _parseUi
-     *  @param      {Object}    element HTML占位符
+    *   do nothing, skip all behaviour in it's parent class
     */
 
+    var me;
+    me = this;
+    me._updateCssVisible();
+    me._updateAttrTitle();
+    return me._updateAttrId();
+  };
 
-    TreeView.prototype._parseUi = function(element) {
-      /**
-          创建控件顺序——获取初始化参数，初始化，绑定事件，输出控件样式
-          _parseDataOptions
-          _parseAttrOptions
-          _parseUi
-          _initControl
-          _setupEvents
-          _render
-      
-          self._$root.data( 'model',self );
-      */
+  /**
+   *  拓展自身的方法或者属性
+   *  @private
+   *  @instance
+   *  @memberof       ebaui.web.TreeView
+   *  @method         _extendMe
+  */
 
-      var $html, e, me;
-      try {
-        me = this;
-        $html = $('<ul class="ztree"></ul>');
-        $(element).replaceWith($html);
-        /*
-        *  如果是Form表单控件，一般会有name属性
-        *  反之没有
-        */
 
-        $html.attr({
-          'data-parsed': 'true'
-        });
-      } catch (_error) {
-        e = _error;
-        console.log(e);
+  TreeView.prototype._extendMe = function(source) {
+    var item, me, property, _results;
+    me = this;
+    _results = [];
+    for (item in source) {
+      property = source[item];
+      if (!$.isFunction(property)) {
+        _results.push(me[item] = property);
+      } else {
+        _results.push(me[item] = (function(name, value) {
+          var fn;
+          return fn = function() {
+            return value.apply(source, arguments);
+          };
+        })(item, property));
       }
-      return $html;
-    };
+    }
+    return _results;
+  };
 
+  /**
+   *  初始化控件，声明内部变量
+   *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
+   *  @private
+   *  @instance
+   *  @memberof   ebaui.web.TreeView
+   *  @method     _init
+  */
+
+
+  TreeView.prototype._init = function(opts) {
+    var $root, ds, ins, me, ztreeOpts;
+    TreeView.__super__._init.call(this, opts);
+    me = this;
     /**
-     *  更新UI显示
-     *  @private
-     *  @instance
-     *  @memberof       ebaui.web.TreeView
-     *  @method         _render
+    *   初始化控件自身的一系列属性
     */
 
-
-    TreeView.prototype._render = function() {
-      /**
-      *   do nothing, skip all behaviour in it's parent class
-      */
-
-      var me;
-      me = this;
-      me._updateCssVisible();
-      me._updateAttrTitle();
-      return me._updateAttrId();
-    };
-
+    if (opts['dataSource'] != null) {
+      ds = me._dataSource = opts['dataSource'];
+    }
+    if (opts['ztree'] != null) {
+      ztreeOpts = me._ztreeOpts = opts['ztree'];
+    }
     /**
-     *  拓展自身的方法或者属性
-     *  @private
-     *  @instance
-     *  @memberof       ebaui.web.TreeView
-     *  @method         _extendMe
+    *   当前只支持数组作为数据源
+    *   后续要支持url作为数据源
     */
 
+    if (ds && ds.length > 0) {
+      $root = me._$root;
+      ins = $.fn.zTree.init($root, ztreeOpts, ds);
+      return me._extendMe(ins);
+    }
+  };
 
-    TreeView.prototype._extendMe = function(source) {
-      var item, me, property, _results;
-      me = this;
-      _results = [];
-      for (item in source) {
-        property = source[item];
-        if (!$.isFunction(property)) {
-          _results.push(me[item] = property);
-        } else {
-          _results.push(me[item] = (function(name, value) {
-            var fn;
-            return fn = function() {
-              return value.apply(source, arguments);
-            };
-          })(item, property));
-        }
-      }
-      return _results;
-    };
-
-    /**
-     *  初始化控件，声明内部变量
-     *  在初始化控件的时候，控件options对象已经初始化完成，html模板也已经转换完成。
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.TreeView
-     *  @method     _init
-    */
+  /**
+  *   数据源
+  *   可以是URL地址或者是一个javascript数组对象作为数据源
+  *   dataSource : []
+  */
 
 
-    TreeView.prototype._init = function(opts) {
-      var $root, ds, ins, me, ztreeOpts;
-      TreeView.__super__._init.call(this, opts);
-      me = this;
-      /**
-      *   初始化控件自身的一系列属性
-      */
+  TreeView.prototype._dataSource = [];
 
-      if (opts['dataSource'] != null) {
-        ds = me._dataSource = opts['dataSource'];
-      }
-      if (opts['ztree'] != null) {
-        ztreeOpts = me._ztreeOpts = opts['ztree'];
-      }
-      /**
-      *   当前只支持数组作为数据源
-      *   后续要支持url作为数据源
-      */
+  /**
+   *  一个javascript数组对象作为数据源
+   *  @public
+   *  @instance
+   *  @readonly
+   *  @memberof   ebaui.web.ListBox
+   *  @member     {Array}      dataSource
+   *  @default    []
+   *  @example    <caption>get</caption>
+   *      src = ctrl.dataSource();
+   *  @example    <caption>set</caption>
+   *      //  本地数据
+   *      ctrl.dataSource( [] );
+  */
 
-      if (ds && ds.length > 0) {
-        $root = me._$root;
-        ins = $.fn.zTree.init($root, ztreeOpts, ds);
+
+  TreeView.prototype.dataSource = function(val) {
+    var JQPlugin, ds, ins, me, ztree;
+    me = this;
+    if (!(me.isString(val) || me.isArray(val))) {
+      return me._dataSource;
+    }
+    JQPlugin = $.fn.zTree;
+    ds = me._dataSource;
+    if (ds !== val) {
+      me._dataSource = ds = val;
+      JQPlugin.destroy(me.id());
+      if (val.length > 0) {
+        ztree = me._ztreeOpts;
+        ins = JQPlugin.init(me._$root, ztree, val);
         return me._extendMe(ins);
       }
-    };
+    }
+  };
 
-    /**
-    *   数据源
-    *   可以是URL地址或者是一个javascript数组对象作为数据源
-    *   dataSource : []
-    */
-
-
-    TreeView.prototype._dataSource = [];
-
-    /**
-     *  一个javascript数组对象作为数据源
-     *  @public
-     *  @instance
-     *  @readonly
-     *  @memberof   ebaui.web.ListBox
-     *  @member     {Array}      dataSource
-     *  @default    []
-     *  @example    <caption>get</caption>
-     *      src = ctrl.dataSource();
-     *  @example    <caption>set</caption>
-     *      //  本地数据
-     *      ctrl.dataSource( [] );
-    */
+  /**
+   *  默认的ztree配置
+   *  @private
+   *  @instance
+   *  @memberof   ebaui.web.TreeView
+   *  @member     {Object}    _ztreeOpts
+  */
 
 
-    TreeView.prototype.dataSource = function(val) {
-      var JQPlugin, ds, ins, me, ztree;
-      me = this;
-      if (!(me.isString(val) || me.isArray(val))) {
-        return me._dataSource;
+  TreeView.prototype._ztreeOpts = {
+    view: {
+      showLine: false,
+      showTitle: true,
+      showIcon: false,
+      dblClickExpand: true
+    },
+    data: {
+      simpleData: {
+        enable: true
       }
-      JQPlugin = $.fn.zTree;
-      ds = me._dataSource;
-      if (ds !== val) {
-        me._dataSource = ds = val;
-        JQPlugin.destroy(me.id());
-        if (val.length > 0) {
-          ztree = me._ztreeOpts;
-          ins = JQPlugin.init(me._$root, ztree, val);
-          return me._extendMe(ins);
-        }
-      }
-    };
+    }
+  };
 
-    /**
-     *  默认的ztree配置
-     *  @private
-     *  @instance
-     *  @memberof   ebaui.web.TreeView
-     *  @member     {Object}    _ztreeOpts
-    */
+  /**
+   *  获取或者设置ztree
+   *  @public
+   *  @instance
+   *  @memberof   ebaui.web.TreeView
+   *  @member     {Object}    ztreeOptions
+  */
 
 
-    TreeView.prototype._ztreeOpts = {
-      view: {
-        showLine: false,
-        showTitle: true,
-        showIcon: false,
-        dblClickExpand: true
-      },
-      data: {
-        simpleData: {
-          enable: true
-        }
-      }
-    };
+  TreeView.prototype.ztreeOptions = function(val) {
+    var me;
+    me = this;
+    if (val == null) {
+      return me._ztreeOpts;
+    }
+    return $.extend(me._ztreeOpts, val);
+  };
 
-    /**
-     *  获取或者设置ztree
-     *  @public
-     *  @instance
-     *  @memberof   ebaui.web.TreeView
-     *  @member     {Object}    ztreeOptions
-    */
+  return TreeView;
 
+})(ns.Control);
 
-    TreeView.prototype.ztreeOptions = function(val) {
-      var me;
-      me = this;
-      if (val == null) {
-        return me._ztreeOpts;
-      }
-      return $.extend(me._ztreeOpts, val);
-    };
-
-    return TreeView;
-
-  })(ns.Control);
-
-  ns.registerControl('TreeView', TreeView);
-
-}).call(this);
+ns.registerControl('TreeView', TreeView);

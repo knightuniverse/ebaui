@@ -17,8 +17,9 @@
 <!-- multipart/form-data -->
 <!-- text/plain -->
 <form id='form_1' data-role="form" class="xxxx" name="form_1" data-options="{
-    method:'POST',
-    action:'form_index.php' 
+    method      : 'POST',
+    readonly    : true,
+    action      : 'form_index.php' 
 }" >
 
     <div data-role="panel" data-options="{ top:0,left:10 }" >
@@ -65,6 +66,10 @@
         }" />
         
     </div>
+    
+    <div data-role="panel" data-options="{ top:350,left:10 }">
+        <input id="checkboxlist1" data-role="checkboxlist" data-options="{ dataSource : cbxItems,validators :['required'] }" />
+    </div>
 
     <br />
 
@@ -73,6 +78,33 @@
 <br /><br />
 
 <script type="text/javascript">
+
+var cbxItems = [
+    {
+        text : 'houzi 1',
+        value : '1'
+    },
+    
+    {
+        text : 'houzi 2',
+        value : '2'
+    },
+    
+    {
+        text : 'houzi 3',
+        value : '3'
+    },
+
+    {
+        text : 'houzi 4',
+        value : '4'
+    },
+
+    {
+        text : 'houzi 5',
+        value : '5'
+    }
+];
 
 var dataSource = [
 

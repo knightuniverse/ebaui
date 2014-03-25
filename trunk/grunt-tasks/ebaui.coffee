@@ -89,13 +89,14 @@ module.exports = ( grunt ) ->
             )
     
     validation = [ 'src/ebaui.web/Validation/*.coffee' ]
-    ebaui      = base.concat( validation,controls,['src/ebaui.web/Form.coffee'] )
+    ebaui      = base.concat( validation,controls,['src/ebaui.web/Utils.coffee','src/ebaui.web/Form.coffee'] )
     
     grunt.config('coffee',{
         build : 
             options: 
                 sourceMap: false
                 join     : false
+                bare     : true
 
             expand : true
             flatten: true

@@ -2,7 +2,10 @@
     var vexFactory;
 
     vexFactory = function ($) {
-        var animationEndSupport, vex;
+        /**
+         *  enableAnimation     -   是否启用css3动画，当然，在这里我们默认是关闭的
+         */
+        var animationEndSupport, vex, enableAnimation = false;
         animationEndSupport = false;
         $(function () {
             var s;
@@ -29,7 +32,7 @@
                 content: '',
                 showCloseButton: true,
                 escapeButtonCloses: true,
-                overlayClosesOnClick: true,
+                overlayClosesOnClick: false,
                 appendLocation: 'body',
                 className: '',
                 css: {},
@@ -135,7 +138,11 @@
                         return options.afterClose($vexContent, options);
                     }
                 };
-                if (animationEndSupport) {
+                
+                /**
+                 *  优先使用css3动画
+                 */
+                if (animationEndSupport && enableAnimation) {
                     beforeClose();
                     $vex.unbind(vex.animationEndEvent).bind(vex.animationEndEvent,function () {
                         return close();

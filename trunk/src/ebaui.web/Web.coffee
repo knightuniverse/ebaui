@@ -1,14 +1,14 @@
 ###*
- *   native class extension
- ###
+*   native class extension
+###
 Date.prototype.clone = () ->
     timestamp = this.getTime()
     return new Date( timestamp )
 
 ###*
- *  @namespace  ebaui.web
- *  @author     Monkey <knightuniverse@qq.com>
- ###
+*  @namespace  ebaui.web
+*  @author     Monkey <knightuniverse@qq.com>
+###
 web = 
     baseUrl     : '/'
     controls    : []
@@ -23,6 +23,7 @@ web =
                     ins = new cls( el,options )
             )
         return undefined
+    
     ###*
      *  
      *  @private
@@ -257,6 +258,8 @@ ebaui['web']    = web
 
 ###*
 *   keyboard
+*   @static
+*   @memberof   ebaui.web
 ###
 keyboard = 
     ###*
@@ -284,5 +287,5 @@ web['keyboard'] = keyboard
 
 ###
 *   框架初始化
- ###
+###
 web.init()

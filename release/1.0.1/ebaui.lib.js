@@ -26860,7 +26860,10 @@ if (typeof(SWFUpload) === "function") {
     var vexFactory;
 
     vexFactory = function ($) {
-        var animationEndSupport, vex;
+        /**
+         *  enableAnimation     -   �Ƿ�����css3��������Ȼ������������Ĭ���ǹرյ�
+         */
+        var animationEndSupport, vex, enableAnimation = false;
         animationEndSupport = false;
         $(function () {
             var s;
@@ -26887,7 +26890,7 @@ if (typeof(SWFUpload) === "function") {
                 content: '',
                 showCloseButton: true,
                 escapeButtonCloses: true,
-                overlayClosesOnClick: true,
+                overlayClosesOnClick: false,
                 appendLocation: 'body',
                 className: '',
                 css: {},
@@ -26993,7 +26996,11 @@ if (typeof(SWFUpload) === "function") {
                         return options.afterClose($vexContent, options);
                     }
                 };
-                if (animationEndSupport) {
+                
+                /**
+                 *  ����ʹ��css3����
+                 */
+                if (animationEndSupport && enableAnimation) {
                     beforeClose();
                     $vex.unbind(vex.animationEndEvent).bind(vex.animationEndEvent,function () {
                         return close();
