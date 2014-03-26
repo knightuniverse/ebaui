@@ -153,5 +153,28 @@ class DataGrid extends ns.Control
         return me._jqGridOpts unless val?
         $.extend(me._jqGridOpts, val)
         #   @todo 应用新的配置到当前的jqgrid实例上
+    
+    ###*
+     *  如果当前DataGrid允许多选，也就是multiselect 设置成true的时候，返回选中对象的ID值数组
+     *  Gives the currently selected rows when multiselect is set to true.
+     *  This is a one-dimensional array
+     *      and the values in the array correspond to the selected id's in the grid.
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.DataGrid
+     *  @member     {Array}     selectedRowIds
+     *  @returns    选中对象的ID值数组
+    ###
+    selectedRowIds:() -> this.getGridParam( 'selarrrow' )
+        
+    ###*
+     *  It contains the id of the last selected row.
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.DataGrid
+     *  @member     {Number}    lastSelectedRowId
+     *  @returns    选中对象的ID值数组
+    ###
+    lastSelectedRowId:() -> this.getGridParam( 'selrow' )
 
 ns.registerControl('DataGrid', DataGrid)

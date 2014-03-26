@@ -15464,6 +15464,37 @@ DataGrid = (function(_super) {
     return $.extend(me._jqGridOpts, val);
   };
 
+  /**
+   *  如果当前DataGrid允许多选，也就是multiselect 设置成true的时候，返回选中对象的ID值数组
+   *  Gives the currently selected rows when multiselect is set to true.
+   *  This is a one-dimensional array
+   *      and the values in the array correspond to the selected id's in the grid.
+   *  @public
+   *  @instance
+   *  @memberof   ebaui.web.DataGrid
+   *  @member     {Array}     selectedRowIds
+   *  @returns    选中对象的ID值数组
+  */
+
+
+  DataGrid.prototype.selectedRowIds = function() {
+    return this.getGridParam('selarrrow');
+  };
+
+  /**
+   *  It contains the id of the last selected row.
+   *  @public
+   *  @instance
+   *  @memberof   ebaui.web.DataGrid
+   *  @member     {Number}    lastSelectedRowId
+   *  @returns    选中对象的ID值数组
+  */
+
+
+  DataGrid.prototype.lastSelectedRowId = function() {
+    return this.getGridParam('selrow');
+  };
+
   return DataGrid;
 
 })(ns.Control);
