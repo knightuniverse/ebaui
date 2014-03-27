@@ -259,6 +259,7 @@ ebaui['web']    = web
 ###*
 *   keyboard
 *   @static
+*   @member     {Object}   keyboard
 *   @memberof   ebaui.web
 ###
 keyboard = 

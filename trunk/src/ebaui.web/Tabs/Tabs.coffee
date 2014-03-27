@@ -153,6 +153,20 @@ class Tabs extends Control
         me = this
         tabIndex = me.indexOf( tab['url'] )
         return unless tabIndex is -1
+        
+        ###
+        *   编写load事件处理程序，在iframe完成加载的时候，关闭loadmask
+        ###
+        if tab['onload'] and me.isFunc( tab['onload'] )
+            old = tab['onload']
+            onload = ( sender,eventArgs ) ->
+                ebaui.unmask( me._$contentRegion )
+                old( sender,eventArgs )
+        else
+            onload = ( sender,eventArgs ) ->
+                ebaui.unmask( me._$contentRegion )
+        
+        tab['onload'] = onload
 
         #  declare tab's index in tabs collection
         tabIndex = me._tabs.length
@@ -163,6 +177,8 @@ class Tabs extends Control
         
         #  append tab to dom
         $( 'ul',me._$root ).append( instance.headerDom() )
+        #   在iframe加载的时候，显示loadmask
+        ebaui.mask( me._$contentRegion )
         #  append tab content to dom
         $( 'ul',me._$contentRegion ).append( instance.contentDom() )
         #  final activate me tab

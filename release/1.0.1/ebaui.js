@@ -445,6 +445,7 @@
   /**
   *   keyboard
   *   @static
+  *   @member     {Object}   keyboard
   *   @memberof   ebaui.web
   */
 
@@ -16082,7 +16083,7 @@
 
 
     Tabs.prototype.addTab = function(tab) {
-      var instance, me, tabIndex;
+      var instance, me, old, onload, tabIndex;
       if (tab == null) {
         return;
       }
@@ -16091,10 +16092,27 @@
       if (tabIndex !== -1) {
         return;
       }
+      /*
+      *   编写load事件处理程序，在iframe完成加载的时候，关闭loadmask
+      */
+
+      if (tab['onload'] && me.isFunc(tab['onload'])) {
+        old = tab['onload'];
+        onload = function(sender, eventArgs) {
+          ebaui.unmask(me._$contentRegion);
+          return old(sender, eventArgs);
+        };
+      } else {
+        onload = function(sender, eventArgs) {
+          return ebaui.unmask(me._$contentRegion);
+        };
+      }
+      tab['onload'] = onload;
       tabIndex = me._tabs.length;
       instance = new Tab(null, tab);
       me._tabs.push(instance);
       $('ul', me._$root).append(instance.headerDom());
+      ebaui.mask(me._$contentRegion);
       $('ul', me._$contentRegion).append(instance.contentDom());
       me.activateTab(tabIndex);
       return void 0;

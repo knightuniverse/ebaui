@@ -26,13 +26,18 @@
 
 }" />
 
-<div class="eba-tabs-body"><ul></ul></div>
+<div class="eba-tabs-body" style="height:800px;"><ul></ul></div>
 
 <script type="text/javascript">
+
+function onQQLoad(){
+    console.log( 'qq loaded....' )
+}
+
 function addTab(){
   var tabs = ebaui.get('#tab1');
-  tabs.addTab( { url : 'http://www.qq.com/',title:'qq' } );
-  tabs.addTab( { url : 'tab_iframe.html',title:'tab_iframe' } );
+  tabs.addTab( { url : 'http://www.qq.com/',title:'qq',onload:onQQLoad } );
+  //tabs.addTab( { url : 'tab_iframe.html',title:'tab_iframe' } );
 };
 
 function eachTab(){
