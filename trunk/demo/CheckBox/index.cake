@@ -3,10 +3,9 @@
 
     <input data-role="checkbox" id="remember" name="remember"
            data-options="{
-            text : '记住账号',
+            text : 'remember',
             top:195,
-            left:0,
-            enabled:false  }"/>
+            left:0  }"/>
            
     <input id="submit" data-role="button"
            data-options="{

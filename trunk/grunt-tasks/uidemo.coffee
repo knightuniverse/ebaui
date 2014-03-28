@@ -1,4 +1,7 @@
 module.exports = ( grunt ) ->
+    
+    name    = grunt.config( "pkg" )["name"]
+    version = grunt.config( "ver" )
 
     grunt.registerTask( 'demo','generate ui demos',() -> 
         ctrls = grunt.file.expand( {

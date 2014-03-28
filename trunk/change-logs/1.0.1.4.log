@@ -1,0 +1,24 @@
+**新增特性**
+ 
+1. Form.eachField方法
+http://192.168.103.59:8085/redmine/issues/92
+ 
+2. checkboxlist添加表单验证状态的样式
+http://192.168.103.59:8085/redmine/issues/82
+ 
+3. panel新增hasBorder属性，用来控制panel是否显示边框
+http://192.168.103.59:8085/redmine/issues/77
+ 
+4. ebaui.win方法要在dialog底部增加按钮和回调事件
+http://192.168.103.59:8085/redmine/issues/17
+ 
+**BUG FIXED**
+ 
+1. form.value设置表单的值得时候，在checkbox不要选中的情况下，checkbox的 value属性会被修改
+http://192.168.103.59:8085/redmine/issues/87
+ 
+2. IE9 下，点击placeholder label的时候，textbox没有focus
+http://192.168.103.59:8085/redmine/issues/86
+ 
+3. 表单验证失败后，控件无法正确显示错误提示信息
+http://192.168.103.59:8085/redmine/issues/85

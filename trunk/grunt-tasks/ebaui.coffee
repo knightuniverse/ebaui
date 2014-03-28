@@ -1,4 +1,8 @@
 module.exports = ( grunt ) ->
+            
+    name    = grunt.config( 'pkg' )['name']
+    version = grunt.config( 'ver' )
+            
     base = [
                 'Core'
             ,   'Web'
@@ -109,13 +113,13 @@ module.exports = ( grunt ) ->
                 sourceMap: false
                 join     : true
             files:
-                'build/ebaui.js' : ebaui
-                '../release/<%=grunt.config("pkg.version")%>/ebaui.js' : ebaui
+                "build/ebaui.js" : ebaui
+                "release/<%=grunt.config( 'ver' )%>/ebaui.js" : ebaui
         tmpl:
             options:
                 sourceMap: false
                 join     : true
             files:
-                'build/ebaui.templates.js' : tmpls
-                '../release/<%=grunt.config("pkg.version")%>/ebaui.templates.js' : tmpls
+                "build/ebaui.templates.js" : tmpls
+                "release/<%=grunt.config( 'ver' )%>/ebaui.templates.js" : tmpls
     })

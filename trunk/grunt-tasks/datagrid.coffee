@@ -1,4 +1,8 @@
 module.exports = ( grunt ) ->
+    
+    name    = grunt.config( 'pkg' )['name']
+    version = grunt.config( 'ver' )
+    
     css = [
         'lib/jqGrid/css/jquery-ui-custom.css',
         'lib/jqGrid/css/ui.multiselect.css',
@@ -11,7 +15,7 @@ module.exports = ( grunt ) ->
     cssfiles   = cat["css"]['files']
 
     cssfiles["build/css/#{cssname}"] = css
-    cssfiles["../release/#{grunt.config('pkg.version')}/css/#{cssname}"] = css
+    cssfiles["release/#{version}/css/#{cssname}"] = css
 
     js = [
         'lib/jqGrid/js/i18n/grid.locale-cn.js',
@@ -26,6 +30,6 @@ module.exports = ( grunt ) ->
     jsfiles   = cat["js"]['files']
 
     jsfiles["build/#{filename}"] = js
-    jsfiles["../release/#{grunt.config('pkg.version')}/#{filename}"] = js
+    jsfiles["release/#{version}/#{filename}"] = js
 
     grunt.config('concat',cat)

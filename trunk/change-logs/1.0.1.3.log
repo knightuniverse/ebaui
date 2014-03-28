@@ -1,0 +1,12 @@
+**Bug Fixed**
+ 
+1. 修复 combobox设置了inival以后，没有正确选中下拉菜单选项和显示文本值的问题
+1. 修复 panel标题栏高度太高的问题
+1. 修复 panel内部控件定位不准确的问题
+1. 修复 grid按钮跳动的问题
+1. 修复 uilayout嵌入iframe中无法自适应的问题
+ 
+**支持**
+ 
+1. 完善 api文档，引入fontawsome的文档
+2. 新增 启用新版本的api文档模板

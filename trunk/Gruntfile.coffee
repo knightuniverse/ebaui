@@ -4,6 +4,7 @@ module.exports = ( grunt ) ->
     #  {expand: true, src: ['build/demo/*.php'], dest: '../release/<%=pkg.version%>/doc/', filter: 'isFile',flatten: true}, 
     grunt.initConfig(
         pkg: grunt.file.readJSON("package.json")
+        ver: '1.0.1.5'
     );
     
     #  loading grunt task configs
@@ -26,12 +27,13 @@ module.exports = ( grunt ) ->
     #   loading grunt plugin:  grunt-contrib-compress
     #   pack your js and css to a zip file
     grunt.loadNpmTasks('grunt-contrib-compress');
-    #   loading grunt plugin:  grunt-contrib-htmlmin to minify your html template
-    #   grunt.loadNpmTasks('grunt-contrib-htmlmin');
     #   loading grunt plugin:  grunt-contrib-copy
     #   https://github.com/gruntjs/grunt-contrib-copy
     grunt.loadNpmTasks('grunt-contrib-copy');
+    #   run commands in grunt task
+    #   https://www.npmjs.org/package/grunt-contrib-commands
+    grunt.loadNpmTasks('grunt-contrib-commands');
+    #   jsdoc
     grunt.loadNpmTasks('grunt-jsdoc');
-
     # Default task(s).
     grunt.registerTask('default', [ 'coffee:build','coffee:tmpl','concat','copy:dev','demo' ]);

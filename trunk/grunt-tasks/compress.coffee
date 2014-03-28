@@ -1,15 +1,20 @@
 
 module.exports = ( grunt ) ->
+    
+    name    = grunt.config( 'pkg' )['name']
+    version = grunt.config( 'ver' )
+    
     grunt.config('compress',{
-        release : 
+        release :
+            
             options : 
                 mode   : 'zip'
-                archive: '../release/<%=pkg.name%>-<%=pkg.version%>.zip'
+                archive: "release/#{name}-#{version}.zip"
 
             files : [{
                 src : ['**']
                 expand: true,
-                cwd: '../release/<%=pkg.version%>/'
+                cwd: 'release/#{version}/'
             }]
 
     });

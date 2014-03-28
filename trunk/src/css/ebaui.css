@@ -2412,6 +2412,9 @@ body .eba-tree-showArrows .eba-tree-indent, body .eba-tree-showArrows .eba-tree-
 .eba-checkboxlist.eba-success{
         border: 1px dotted #339966;
 }
+.eba-checkboxlist.eba-readonly{
+        background-color: #ffffcd;
+}
 .eba-checkboxlist.eba-error i{
     color: #CC6666;
 }

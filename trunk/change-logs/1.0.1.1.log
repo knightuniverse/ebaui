@@ -1,0 +1,55 @@
+## 新特性 ##
+ 
+1. 新增 ebaui.win窗口的拖拽支持
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/39
+ 
+2. 新增 表单控件新版本的样式，现在表单控件的验证状态，已经从放置在外部，改成缩进到控件内部
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/40
+ 
+## BUG FIXED ##
+ 
+1. 修复 控件值如果value没有变化，依然会触发change事件的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/2
+ 
+2. 修复 TextBox自定义高度的时候，样式显示错误，内部input元素没有和边框同高的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/35
+ 
+3. 修复 Button在成功设置state属性以后，css样式类错误的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/43
+ 
+4. 修复 form表单enterAsTab功能失效的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/44
+ 
+5. 修复 tabs标签在closable为true的情况下，默认会显示标签的关闭按钮的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/47
+ 
+6. 修复 combolist全选后，再点全选按钮，不能全部取消的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/48
+ 
+7. 修复 combolist提交数组数据，java服务端读取的时候，name要变成‘table[]’才能正确读取的问题（现在只要用table就能正确读取数据，数组类型的数据提交到服务端的时候，会join(',')成以','作为分隔符的字符串）
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/49
+ 
+8. 修复 loadmask如果没有显示文字，菊花转只显示一半的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/51
+ 
+8. 修复 Button按钮禁用后，功能正确，但是CSS没有改变的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/52
+ 
+9. 修复 eba-placeholder-lable兼容样式的宽高没有自适应的问题
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/55
+ 
+10. 修复 grid字体大小默认是14px，没有和页面保持一直的问题（页面默认是12px）
+ 
+redmine: http://192.168.200.21:8085/redmine/issues/59

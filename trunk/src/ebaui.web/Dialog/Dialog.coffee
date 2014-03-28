@@ -34,7 +34,7 @@ vexDialog = vex.dialog
 class Dialog extends Control
 
     _updateCssWidth:() ->
-    
+
     _updateCssHeight:() ->
     
     ###*
@@ -233,7 +233,7 @@ class Dialog extends Control
         *   窗口默认居中
         ###
         $vex.css(
-            'padding-top'   : '50px'
+            'padding-top'   : ($(window).height()-opts['height'])/3
             'padding-bottom': '0'
         )
       

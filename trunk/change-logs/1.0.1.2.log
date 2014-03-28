@@ -1,0 +1,10 @@
+Bug Fixed
+ 
+1. 修复 comobox下拉后，正常弹出，但点击其它位置不会自动关闭的问题
+1. 修复 DatePicker控件底部buttonedit、button布局错位及表格高度自适应问题
+1. 修复 checkbox如果没有指定value值，没有默认值的问题
+ 
+New Feature
+ 
+1. 新增 Panel更新样式并整合fieldset功能
+2. 新增 api文档自动化生成脚本

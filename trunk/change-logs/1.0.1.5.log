@@ -1,0 +1,19 @@
+*新特性*
+
+1.  新增  CheckBoxList的disable以及readonly状态
+1.  新增  CheckBox的disable以及readonly状态
+1.  新增  CheckBoxList.checkAll方法
+1.  新增  DataGrid.selectedRowIds属性
+1.  新增  DataGrid.lastSelectedRowId属性
+1.  新增  Dialog弹出时，如果没有指定top和left，默认显示在浏览器中间
+1.  新增  TABS在加载TAB的过程中，显示加载状态提示
+
+*BUG FIXED*
+
+1.  修复  TextBox的显示PlaceHolder的时候，光标会覆盖PlaceHolder的问题
+2.  修复  CheckBox如果没有指定text会显示一个默认的text值false的问题
+3.  修复  封装好的datagrid无法按照ebaui的方式去调用jqgrid插件的问题
+
+*支持*
+
+1.  新增  version版本号要能支持4位，现在版本发布的文件夹从release迁移到tags上

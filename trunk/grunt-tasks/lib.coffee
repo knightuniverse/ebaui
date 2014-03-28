@@ -1,4 +1,7 @@
 module.exports = ( grunt ) ->
+    
+    name    = grunt.config( 'pkg' )['name']
+    version = grunt.config( 'ver' )
     ###
     *   javascript
     ###
@@ -28,6 +31,6 @@ module.exports = ( grunt ) ->
     jsfiles   = cat["js"]['files']
 
     jsfiles['build/ebaui.lib.js'] = lib
-    jsfiles["../release/#{grunt.config('pkg.version')}/ebaui.lib.js"] = lib
+    jsfiles["release/#{version}/ebaui.lib.js"] = lib
 
     grunt.config('concat',cat)
