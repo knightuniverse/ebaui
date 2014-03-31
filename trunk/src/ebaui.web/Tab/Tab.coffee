@@ -218,15 +218,15 @@ class Tab extends Control
      *  @instance
      *  @memberof       ebaui.web.Tabs
      *  @method         refreshTab
-     *  @param          {Number|String|Function}        tab
+     *  @param          {Boolean}        forceGet   -   是否强制刷新
     ###
-    refresh:() ->
+    refresh:( forceGet = false ) ->
         me = this
         return if me.isClosed()
     
         win = me.contentWindow();
         if win?
-            win.location.reload( false )
+            win.location.reload( forceGet )
         else
             timestamp = ( new Date ).getTime()
             url = me.url()

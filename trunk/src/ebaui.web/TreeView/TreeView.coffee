@@ -121,7 +121,7 @@ class TreeView extends ns.Control
     ###
     _dataSource: []
     ###*
-     *  一个javascript数组对象作为数据源
+     *  一个javascript数组对象作为数据源,当前版本只支持本地数据源
      *  @public
      *  @instance
      *  @readonly
@@ -148,6 +148,25 @@ class TreeView extends ns.Control
                 ztree = me._ztreeOpts
                 ins   = JQPlugin.init(me._$root, ztree,val)
                 me._extendMe( ins )
+    
+    ###*
+     *  清理treeview的全部结点
+     *  @public
+     *  @instance
+     *  @memberof   ebaui.web.TreeView
+     *  @method     removeAllNodes
+    ###   
+    removeAllNodes:() ->
+        me = this
+        ###  ztree其实是返回了一个数组的引用，
+         *  如果调用removeNode方法删除node的话，
+         *  这个数组也是会跟着发生变化的
+        ###
+        rootNodes = me.getNodes().concat()
+        for root,index in rootNodes then me.removeNode( root )
+            
+        me._dataSource = [] if me._dataSource.length > 0
+        return undefined
 
     ###*
      *  默认的ztree配置
