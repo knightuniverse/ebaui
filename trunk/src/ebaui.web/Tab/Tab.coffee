@@ -222,12 +222,18 @@ class Tab extends Control
     ###
     refresh:() ->
         me = this
-        return me.isClosed()
-
-        timestamp = ( new Date ).getTime()
-        url = me.url()
-        url += if ( url.indexOf( '?' ) is -1 ) then ("?t=#{timestamp}") else ( "&t=#{timestamp}" )
-        $( 'iframe',me._$content ).attr( 'src',url )
+        return if me.isClosed()
+    
+        win = me.contentWindow();
+        if win?
+            win.location.reload( false )
+        else
+            timestamp = ( new Date ).getTime()
+            url = me.url()
+            url += if ( url.indexOf( '?' ) is -1 ) then ("?t=#{timestamp}") else ( "&t=#{timestamp}" )
+            $( 'iframe',me._$content ).attr( 'src',url )
+            
+        return undefined
 
     _closed : false
     ###*
